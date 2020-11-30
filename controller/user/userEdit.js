@@ -1,5 +1,5 @@
-const User = require('../../models/users')
-const userEdit = (req, res, next) => {
+const User = require("../../models/users");
+const userEdit = async (req, res, next) => {
   if (req.body.bio) {
     await User.findOneAndUpdate(
       { username: req.body.user },
@@ -24,5 +24,5 @@ const userEdit = (req, res, next) => {
       { latlng: req.body.latlng }
     );
   }
-}
-module.exports = userEdit
+};
+module.exports = userEdit;

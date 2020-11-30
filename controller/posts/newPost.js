@@ -1,7 +1,7 @@
-const findUsername = require('../findUsername'),
-    Post = require('../../models/posts')
-const newPost = (req,res,next) =>{
-    const re = await findUsername(req.body.username);
+const findUsername = require("../findUsername"),
+  Post = require("../../models/posts");
+const newPost = async (req, res, next) => {
+  const re = await findUsername(req.body.username);
   const posts = new Post({
     author: req.body.username,
     location: re[0].location,
@@ -16,5 +16,5 @@ const newPost = (req,res,next) =>{
       res.json(posts);
     }
   });
-}
-module.exports = newPost
+};
+module.exports = newPost;

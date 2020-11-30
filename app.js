@@ -1,6 +1,7 @@
 const express = require("express"),
   mongoose = require("mongoose"),
-  app = express();
+  app = express(),
+  routes = require("./routes");
 
 require("dotenv").config();
 app.use(express.urlencoded({ limit: "50mb" }));

@@ -1,5 +1,5 @@
 const generateAccessToken = require("./generateAccessToken");
-const verify = (req, res, next) => {
+const verify = async (req, res, next) => {
   const rtoken = req.body.refreshToken;
   const atoken = req.body.accessToken;
   const user = req.body.username;
@@ -9,7 +9,7 @@ const verify = (req, res, next) => {
         jwt.verify(rtoken, process.env.REFRESH_TOKEN, (err, val) => {
           const accessToken = generateAccessToken({ name: user.name });
           if (err) {
-            res.sendStatus(401);
+            res.sendStatus(400);
           } else {
             res.json({
               accessToken: accessToken,
@@ -25,7 +25,7 @@ const verify = (req, res, next) => {
       }
     });
   } else {
-    res.sendStatus(403);
+    res.status(400).send();
   }
 };
 module.exports = verify;

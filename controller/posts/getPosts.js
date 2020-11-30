@@ -1,9 +1,9 @@
-const User = require('../../models/users'),
-    findUsername = require('../findUsername'),
-    interactionID = require('../interactionId'),
-    Post = require('../../models/posts');
-const getPosts = (req,res,next) =>{
-    let arr = [];
+const User = require("../../models/users"),
+  findUsername = require("../findUsername"),
+  interactionID = require("../interactionId"),
+  Post = require("../../models/posts");
+const getPosts = async (req, res, next) => {
+  let arr = [];
   arr.length = 0;
   const user = await findUsername(req.body.user);
   const find = await User.find({
@@ -16,7 +16,7 @@ const getPosts = (req,res,next) =>{
       $lt: user[0].latlng.lng + req.body.radius,
     },
   });
-  await Promise.all(
+  Promise.all(
     find.map(async (e) => {
       const post = await Post.find({
         author: e.username,
@@ -30,7 +30,7 @@ const getPosts = (req,res,next) =>{
     })
   );
   const intId = await interactionID(req.body.user);
-  await Promise.all(
+  Promise.all(
     intId.followingUsers.map(async (e) => {
       const post = await Post.find({
         author: e,
@@ -55,4 +55,4 @@ const getPosts = (req,res,next) =>{
   );
   res.send(arr);
 };
-module.exports = getPosts
+module.exports = getPosts;

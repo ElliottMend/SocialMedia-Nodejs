@@ -1,4 +1,4 @@
-const Comment = require('../../models/comments')
+const Comment = require("../../models/comments");
 const getComments = (req, res, next) => {
   req.body.posts.map((e) => {
     Comment.find({ post: e._id }, (err, re) => {
@@ -6,7 +6,9 @@ const getComments = (req, res, next) => {
         res.send(re);
       } catch {
         if (err) {
-          console.log(err);
+          res
+            .status(400)
+            .send({ message: "There was an error getting comments" });
         }
       }
     });
