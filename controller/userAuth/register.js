@@ -1,4 +1,4 @@
-const User = require("./models/users"),
+const User = require("../../models/users"),
   bcrypt = require("bcrypt"),
   Interaction = require("../../models/interactions");
 const register = async (req, res, next) => {
