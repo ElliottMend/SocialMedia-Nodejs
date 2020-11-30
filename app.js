@@ -1,11 +1,10 @@
 const express = require("express"),
-  bcrypt = require("bcrypt"),
   mongoose = require("mongoose"),
-  app = express(),
-  routes = require("./routes");
-  
+  app = express();
+
 require("dotenv").config();
 app.use(express.urlencoded({ limit: "50mb" }));
+
 mongoose.connect(process.env.SERVER_URL, { useNewUrlParser: true }).then(() => {
   app.use(express.json());
   app.use(routes);

@@ -1,9 +1,7 @@
-const User = require("./models/users");
-export const register = (req,res,next) =>{
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+const User = require("./models/users"),
+  bcrypt = require('bcrypt'),
+  Interaction = require('../../models/interactions')
+const register = (req,res,next) =>{
     req.body.password = req.body.password2 = await bcrypt.hash(
       req.body.password,
       10
@@ -31,3 +29,4 @@ export const register = (req,res,next) =>{
     const inter = new Interaction({ user: register._id });
     await inter.save();
 }
+module.exports = register;

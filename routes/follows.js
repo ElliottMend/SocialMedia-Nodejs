@@ -1,0 +1,12 @@
+const router = require("express").Router(),
+  addFollow = require("../controller/follows/addFollows"),
+  removeFollow = require("../controller/follows/removeFollows"),
+  getFollow = require("../controller/follows/getFollows"),
+  checkFollow = require("../controller/follows/checkFollow"),
+  followData = require("../controller/follows/followData");
+router.put("/addFollow", addFollow, async (req, res) => {});
+router.put("/removeFollow", removeFollow, async (req, res) => {});
+router.post("/checkFollow", checkFollow, async (req, res) => {});
+router.post("/followData", followData, async (req, res) => {});
+router.post("/follows", getFollow, async (req, res) => {});
+module.exports = router;
