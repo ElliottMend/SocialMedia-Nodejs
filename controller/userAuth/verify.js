@@ -1,4 +1,5 @@
-const generateAccessToken = require("./generateAccessToken");
+const generateAccessToken = require("./generateAccessToken"),
+  jwt = require('jsonwebtoken')
 const verify = async (req, res, next) => {
   const rtoken = req.body.refreshToken;
   const atoken = req.body.accessToken;
