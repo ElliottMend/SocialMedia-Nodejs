@@ -1,3 +1,4 @@
+const User = require('../models/users')
 const findUser = async (user) => {
   const users = await User.find({ username: user });
   return users;
