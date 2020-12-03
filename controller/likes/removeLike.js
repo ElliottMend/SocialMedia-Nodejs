@@ -18,7 +18,7 @@ const removeLike = async (req, res, next) => {
     if (err) {
       res.status(400).send({ message: "There was an error finding that post" });
     } else {
-      res.json(docs.likes);
+      res.send(docs.likes);
     }
   });
 };

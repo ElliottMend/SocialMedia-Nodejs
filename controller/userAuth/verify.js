@@ -12,14 +12,14 @@ const verify = async (req, res, next) => {
           if (err) {
             res.sendStatus(400);
           } else {
-            res.json({
+            res.send({
               accessToken: accessToken,
               refreshToken: req.body.refreshToken,
             });
           }
         });
       } else {
-        res.json({
+        res.send({
           accessToken: req.body.accessToken,
           refreshToken: req.body.refreshToken,
         });

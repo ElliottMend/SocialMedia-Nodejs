@@ -11,7 +11,7 @@ const addLike = async (req, res, next) => {
     if (err) {
       res.status(400).send({ message: "Cannot find that post" });
     } else {
-      res.json(docs.likes);
+      res.send(docs.likes);
     }
   });
 };

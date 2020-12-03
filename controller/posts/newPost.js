@@ -13,7 +13,7 @@ const newPost = async (req, res, next) => {
     if (err !== null) {
       res.status(400).statusMessage("Body text is required");
     } else {
-      res.json(posts);
+      res.send(posts);
     }
   });
 };

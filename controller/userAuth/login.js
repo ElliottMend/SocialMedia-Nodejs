@@ -23,7 +23,7 @@ const login = async (req, res, next) => {
             const refreshToken = jwt.sign(usr, process.env.REFRESH_TOKEN, {
               expiresIn: "7d",
             });
-            res.json({
+            res.send({
               accessToken: accessToken,
               refreshToken: refreshToken,
               username: user,

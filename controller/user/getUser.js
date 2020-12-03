@@ -6,7 +6,7 @@ const getUser = async (req, res, next) => {
   if (user.length === 0) {
     res.status(400).send({ message: "This user does not exist" });
   } else {
-    res.json(posts);
+    res.send(posts);
   }
 };
 module.exports = getUser;
