@@ -2,6 +2,7 @@ const User = require("../../models/users"),
   findUsername = require("../findUsername"),
   interactionID = require("../interactionId"),
   Post = require("../../models/posts");
+  
 const getPosts = async (req, res, next) => {
   let arr = [];
   arr.length = 0;
