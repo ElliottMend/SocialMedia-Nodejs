@@ -1,5 +1,5 @@
 const generateAccessToken = require("./generateAccessToken"),
-  jwt = require('jsonwebtoken')
+  jwt = require("jsonwebtoken");
 const verify = async (req, res, next) => {
   const rtoken = req.body.refreshToken;
   const atoken = req.body.accessToken;
@@ -16,6 +16,7 @@ const verify = async (req, res, next) => {
               accessToken: accessToken,
               refreshToken: req.body.refreshToken,
             });
+            next();
           }
         });
       } else {
@@ -23,6 +24,7 @@ const verify = async (req, res, next) => {
           accessToken: req.body.accessToken,
           refreshToken: req.body.refreshToken,
         });
+        next();
       }
     });
   } else {
