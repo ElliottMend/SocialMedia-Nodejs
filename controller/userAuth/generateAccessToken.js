@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const generateAccessToken = (user, bio) => {
+const generateAccessToken = (user, email) => {
   const accessCookie = jwt.sign(
     {
       user: user,
