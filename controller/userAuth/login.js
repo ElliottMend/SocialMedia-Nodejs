@@ -1,7 +1,6 @@
 const User = require("../../models/users"),
   bcrypt = require("bcrypt"),
-  generateAccessToken = require("./generateAccessToken"),
-  jwt = require("jsonwebtoken");
+  generateAccessToken = require("./generateAccessToken");
 const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email }).exec();
@@ -23,7 +22,7 @@ const login = async (req, res, next) => {
             ] = await generateAccessToken(user, email);
             res.cookie("AccessToken", accessToken, accessCookie);
             res.cookie("RefreshToken", refreshToken, refreshCookie);
-            next();
+            res.status(200).send();
           }
         );
       } else {

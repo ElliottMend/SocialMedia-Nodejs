@@ -5,5 +5,5 @@ const router = require("express").Router(),
   
 router.post("/register", register, async (req, res) => {});
 router.post("/login", login, async (req, res) => {});
-router.post("/verify", verify, async (req, res) => {});
+router.get("/verify", verify, async (req, res) => {});
 module.exports = router;

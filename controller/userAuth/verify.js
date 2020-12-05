@@ -1,6 +1,7 @@
 const generateAccessToken = require("./generateAccessToken"),
   jwt = require("jsonwebtoken");
 const verify = async (req, res, next) => {
+  console.log(req.cookies)
   if (req.cookies.AccessToken) {
     res.locals.status = 200;
     next();

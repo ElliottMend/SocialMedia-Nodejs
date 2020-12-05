@@ -1,12 +1,12 @@
 const router = require("express").Router(),
-  getUser = require("../controller/user/getUser"),
+  getUser = require("../controller/user/getUser.js"),
   userEdit = require("../controller/user/userEdit"),
-  findUsername = require("../controller/findUsername");
+  findUsername = require("../controller/findUsername"),
+  getUserProfile = require("../controller/user/getUserProfile");
 
 router.put("/userEdit", userEdit, async (req, res) => {});
-router.post("/getUser", async (req, res) => {
-  const user = await findUsername(req.body.user);
-  res.send(user[0]);
+router.get("/getUser", getUser, async (req, res) => {
+  
 });
-router.post("/users/:id/", getUser, async (req, res) => {});
+router.post("/users/:id/", getUserProfile, async (req, res) => {});
 module.exports = router;

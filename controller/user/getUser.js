@@ -1,12 +1,12 @@
-const findUsername = require("../findUsername"),
-  Post = require("../../models/posts");
+const jwt = require("jsonwebtoken");
 const getUser = async (req, res, next) => {
-  const user = await findUsername(req.body.username);
-  const posts = await Post.findOne({ author: req.body.username });
-  if (user.length === 0) {
-    res.status(400).send({ message: "This user does not exist" });
-  } else {
-    res.send(posts);
-  }
+    console.log(req.cookies.RefreshToken)
+  const decoded = await jwt.verify(
+    req.cookies.RefreshToken,
+    process.env.REFRESH_SECRET
+  );
+  console.log(decoded);
+  const user = await findUsername(decoded.name);
+  res.send(user[0]);
 };
 module.exports = getUser;
