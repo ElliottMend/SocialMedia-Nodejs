@@ -8,33 +8,30 @@ const login = async (req, res, next) => {
     if (!user) {
       return res
         .status(400)
-        .send({ message: "The email or password is incorrect" });
+        .send({ message: "The email is incorrect" });
     }
     bcrypt.compare(req.body.password, user.password, (err, re) => {
       if (re) {
-        const username = req.body.email;
+        const email = req.body.email;
         User.findOne(
-          { email: new RegExp("^" + username + "$", "i") },
+          { email: new RegExp("^" + email + "$", "i") },
           (err, doc) => {
             let user = doc.username;
-            let bio = doc.bio;
-            const usr = { username: user };
-            const accessToken = generateAccessToken(usr);
-            const refreshToken = jwt.sign(usr, process.env.REFRESH_TOKEN, {
-              expiresIn: "7d",
-            });
-            res.send({
-              accessToken: accessToken,
-              refreshToken: refreshToken,
-              username: user,
-              bio: bio,
-            });
+            const [
+              accessToken,
+              refreshToken,
+              accessCookie,
+              refreshCookie,
+            ] = await generateAccessToken(user, email);
+            res.cookie("AccessToken", accessToken, accessCookie);
+            res.cookie("RefreshToken", refreshToken, refreshCookie);
+            next();          
           }
         );
       } else {
         return res
           .status(400)
-          .send({ message: "The email or password is incorrect" });
+          .send({ message: "The password is incorrect" });
       }
     });
   } catch (err) {

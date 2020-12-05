@@ -2,6 +2,7 @@ const Post = require("../../models/posts"),
   interactionID = require("../interactionId"),
   Interaction = require("../../models/interactions");
 const removeLike = async (req, res, next) => {
+  
   const like = await Post.findById({ _id: req.body.id });
   if (like.likes <= 0) {
     Post.findByIdAndUpdate(req.body.id, { likes: 0 });

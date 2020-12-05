@@ -1,6 +1,7 @@
 const findUsername = require("../findUsername"),
   Post = require("../../models/posts");
 const newPost = async (req, res, next) => {
+  
   const re = await findUsername(req.body.username);
   const posts = new Post({
     author: req.body.username,
