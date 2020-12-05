@@ -6,16 +6,14 @@ const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email }).exec();
     if (!user) {
-      return res
-        .status(400)
-        .send({ message: "The email is incorrect" });
+      return res.status(400).send({ message: "The email is incorrect" });
     }
     bcrypt.compare(req.body.password, user.password, (err, re) => {
       if (re) {
         const email = req.body.email;
         User.findOne(
           { email: new RegExp("^" + email + "$", "i") },
-          (err, doc) => {
+          async (err, doc) => {
             let user = doc.username;
             const [
               accessToken,
@@ -25,13 +23,11 @@ const login = async (req, res, next) => {
             ] = await generateAccessToken(user, email);
             res.cookie("AccessToken", accessToken, accessCookie);
             res.cookie("RefreshToken", refreshToken, refreshCookie);
-            next();          
+            next();
           }
         );
       } else {
-        return res
-          .status(400)
-          .send({ message: "The password is incorrect" });
+        return res.status(400).send({ message: "The password is incorrect" });
       }
     });
   } catch (err) {
