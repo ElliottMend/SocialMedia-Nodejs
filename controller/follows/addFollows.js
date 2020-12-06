@@ -2,7 +2,7 @@ const interactionID = require("../interactionId"),
   Interaction = require("../../models/interactions");
 const addFollows = async (req, res, next) => {
   try {
-    const userId = await interactionID(req.body.user);
+    const userId = await interactionID(res.locals.username);
     if (userId.followingUsers.includes(req.body.author)) {
       return;
     } else {
@@ -13,10 +13,10 @@ const addFollows = async (req, res, next) => {
     });
 
     const authorId = await interactionID(req.body.author);
-    if (authorId.followerUsers.includes(req.body.user)) {
+    if (authorId.followerUsers.includes(res.locals.username)) {
       return;
     } else {
-      authorId.followerUsers.push(req.body.user);
+      authorId.followerUsers.push(res.locals.username);
     }
     await Interaction.findByIdAndUpdate(authorId, {
       followers: authorId.followerUsers.length,

@@ -6,7 +6,7 @@ const User = require("../../models/users"),
 const getPosts = async (req, res, next) => {
   let arr = [];
   arr.length = 0;
-  const user = await findUsername(req.body.user);
+  const user = await findUsername(res.locals.username);
   const find = await User.find({
     "latlng.lat": {
       $gt: user[0].latlng.lat - req.body.radius,
@@ -17,7 +17,6 @@ const getPosts = async (req, res, next) => {
       $lt: user[0].latlng.lng + req.body.radius,
     },
   });
-  console.log(find)
   Promise.all(
     find.map(async (e) => {
       const post = await Post.find({
@@ -31,7 +30,7 @@ const getPosts = async (req, res, next) => {
       }
     })
   );
-  const intId = await interactionID(req.body.user);
+  const intId = await interactionID(res.locals.username);
   Promise.all(
     intId.followingUsers.map(async (e) => {
       const post = await Post.find({

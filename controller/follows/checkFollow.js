@@ -1,6 +1,6 @@
 const interactionID = require("../interactionId");
 const checkFollow = async (req, res, next) => {
-  const userId = await interactionID(req.body.user);
+  const userId = await interactionID(res.locals.username);
   const ob = {
     followers: userId.followers,
     following: userId.following,

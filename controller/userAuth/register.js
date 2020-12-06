@@ -7,7 +7,7 @@ const register = async (req, res, next) => {
     10
   );
   const register = new User({
-    username: req.body.username.toLowerCase(),
+    username: res.locals.username.toLowerCase(),
     password: req.body.password,
     email: req.body.email,
   });

@@ -2,7 +2,7 @@ const interactionID = require("../interactionId"),
   Interaction = require("../../models/interactions");
 const removeFollows = async (req, res, next) => {
   try {
-    const userId = await interactionID(req.body.user);
+    const userId = await interactionID(res.locals.username);
     if (userId.followingUsers.includes(req.body.author)) {
       userId.followingUsers.pull(req.body.author);
     }
@@ -15,8 +15,8 @@ const removeFollows = async (req, res, next) => {
     }
 
     const authorId = await interactionID(req.body.author);
-    if (authorId.followerUsers.includes(req.body.user)) {
-      authorId.followerUsers.pull(req.body.user);
+    if (authorId.followerUsers.includes(res.locals.username)) {
+      authorId.followerUsers.pull(res.locals.username);
     }
     if (authorId.followers <= 0) {
       Interaction.findByIdAndUpdate(authorId, { followers: 0 });

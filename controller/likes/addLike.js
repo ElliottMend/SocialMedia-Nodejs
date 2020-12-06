@@ -3,7 +3,7 @@ const Post = require("../../models/posts"),
   Interaction = require("../../models/interactions");
 const addLike = async (req, res, next) => {
   await Post.findByIdAndUpdate(req.body.id, { $inc: { likes: 1 } });
-  const intID = await interactionID(req.body.user);
+  const intID = await interactionID(res.locals.username);
   await Interaction.findByIdAndUpdate(intID._id, {
     $push: { likes: req.body.id },
   });

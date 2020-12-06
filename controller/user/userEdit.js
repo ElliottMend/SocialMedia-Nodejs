@@ -1,26 +1,28 @@
-const User = require("../../models/users");
+const User = require("../../models/users"),
+  jwt = require("jsonwebtoken");
 const userEdit = async (req, res, next) => {
+  let decoded;
   if (req.body.bio) {
     await User.findOneAndUpdate(
-      { username: req.body.user },
+      { username: res.locals.username },
       { bio: req.body.bio }
     );
   }
   if (req.body.image) {
     await User.findOneAndUpdate(
-      { username: req.body.user },
+      { username: res.locals.username },
       { photo: req.body.image }
     );
   }
   if (req.body.location) {
     await User.findOneAndUpdate(
-      { username: req.body.user },
+      { username: res.locals.username },
       { location: req.body.location }
     );
   }
   if (req.body.latlng) {
     await User.findOneAndUpdate(
-      { username: req.body.user },
+      { username: res.locals.username },
       { latlng: req.body.latlng }
     );
   }

@@ -9,7 +9,7 @@ const removeLike = async (req, res, next) => {
   } else {
     await Post.findByIdAndUpdate(req.body.id, { $inc: { likes: -1 } });
   }
-  const intID = await interactionID(req.body.user);
+  const intID = await interactionID(res.locals.username);
   await Interaction.findByIdAndUpdate(
     intID._id,
     { $pull: { likes: req.body.id } },
