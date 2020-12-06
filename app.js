@@ -3,6 +3,8 @@ const express = require("express"),
   app = express(),
   cookieParser = require("cookie-parser");
 require("dotenv").config();
+app.use(cookieParser());
+app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader(
@@ -15,8 +17,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-app.use(cookieParser());
-app.use(express.json());
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useNewUrlParser", true);

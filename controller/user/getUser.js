@@ -1,12 +1,7 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken"),
+  findUsername = require("../findUsername");
 const getUser = async (req, res, next) => {
-    console.log(req.cookies.RefreshToken)
-  const decoded = await jwt.verify(
-    req.cookies.RefreshToken,
-    process.env.REFRESH_SECRET
-  );
-  console.log(decoded);
-  const user = await findUsername(decoded.name);
+  const user = await findUsername(res.locals.username);
   res.send(user[0]);
 };
 module.exports = getUser;
