@@ -17,13 +17,13 @@ const generateAccessToken = (user, email) => {
   const accessToken = {
     httpOnly: true,
     maxAge: 3600000,
-    secure: process.env.SECURE,
+    secure: process.env.SECURE === "false" ? false : true,
     sameSite: "none",
   };
   const refreshToken = {
     httpOnly: true,
     maxAge: 259200000,
-    secure: process.env.SECURE,
+    secure: process.env.SECURE === "false" ? false : true,
     sameSite: "none",
   };
   return [accessCookie, refreshCookie, accessToken, refreshToken];
