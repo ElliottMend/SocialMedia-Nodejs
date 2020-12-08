@@ -5,6 +5,6 @@ const router = require("express").Router(),
   verify = require("../controller/userAuth/verify");
 
 router.put("/like", verify, addLike, async (req, res) => {});
-router.post("/checklike", verify, checkLike, async (req, res) => {});
+router.get("/checklike", verify, checkLike, async (req, res) => {});
 router.put("/unlike", verify, removeLike, async (req, res) => {});
 module.exports = router;
