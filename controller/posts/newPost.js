@@ -5,7 +5,7 @@ const newPost = async (req, res, next) => {
   const re = await findUsername(res.locals.username);
   const posts = new Post({
     author: res.locals.username,
-    location: re[0].location,
+    location: re.location,
     body: req.body.body,
     date: Date.now(),
     img: req.body.img,

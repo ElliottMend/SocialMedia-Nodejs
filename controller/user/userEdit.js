@@ -26,5 +26,6 @@ const userEdit = async (req, res, next) => {
       { latlng: req.body.latlng }
     );
   }
+  res.status(200).send();
 };
 module.exports = userEdit;
