@@ -22,7 +22,7 @@ const verify = async (req, res, next) => {
       const accessCookie = {
         httpOnly: true,
         maxAge: 3600000,
-        secure: process.env.SECURE,
+        secure: process.env.SECURE === "false" ? false : true,
         sameSite: "none",
       };
       res.cookie("AccessToken", accessToken, accessCookie);
