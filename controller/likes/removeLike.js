@@ -5,7 +5,7 @@ const removeLike = async (req, res, next) => {
   
   const like = await Post.findById({ _id: req.body.id });
   if (like.likes <= 0) {
-    Post.findByIdAndUpdate(req.body.id, { likes: 0 });
+    await Post.findByIdAndUpdate(req.body.id, { likes: 0 });
   } else {
     await Post.findByIdAndUpdate(req.body.id, { $inc: { likes: -1 } });
   }

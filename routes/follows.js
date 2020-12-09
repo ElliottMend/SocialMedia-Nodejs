@@ -8,7 +8,7 @@ const router = require("express").Router(),
 
 router.put("/addFollow", verify, addFollow, async (req, res) => {});
 router.put("/removeFollow", verify, removeFollow, async (req, res) => {});
-router.get("/checkFollow", verify, checkFollow, async (req, res) => {});
+router.get("/checkFollow/:id", verify, checkFollow, async (req, res) => {});
 router.post("/followData", verify, followData, async (req, res) => {});
 router.get("/follows", verify, getFollow, async (req, res) => {});
 module.exports = router;
