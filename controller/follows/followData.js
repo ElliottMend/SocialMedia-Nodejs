@@ -4,15 +4,12 @@ const followData = (req, res, next) => {
   Promise.all(
     req.body.users.map(async (e) => {
       const users = await findUsername(e);
-      users.map((i) => {
-        arr.push({
-          photo: i.photo,
-          bio: i.bio,
-          username: i.username,
-        });
+      arr.push({
+        photo: users.photo,
+        bio: users.bio,
+        username: users.username,
       });
     })
-  );
-  res.send(arr);
+  ).then((re) => res.send(arr));
 };
 module.exports = followData;
