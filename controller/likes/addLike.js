@@ -7,12 +7,11 @@ const addLike = async (req, res, next) => {
   await Interaction.findByIdAndUpdate(intID._id, {
     $push: { likes: req.body.id },
   });
-  Post.findById(req.body.id, (err, docs) => {
-    if (err) {
-      res.status(400).send({ message: "Cannot find that post" });
-    } else {
-      res.send(docs.likes);
-    }
-  });
+  try {
+    const results = await Post.findById(req.body.id);
+    res.send(results.likes);
+  } catch (err) {
+    res.status(400).send({ message: "Cannot find that post" });
+  }
 };
 module.exports = addLike;
