@@ -1,7 +1,7 @@
 const Comment = require("../../models/comments");
 const getComments = (req, res, next) => {
   req.body.posts.map((e) => {
-    Comment.find({ post: e._id }, (err, re) => {
+    Comment.find({ post: e._id, show: true }, (err, re) => {
       try {
         res.send(re);
       } catch {

@@ -17,7 +17,6 @@ const getPosts = async (req, res, next) => {
       $lt: user.latlng.lng + req.body.radius,
     },
   });
-  console.log(find);
   if (find.length > 0) {
     Promise.all(
       find.map(async (e) => {

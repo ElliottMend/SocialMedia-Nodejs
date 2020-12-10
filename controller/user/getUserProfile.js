@@ -1,8 +1,7 @@
 const findUsername = require("../findUsername"),
   Post = require("../../models/posts");
 const getUserProfile = async (req, res, next) => {
-  const user = await findUsername(res.locals.username);
-  const posts = await Post.findOne({ author: res.locals.username });
+  const posts = await Post.find({ author: req.params.username, show: true });
   if (user.length === 0) {
     res.status(400).send({ message: "This user does not exist" });
   } else {

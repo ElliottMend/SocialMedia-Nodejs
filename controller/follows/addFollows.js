@@ -20,7 +20,6 @@ const addFollows = async (req, res, next) => {
     await Interaction.findByIdAndUpdate(authorId, {
       followers: authorId.followerUsers.length,
     });
-    console.log(authorId, userId);
     authorId.save();
     userId.save();
     res.status(200).send();

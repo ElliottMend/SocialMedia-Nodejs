@@ -2,7 +2,7 @@ const findUsername = require("../findUsername");
 const followData = (req, res, next) => {
   let arr = [];
   Promise.all(
-    req.body.followerUsers.map(async (e) => {
+    req.body.users.map(async (e) => {
       const users = await findUsername(e);
       users.map((i) => {
         arr.push({
