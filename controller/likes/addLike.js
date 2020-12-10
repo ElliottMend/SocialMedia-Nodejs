@@ -9,7 +9,7 @@ const addLike = async (req, res, next) => {
   });
   try {
     const results = await Post.findById(req.body.id);
-    res.send(results.likes);
+    res.status(200).send(results.likes.toString());
   } catch (err) {
     res.status(400).send({ message: "Cannot find that post" });
   }

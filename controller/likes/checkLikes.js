@@ -1,6 +1,6 @@
 const interactionID = require("../interactionId");
 const checkLikes = async (req, res, next) => {
   const intID = await interactionID(res.locals.username);
-  res.send(intID.likes);
+  res.status(200).send(intID.likes.toString());
 };
 module.exports = checkLikes;
