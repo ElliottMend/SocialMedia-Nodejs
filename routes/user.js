@@ -6,7 +6,7 @@ const router = require("express").Router(),
 
 router.put("/userEdit", verify, userEdit, async (req, res) => {});
 router.get("/getUser", verify, getUser, async (req, res) => {});
-router.get("/users/:username/", verify, getUserProfile, async (req, res) => {});
+router.get("/users/:username", verify, getUserProfile, async (req, res) => {});
 router.get("/checkJWT", verify, (req, res) => {
   res.send(res.locals.username)
 });
