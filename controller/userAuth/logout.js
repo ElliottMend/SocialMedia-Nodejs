@@ -9,6 +9,6 @@ const logout = (req, res, next) => {
     secure: process.env.SECURE === "false" ? false : true,
     sameSite: "none",
   });
-  next();
+  res.status(200).send();
 };
 module.exports = logout;
