@@ -12,7 +12,8 @@ const getFollows = async (req, res, next) => {
         arr.push({ bio: user.bio, username: user.username, photo: user.photo });
       }
     })
-  );
-  res.send(arr);
+  ).then((re) => {
+    res.send(arr);
+  });
 };
 module.exports = getFollows;
