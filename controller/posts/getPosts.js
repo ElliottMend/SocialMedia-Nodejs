@@ -6,15 +6,17 @@ const User = require("../../models/users"),
 const getPosts = async (req, res, next) => {
   let arr = [];
   arr.length = 0;
+  console.log("fdsfd");
   const user = await findUsername(res.locals.username);
+  const radius = Number(req.body.radius);
   const find = await User.find({
     "latlng.lat": {
-      $gt: user.latlng.lat - req.body.radius,
-      $lt: user.latlng.lat + req.body.radius,
+      $gt: user.latlng.lat - radius,
+      $lt: user.latlng.lat + radius,
     },
     "latlng.lng": {
-      $gt: user.latlng.lng - req.body.radius,
-      $lt: user.latlng.lng + req.body.radius,
+      $gt: user.latlng.lng - radius,
+      $lt: user.latlng.lng + radius,
     },
   });
   if (find.length > 0) {
@@ -23,7 +25,7 @@ const getPosts = async (req, res, next) => {
         const post = await Post.find({
           author: e.username,
           show: true,
-        });
+        }).sort({ author: 1 });
         if (!arr.includes(post)) {
           arr.push(...post);
         } else {
@@ -56,6 +58,9 @@ const getPosts = async (req, res, next) => {
       })
     );
   }
+  console.log(arr)
+  arr = arr.sort((a, b) => (a.date < b.date ? 1 : -1));
+  console.log(arr)
   res.send(arr);
 };
 module.exports = getPosts;
