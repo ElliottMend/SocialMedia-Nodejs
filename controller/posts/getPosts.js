@@ -25,7 +25,7 @@ const getPosts = async (req, res, next) => {
         const post = await Post.find({
           author: e.username,
           show: true,
-        }).sort({ author: 1 });
+        })
         if (!arr.includes(post)) {
           arr.push(...post);
         } else {
@@ -58,9 +58,7 @@ const getPosts = async (req, res, next) => {
       })
     );
   }
-  console.log(arr)
   arr = arr.sort((a, b) => (a.date < b.date ? 1 : -1));
-  console.log(arr)
   res.send(arr);
 };
 module.exports = getPosts;
