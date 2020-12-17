@@ -6,7 +6,6 @@ const User = require("../../models/users"),
 const getPosts = async (req, res, next) => {
   let arr = [];
   arr.length = 0;
-  console.log("fdsfd");
   const user = await findUsername(res.locals.username);
   const radius = Number(req.body.radius);
   const find = await User.find({

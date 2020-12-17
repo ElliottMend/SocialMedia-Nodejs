@@ -1,7 +1,6 @@
 const findUsername = require("../findUsername"),
   Post = require("../../models/posts");
 const newPost = async (req, res, next) => {
-  
   const re = await findUsername(res.locals.username);
   const posts = new Post({
     author: res.locals.username,
@@ -12,7 +11,7 @@ const newPost = async (req, res, next) => {
   });
   await posts.save((err) => {
     if (err !== null) {
-      res.status(400).statusMessage("Body text is required");
+      res.status(400).send({ message: "Body text is required" });
     } else {
       res.send(posts);
     }
