@@ -2,7 +2,7 @@ const findUsername = require("../findUsername"),
   Post = require("../../models/posts");
 const getUserProfile = async (req, res, next) => {
   let arr = [];
-  const user = await findUsername(res.locals.username);
+  const user = await findUsername(req.params.username);
   arr = await Post.find({
     author: req.params.username,
     show: true,
