@@ -12,6 +12,7 @@ const getUserLikes = async (req, res, next) => {
       })
     ).then(() => res.send(arr));
   } else {
+      console.log(arr)
     res.send(arr);
   }
 };

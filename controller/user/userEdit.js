@@ -1,7 +1,5 @@
-const User = require("../../models/users"),
-  jwt = require("jsonwebtoken");
+const User = require("../../models/users");
 const userEdit = async (req, res, next) => {
-  let decoded;
   if (req.body.bio) {
     await User.findOneAndUpdate(
       { username: res.locals.username },

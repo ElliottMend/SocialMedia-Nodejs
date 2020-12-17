@@ -2,7 +2,7 @@ const Comment = require("../../models/comments");
 
 const createComment = async (req, res, next) => {
   const comm = new Comment({
-    author: req.body.author,
+    author: res.locals.username,
     likes: req.body.likes,
     text: req.body.text,
     post: req.body.id,
