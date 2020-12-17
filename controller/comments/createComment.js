@@ -1,4 +1,6 @@
-const Comment = require("../../models/comments");
+const Comment = require("../../models/comments"),
+  interactionID = require("../interactionId"),
+  Interaction = require('../../models/interactions')
 
 const createComment = async (req, res, next) => {
   const comm = new Comment({
@@ -7,6 +9,10 @@ const createComment = async (req, res, next) => {
     text: req.body.text,
     post: req.body.id,
     date: Date.now(),
+  });
+  const intID = await interactionID(res.locals.username);
+  await Interaction.findByIdAndUpdate(intID._id, {
+    $push: { comments: req.body.id },
   });
   await comm.save((err) => {
     if (err) {
