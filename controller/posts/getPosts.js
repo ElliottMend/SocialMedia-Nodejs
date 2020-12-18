@@ -24,7 +24,8 @@ const getPosts = async (req, res, next) => {
         const post = await Post.find({
           author: e.username,
           show: true,
-        })
+        });
+        console.log(post);
         if (!arr.includes(post)) {
           arr.push(...post);
         } else {
