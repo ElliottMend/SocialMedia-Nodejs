@@ -22,7 +22,6 @@ const getUserProfile = async (req, res, next) => {
       comments: { $in: arr },
       show: true,
     });
-    console.log(comments)
     if (!commentArray.includes(comments)) {
       commentArray.push(...comments);
     } else {
