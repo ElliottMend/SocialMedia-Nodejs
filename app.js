@@ -4,10 +4,10 @@ const express = require("express"),
   cookieParser = require("cookie-parser");
 require("dotenv").config();
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [
-    "http://localhost:3000",
-    "https://ecstatic-lamport-a42a6b.netlify.app",
-  ]);
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://ecstatic-lamport-a42a6b.netlify.app"
+  );
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
