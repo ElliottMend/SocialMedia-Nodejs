@@ -26,7 +26,6 @@ const getPosts = async (req, res, next) => {
             author: e.username,
             show: true,
           });
-          console.log(post);
           if (!arr.includes(post)) {
             arr.push(...post);
           } else {
@@ -35,29 +34,31 @@ const getPosts = async (req, res, next) => {
         })
       );
       const intId = await interactionID(res.locals.username);
-      Promise.all(
-        intId.followingUsers.map(async (e) => {
-          const post = await Post.find({
-            author: e,
-            show: true,
-          });
-          if (arr.length > 0) {
-            post.forEach((e, index) => {
-              if (e._id !== arr[index]._id) {
-                if (post.length > 0) {
-                  return;
-                } else {
-                  arr.push(post);
-                }
-              } else {
-                return;
-              }
+      if (intId.followingUsers > 0) {
+        Promise.all(
+          intId.followingUsers.map(async (e) => {
+            const post = await Post.find({
+              author: e,
+              show: true,
             });
-          } else {
-            arr.push(...post);
-          }
-        })
-      );
+            if (arr.length > 0) {
+              post.forEach((e, index) => {
+                if (e._id !== arr[index]._id) {
+                  if (post.length > 0) {
+                    return;
+                  } else {
+                    arr.push(post);
+                  }
+                } else {
+                  return;
+                }
+              });
+            } else {
+              arr.push(...post);
+            }
+          })
+        );
+      }
     }
 
     arr = arr.sort((a, b) => (a.date < b.date ? 1 : -1));

@@ -3,7 +3,6 @@ const User = require("../../models/users"),
   Interaction = require("../../models/interactions");
 const register = async (req, res, next) => {
   const password = await bcrypt.hash(req.body.password, 10);
-  console.log(req.body);
   const register = new User({
     username: req.body.username.toLowerCase().trim(),
     password: password.trim(),
