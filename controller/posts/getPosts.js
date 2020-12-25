@@ -34,7 +34,7 @@ const getPosts = async (req, res, next) => {
         })
       );
       const intId = await interactionID(res.locals.username);
-      if (intId.followingUsers > 0) {
+      if (intId.followingUsers) {
         Promise.all(
           intId.followingUsers.map(async (e) => {
             const post = await Post.find({
