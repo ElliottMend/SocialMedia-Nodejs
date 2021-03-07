@@ -1,0 +1,22 @@
+import { Request, Response, NextFunction } from "express";
+
+const findUsername = require("../findUsername"),
+  Post = require("../../models/posts");
+const newPost = async (req: Request, res: Response, next: NextFunction) => {
+  const re = await findUsername(res.locals.username);
+  const posts = new Post({
+    author: res.locals.username,
+    location: re.location,
+    body: req.body.body,
+    date: Date.now(),
+    img: req.body.img,
+  });
+  await posts.save((err) => {
+    if (err !== null) {
+      res.status(400).send({ message: "Body text is required" });
+    } else {
+      res.send(posts);
+    }
+  });
+};
+module.exports = newPost;
