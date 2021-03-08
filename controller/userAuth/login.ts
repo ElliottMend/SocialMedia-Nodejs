@@ -1,38 +1,22 @@
 import { Request, Response, NextFunction } from "express";
-import { pool } from "../../app";
-
+import { loginModel } from "../../models/userAuth/loginModel";
 const bcrypt = require("bcrypt"),
   generateAccessToken = require("./generateAccessToken");
 const login = async (req: Request, res: Response, next: NextFunction) => {
-  const query =
-    "SELECT username, password, email FROM user_account WHERE username = $1";
-  const values = [req.body.username];
-
-  pool.query(query, values, (err: Error, poolResponse: any) => {
-    if (err) {
-      return;
-    } else {
-      bcrypt.compare(
-        req.body.password,
-        poolResponse.rows[0].password,
-        (error: Error, bcryptResult: unknown) => {
-          if (bcryptResult) {
-            const [
-              accessToken,
-              refreshToken,
-              accessCookie,
-              refreshCookie,
-            ] = generateAccessToken(
-              poolResponse.rows[0].username,
-              poolResponse.rows[0].email
-            );
-            res.cookie("AccessToken", accessToken, accessCookie);
-            res.cookie("RefreshToken", refreshToken, refreshCookie);
-            res.status(200).send();
-          }
+  try {
+    const user = await loginModel(req.body.email, res);
+    bcrypt.compare(
+      req.body.password,
+      user.password,
+      async (error: Error, bcryptResult: Boolean) => {
+        if (bcryptResult) {
+          await generateAccessToken(user.user_id, user.email, res);
+          res.sendStatus(200);
         }
-      );
-    }
-  });
+      }
+    );
+  } catch (err) {
+    res.sendStatus(400);
+  }
 };
 module.exports = login;

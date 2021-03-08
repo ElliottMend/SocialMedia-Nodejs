@@ -8,7 +8,7 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
       req.cookies.AccessToken,
       process.env.ACCESS_TOKEN
     );
-    res.locals.username = decoded.user;
+    res.locals.user = decoded.user;
     res.locals.status = 200;
     next();
   } else {
@@ -27,8 +27,8 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
         secure: process.env.SECURE === "false" ? false : true,
         sameSite: "none",
       };
-      res.cookie("AccessToken", accessToken, accessCookie);
-      res.locals.username = decoded.user;
+      // res.cookie("AccessToken", accessToken, accessCookie);
+      res.locals.user = decoded.user;
       res.locals.access = accessToken;
       res.locals.status = 200;
       next();
