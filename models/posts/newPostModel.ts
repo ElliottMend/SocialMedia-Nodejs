@@ -2,7 +2,7 @@ import { Response } from "express";
 import { pool } from "../../app";
 export const newPostModel = async (
   body: string,
-  user_id: string,
+  user_id: number,
   res: Response
 ) => {
   const insertQuery = {

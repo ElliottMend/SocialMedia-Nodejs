@@ -1,21 +1,13 @@
 import { Request, Response, NextFunction } from "express";
+import { getFollowsModel } from "../../models/comments/getFollowsModel";
 
-const Interaction = require("../../models/interactions"),
-  User = require("../../models/users");
 const getFollows = async (req: Request, res: Response, next: NextFunction) => {
-  const follows = await Interaction.find({
-    followerUsers: { $nin: [res.locals.username] },
-  }).limit(5);
-  let arr = [];
-  Promise.all(
-    follows.map(async (e) => {
-      const user = await User.findById(e.user);
-      if (user.username !== res.locals.username) {
-        arr.push({ bio: user.bio, username: user.username, photo: user.photo });
-      }
-    })
-  ).then((re) => {
-    res.send(arr);
-  });
+  try {
+    const data = await getFollowsModel(res.locals.user);
+    res.send(data);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(400);
+  }
 };
 module.exports = getFollows;

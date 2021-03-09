@@ -29,9 +29,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
-// app.use(require("./routes/comments"));
-// app.use(require("./routes/follows"));
-// app.use(require("./routes/likes"));
+app.use(require("./routes/comments"));
+app.use(require("./routes/follows"));
+app.use(require("./routes/likes"));
 app.use(require("./routes/posts"));
 app.use(require("./routes/user"));
 app.use(require("./routes/userAuth"));

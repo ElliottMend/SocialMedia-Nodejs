@@ -1,22 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-
+import { addLikes } from "../controller/likes/addLikes";
+import { removeLikes } from "../controller/likes/removeLikes";
 const router = require("express").Router(),
-  addLike = require("../controller/likes/addLike"),
-  checkLike = require("../controller/likes/checkLikes"),
-  removeLike = require("../controller/likes/removeLike"),
   verify = require("../controller/userAuth/verify");
 
-router.put("/like", verify, addLike, async (req: Request, res: Response) => {});
-router.get(
-  "/checklike",
+router.put(
+  "/addlikes",
   verify,
-  checkLike,
+  addLikes,
   async (req: Request, res: Response) => {}
 );
 router.put(
-  "/unlike",
+  "/removelikes",
   verify,
-  removeLike,
+  removeLikes,
   async (req: Request, res: Response) => {}
 );
 module.exports = router;

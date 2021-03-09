@@ -1,21 +1,12 @@
 import { Request, Response, NextFunction } from "express";
+import { getCommentModel } from "../../models/comments/getCommentModel";
 
-import { NextFunction, Request, Response } from "express";
-const Comment = require("../../models/comments");
-
-const getComments = (req: Request, res: Response, next: NextFunction: NextFunction) => {
-  req.body.posts.map((e) => {
-    Comment.find({ post: e._id, show: true }, (err, re) => {
-      try {
-        res.send(re);
-      } catch {
-        if (err) {
-          res
-            .status(400)
-            .send({ message: "There was an error getting comments" });
-        }
-      }
-    });
-  });
+const getComments = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    getCommentModel(req.body.posts);
+    res.sendStatus(200);
+  } catch {
+    res.sendStatus(400);
+  }
 };
 module.exports = getComments;
