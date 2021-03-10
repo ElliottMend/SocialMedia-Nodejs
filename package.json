@@ -2,15 +2,15 @@
   "name": "users",
   "version": "1.0.0",
   "description": "Social media site built using React,Express/Node, and mongoDB. currently allows you to make posts, like other peoples posts, comment on other peoples posts, follow other users, has proximity based post searching, and allows you to see other users profiles (which contains their image \"About Me\" section and location).",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
-    "build": "ng build --prod",
-    "start": "node app.js",
+    "start": "npm run tsc && node app.ts",
     "heroku-postbuild": "echo Skip build on Heroku"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/pg": "^7.14.11",
     "bcrypt": "^5.0.0",
     "cjs-loader": "^0.1.0",
     "cookie-parser": "^1.4.5",
@@ -18,15 +18,21 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
+    "jest": "^26.6.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.9",
-    "mongoose-unique-validator": "^2.0.3",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "pg": "^8.5.1",
+    "typescript": "^4.2.2"
   },
   "engines": {
     "node": "12.16.1",
     "npm": "6.13.4"
   },
   "heroku-run-build-script": true,
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.0",
+    "@types/bcrypt": "^3.0.0",
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.31"
+  }
 }
