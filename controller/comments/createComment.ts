@@ -6,8 +6,12 @@ const createComment = async (
   next: NextFunction
 ) => {
   try {
-    await createCommentModel(req.body.text, res.locals.user, req.body.id);
-    res.sendStatus(200);
+    const comment = await createCommentModel(
+      req.body.text,
+      res.locals.user,
+      req.body.id
+    );
+    res.sendStatus(comment);
   } catch (err) {
     res.sendStatus(400);
   }

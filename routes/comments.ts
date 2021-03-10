@@ -11,8 +11,8 @@ router.post(
   createComment,
   async (req: Request, res: Response) => {}
 );
-router.post(
-  "/getComments",
+router.get(
+  "/getComments/:post_id",
   verify,
   getComments,
   async (req: Request, res: Response) => {}

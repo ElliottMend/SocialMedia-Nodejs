@@ -1,16 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-
-const followData = (req: Request, res: Response, next: NextFunction) => {
-  // let arr: any[] = [];
-  // Promise.all(
-  //   req.body.users.map(async (e: any) => {
-  //     const users = await findUsername(e);
-  //     arr.push({
-  //       photo: users.photo,
-  //       bio: users.bio,
-  //       username: users.username,
-  //     });
-  //   })
-  // ).then((re) => res.send(arr));
+import { followingDataModel } from "../../models/follows/followingDataModel";
+import { followerDataModel } from "../../models/follows/followerDataModel";
+const followData = async (req: Request, res: Response, next: NextFunction) => {
+  let result = null;
+  if (req.params.follow == "followers") {
+    result = await followerDataModel(req.params.username);
+  } else {
+    result = followingDataModel(req.params.username);
+  }
+  res.send(result);
 };
 module.exports = followData;

@@ -6,6 +6,6 @@ export const getCommentModel = async (post_id: number) => {
         ",
     values: [post_id],
   };
-  await pool.query(selectQuery);
-  return;
+  const data = await pool.query(selectQuery);
+  return data.rows;
 };

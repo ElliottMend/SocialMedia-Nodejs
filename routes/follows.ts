@@ -4,7 +4,7 @@ const router = require("express").Router(),
   addFollow = require("../controller/follows/addFollows"),
   removeFollow = require("../controller/follows/removeFollows"),
   getFollow = require("../controller/follows/getFollows"),
-  checkFollow = require("../controller/follows/checkFollow"),
+  checkUserFollow = require("../controller/follows/checkUserFollow"),
   followData = require("../controller/follows/followData"),
   verify = require("../controller/userAuth/verify");
 
@@ -23,11 +23,11 @@ router.put(
 router.get(
   "/checkFollow/:username",
   verify,
-  checkFollow,
+  checkUserFollow,
   async (req: Request, res: Response) => {}
 );
-router.post(
-  "/followData",
+router.get(
+  "/users/:username/:follow",
   verify,
   followData,
   async (req: Request, res: Response) => {}

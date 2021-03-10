@@ -8,10 +8,10 @@ export const createCommentModel = async (
   const insertCommentQuery = {
     text:
       "\
-        INSERT INTO comment(body,user_id,post_id) VALUES ($1,$2,$3)\
+        INSERT INTO comment(body,user_id,post_id) VALUES ($1,$2,$3) RETURNING *\
         ",
     values: [text, user_id, post_id],
   };
-  await pool.query(insertCommentQuery);
-  return;
+  const data = await pool.query(insertCommentQuery);
+  return data.rows[0];
 };
