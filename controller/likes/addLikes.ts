@@ -1,10 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { pool } from "../../app";
-export const addLikes = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const addLikes = async (req: Request, res: Response) => {
   const insertLikeQuery = {
     text: "\
         INSERT INTO likes(user_id, post_id) VALUES($1,$2)\

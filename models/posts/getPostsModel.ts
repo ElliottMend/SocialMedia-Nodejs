@@ -1,5 +1,4 @@
 import { pool } from "../../app";
-
 export const getPostsModel = async (radius: number, user_id: number) => {
   const locationQuery = {
     text:

@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction, query } from "express";
+import { Request, Response } from "express";
 import { pool } from "../../app";
-const Post = require("../../models/posts");
-const removePost = async (req: Request, res: Response, next: NextFunction) => {
+export const removePost = async (req: Request, res: Response) => {
   try {
     const deleteQuery = {
       text: "DELETE FROM post WHERE post.post_id = $1",
@@ -13,4 +12,3 @@ const removePost = async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = removePost;

@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { getCommentModel } from "../../models/comments/getCommentModel";
 
-const getComments = (req: Request, res: Response, next: NextFunction) => {
+export const getComments = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     getCommentModel(Number(req.params.post_id));
     res.sendStatus(200);
@@ -9,4 +13,3 @@ const getComments = (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = getComments;

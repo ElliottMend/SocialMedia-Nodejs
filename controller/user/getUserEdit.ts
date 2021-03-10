@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Response } from "express";
 import { pool } from "../../app";
-const getuserEdit = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(res.locals);
+export const getUserEdit = async (res: Response) => {
   const query = {
     text:
       "\
@@ -11,7 +10,6 @@ const getuserEdit = async (req: Request, res: Response, next: NextFunction) => {
     values: [res.locals.user],
   };
   const user = await pool.query(query);
-  console.log(user.rows);
   res.send({
     bio: user.rows[0].bio,
     latlng: user.rows[0].latlng,
@@ -19,4 +17,3 @@ const getuserEdit = async (req: Request, res: Response, next: NextFunction) => {
     location: user.rows[0].location,
   });
 };
-module.exports = getuserEdit;

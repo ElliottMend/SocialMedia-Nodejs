@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Response } from "express";
 
-const logout = (req: Request, res: Response, next: NextFunction) => {
+export const logout = (res: Response) => {
   res.clearCookie("RefreshToken", {
     httpOnly: true,
     secure: process.env.SECURE === "false" ? false : true,
@@ -13,4 +13,3 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
   });
   res.status(200).send();
 };
-module.exports = logout;

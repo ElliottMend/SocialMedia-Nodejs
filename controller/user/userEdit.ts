@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { editProfileModel } from "../../models/userProfile/editProfileModel";
-const userEdit = async (req: Request, res: Response, next: NextFunction) => {
+export const userEdit = async (req: Request, res: Response) => {
   try {
     await editProfileModel(
       req.body.latlng,
@@ -14,4 +14,3 @@ const userEdit = async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = userEdit;

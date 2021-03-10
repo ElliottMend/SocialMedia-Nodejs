@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { loginModel } from "../../models/userAuth/loginModel";
 const bcrypt = require("bcrypt"),
   generateAccessToken = require("./generateAccessToken");
-const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const user = await loginModel(req.body.email, res);
     bcrypt.compare(
@@ -19,4 +19,3 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = login;

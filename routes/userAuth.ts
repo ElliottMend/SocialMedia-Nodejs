@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { Response } from "express";
+import { register } from "../controller/userAuth/register";
+import { login } from "../controller/userAuth/login";
+import { logout } from "../controller/userAuth/logout";
+import { verify } from "../controller/userAuth/verify";
+import express from "express";
+const router = express.Router();
 
-const router = require("express").Router(),
-  register = require("../controller/userAuth/register"),
-  login = require("../controller/userAuth/login"),
-  verify = require("../controller/userAuth/verify"),
-  logout = require("../controller/userAuth/logout");
-
-router.post("/register", register, async (req: Request, res: Response) => {});
-router.post("/login", login, async (req: Request, res: Response) => {});
-router.get("/verify", verify, async (req: Request, res: Response) => {
+router.post("/register", register);
+router.post("/login", login);
+router.get("/logout", logout);
+router.get("/verify", verify, async (res: Response) => {
   res.status(200).send();
 });
-router.get("/logout", logout, async (req: Request, res: Response) => {});
 module.exports = router;

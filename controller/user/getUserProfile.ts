@@ -1,12 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { userLikesModel } from "../../models/userProfile/userLikesModel";
 import { userPostsModel } from "../../models/userProfile/userPostsModel";
 import { userProfileModel } from "../../models/userProfile/userProfileModel";
-const getUserProfile = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUserProfile = async (req: Request, res: Response) => {
   try {
     const profile = await userProfileModel(req.params.username);
     const likes = await userLikesModel(req.params.username);
@@ -18,8 +14,6 @@ const getUserProfile = async (
     };
     res.send(data);
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };
-module.exports = getUserProfile;

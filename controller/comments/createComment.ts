@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createCommentModel } from "../../models/comments/createCommentModel";
-const createComment = async (
+export const createComment = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,4 +16,3 @@ const createComment = async (
     res.sendStatus(400);
   }
 };
-module.exports = createComment;

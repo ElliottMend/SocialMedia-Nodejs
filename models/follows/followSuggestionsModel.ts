@@ -1,6 +1,6 @@
 import { pool } from "../../app";
 
-export const getFollowsModel = async (user_id: number) => {
+export const followSuggestionsModel = async (user_id: number) => {
   const selectQuery = {
     text:
       "\

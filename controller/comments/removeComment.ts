@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { removeCommentModel } from "../../models/comments/removeCommentModel";
 
-const removeComments = (req: Request, res: Response, next: NextFunction) => {
+export const removeComment = (req: Request, res: Response) => {
   try {
     removeCommentModel(req.body.id);
     res.sendStatus(200);
@@ -9,4 +9,3 @@ const removeComments = (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = removeComments;

@@ -1,41 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { addFollow } from "../controller/follows/addFollow";
+import { removeFollow } from "../controller/follows/removeFollow";
+import { checkUserFollow } from "../controller/follows/checkUserFollow";
+import { userFollowData } from "../controller/follows/userFollowData";
+import { followSuggestions } from "../controller/follows/followSuggestions";
+import { verify } from "../controller/userAuth/verify";
+import express from "express";
+const router = express.Router();
 
-const router = require("express").Router(),
-  addFollow = require("../controller/follows/addFollows"),
-  removeFollow = require("../controller/follows/removeFollows"),
-  getFollow = require("../controller/follows/getFollows"),
-  checkUserFollow = require("../controller/follows/checkUserFollow"),
-  followData = require("../controller/follows/followData"),
-  verify = require("../controller/userAuth/verify");
-
-router.put(
-  "/addFollow",
-  verify,
-  addFollow,
-  async (req: Request, res: Response) => {}
-);
-router.put(
-  "/removeFollow",
-  verify,
-  removeFollow,
-  async (req: Request, res: Response) => {}
-);
-router.get(
-  "/checkFollow/:username",
-  verify,
-  checkUserFollow,
-  async (req: Request, res: Response) => {}
-);
-router.get(
-  "/users/:username/:follow",
-  verify,
-  followData,
-  async (req: Request, res: Response) => {}
-);
-router.get(
-  "/follows",
-  verify,
-  getFollow,
-  async (req: Request, res: Response) => {}
-);
+router.put("/addFollow", verify, addFollow);
+router.put("/removeFollow", verify, removeFollow);
+router.get("/checkFollow/:username", verify, checkUserFollow);
+router.get("/users/:username/:follow", verify, userFollowData);
+router.get("followSuggestions", verify, followSuggestions);
 module.exports = router;

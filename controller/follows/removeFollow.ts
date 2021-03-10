@@ -1,10 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { removeFollowModel } from "../../models/follows/removeFollowModel";
-const removeFollows = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const removeFollow = async (req: Request, res: Response) => {
   try {
     removeFollowModel(res.locals.user, req.body.author);
 
@@ -13,4 +9,3 @@ const removeFollows = async (
     res.status(400).send({ message: "There was an error" });
   }
 };
-module.exports = removeFollows;

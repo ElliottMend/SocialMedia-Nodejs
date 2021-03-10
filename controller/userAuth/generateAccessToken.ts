@@ -9,15 +9,15 @@ interface IToken {
 const generateAccessToken = (user_id: number, email: string, res: Response) => {
   const accessCookie = jwt.sign(
     {
-      user: user_id,
-      email: email,
+      userID: user_id,
+      username: email,
     },
     process.env.ACCESS_TOKEN
   );
   const refreshCookie = jwt.sign(
     {
-      user: user_id,
-      email: email,
+      userID: user_id,
+      username: email,
     },
     process.env.REFRESH_TOKEN
   );

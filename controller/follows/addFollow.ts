@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { addFollowModel } from "../../models/follows/addFollowModel";
-const addFollows = async (req: Request, res: Response, next: NextFunction) => {
+export const addFollow = async (req: Request, res: Response) => {
   try {
     addFollowModel(res.locals.user, req.body.author);
     res.sendStatus(200);
@@ -8,4 +8,3 @@ const addFollows = async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = addFollows;

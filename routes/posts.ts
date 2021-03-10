@@ -1,27 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import { getPosts } from "../controller/posts/getPosts";
+import { newPost } from "../controller/posts/newPost";
+import { removePost } from "../controller/posts/removePost";
+import { verify } from "../controller/userAuth/verify";
+import express from "express";
+const router = express.Router();
 
-const router = require("express").Router(),
-  getPosts = require("../controller/posts/getPosts"),
-  newPost = require("../controller/posts/newPost"),
-  // removePost = require("../controller/posts/removePost"),
-  verify = require("../controller/userAuth/verify");
-
-router.post(
-  "/newpost",
-  verify,
-  newPost,
-  async (req: Request, res: Response) => {}
-);
-router.post(
-  "/getPosts",
-  verify,
-  getPosts,
-  async (req: Request, res: Response) => {}
-);
-// router.put(
-//   "/removePost",
-//   verify,
-//   removePost,
-//   async (req: Request, res: Response) => {}
-// );
+router.post("/newpost", verify, newPost);
+router.get("/getPosts/:radius", verify, getPosts);
+router.put("/removePost", verify, removePost);
 module.exports = router;

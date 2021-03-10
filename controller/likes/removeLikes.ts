@@ -1,11 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { pool } from "../../app";
 
-export const removeLikes = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const removeLikes = async (req: Request, res: Response) => {
   const deleteLikeQuery = {
     text:
       "\

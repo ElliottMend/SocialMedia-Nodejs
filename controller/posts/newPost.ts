@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { newPostModel } from "../../models/posts/newPostModel";
-const newPost = async (req: Request, res: Response, next: NextFunction) => {
+export const newPost = async (req: Request, res: Response) => {
   try {
     const re = await newPostModel(req.body.body, res.locals.user, res);
     res.send(re);
@@ -8,4 +8,3 @@ const newPost = async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(400);
   }
 };
-module.exports = newPost;

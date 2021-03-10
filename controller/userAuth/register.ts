@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { registerModel } from "../../models/userAuth/registerModel";
 const bcrypt = require("bcrypt");
 
-const register = async (req: Request, res: Response, next: NextFunction) => {
+export const register = async (req: Request, res: Response) => {
   const password: string = await bcrypt.hash(req.body.password, 10);
   const result = await registerModel(
     req.body.username,
