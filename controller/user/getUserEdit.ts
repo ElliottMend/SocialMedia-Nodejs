@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { userEditModel } from "../../models/userProfile/useEditModel";
 export interface IQuery {
   latlng: { lat: number; lng: number };
@@ -6,7 +6,7 @@ export interface IQuery {
   bio: string;
   photo: string;
 }
-export const getUserEdit = async (res: Response) => {
+export const getUserEdit = async (req: Request, res: Response) => {
   const data: IQuery = await userEditModel(res.locals.user);
   res.send({
     bio: data.bio,

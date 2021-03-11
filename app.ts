@@ -18,15 +18,23 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   );
   next();
 });
-let connectionString = `postgres://${String(process.env.USER)}:${String(
-  process.env.PASSWORD
-)}@localhost:5400/${String(process.env.DATABASE)}`;
+export const secrets = {
+  USER: process.env.USER ?? "",
+  PASSWORD: process.env.PASSWORD ?? "",
+  DATABASE: process.env.DATABASE ?? "",
+  SECURE: process.env.SECURE ?? "",
+  ACCESS_TOKEN: process.env.ACCESS_TOKEN ?? "",
+  REFRESH_TOKEN: process.env.REFRESH_TOKEN ?? "",
+  PORT: process.env.PORT ?? "",
+};
+let connectionString = `postgres://${secrets.USER}:${secrets.PASSWORD}@localhost:5400/${secrets.DATABASE}`;
 export const pool = new Pool({
   connectionString: connectionString,
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 });
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -37,4 +45,4 @@ app.use(require("./routes/likes"));
 app.use(require("./routes/posts"));
 app.use(require("./routes/user"));
 app.use(require("./routes/userAuth"));
-app.listen(process.env.PORT || 5000);
+app.listen(secrets.PORT || 5000);

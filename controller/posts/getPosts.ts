@@ -9,6 +9,7 @@ export interface IPost extends IQuery {
   post_id: number;
   user_id: number;
   likes: number;
+  photo: string;
 }
 export const getPosts = async (req: Request, res: Response) => {
   try {

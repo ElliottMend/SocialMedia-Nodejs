@@ -9,7 +9,7 @@ export interface IQuery {
 }
 export const newPost = async (req: Request, res: Response) => {
   try {
-    const re: IQuery = await newPostModel(req.body.body, res.locals.user, res);
+    const re: IQuery = await newPostModel(req.body.body, res.locals.user);
     res.send(re);
   } catch (err) {
     res.sendStatus(400);

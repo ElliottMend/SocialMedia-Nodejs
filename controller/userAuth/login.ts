@@ -9,7 +9,7 @@ interface IQuery {
 }
 export const login = async (req: Request, res: Response) => {
   try {
-    const user: IQuery = await loginModel(req.body.email, res);
+    const user: IQuery = await loginModel(req.body.email);
     bcrypt.compare(
       req.body.password,
       user.password,

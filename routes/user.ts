@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { getUserEdit } from "../controller/user/getUserEdit";
 import { getUserProfile } from "../controller/user/getUserProfile";
 import { verify } from "../controller/userAuth/verify";
@@ -9,7 +9,7 @@ const router = express.Router();
 router.put("/userEdit", verify, userEdit);
 router.get("/users/:username", getUserProfile);
 router.get("/getUserEdit", verify, getUserEdit);
-router.get("/checkJWT", verify, (res: Response) => {
+router.get("/checkJWT", verify, (req: Request, res: Response) => {
   res.send(res.locals.username);
 });
 module.exports = router;
