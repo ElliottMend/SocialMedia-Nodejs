@@ -11,5 +11,5 @@ router.put("/addFollow", verify, addFollow);
 router.put("/removeFollow", verify, removeFollow);
 router.get("/checkFollow/:username", verify, checkUserFollow);
 router.get("/users/:username/:follow", verify, userFollowData);
-router.get("followSuggestions", verify, followSuggestions);
+router.get("/followSuggestions", verify, followSuggestions);
 module.exports = router;

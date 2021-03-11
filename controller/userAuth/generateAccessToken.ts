@@ -1,25 +1,29 @@
-import { Request, Response, NextFunction } from "express";
-const jwt = require("jsonwebtoken");
+import { Response } from "express";
+import jwt from "jsonwebtoken";
 interface IToken {
   httpOnly: boolean;
   maxAge: number;
   secure: boolean;
   sameSite: "none";
 }
-const generateAccessToken = (user_id: number, email: string, res: Response) => {
+export const generateAccessToken = (
+  user_id: number,
+  email: string,
+  res: Response
+) => {
   const accessCookie = jwt.sign(
     {
       userID: user_id,
       username: email,
     },
-    process.env.ACCESS_TOKEN
+    String(process.env.ACCESS_TOKEN)
   );
   const refreshCookie = jwt.sign(
     {
       userID: user_id,
       username: email,
     },
-    process.env.REFRESH_TOKEN
+    String(process.env.REFRESH_TOKEN)
   );
   const accessToken: IToken = {
     httpOnly: true,
@@ -30,11 +34,10 @@ const generateAccessToken = (user_id: number, email: string, res: Response) => {
   const refreshToken: IToken = {
     httpOnly: true,
     maxAge: 259200000,
-    secure: process.env.SECURE === "false" ? false : true,
+    secure: String(process.env.SECURE) === "false" ? false : true,
     sameSite: "none",
   };
   res.cookie("AccessToken", accessCookie, accessToken);
   res.cookie("RefreshToken", refreshCookie, refreshToken);
   return;
 };
-module.exports = generateAccessToken;

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { removeCommentModel } from "../../models/comments/removeCommentModel";
 
 export const removeComment = (req: Request, res: Response) => {

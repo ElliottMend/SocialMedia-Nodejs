@@ -1,6 +1,5 @@
 import { Response } from "express";
 import { pool } from "../../app";
-import { IQuery } from "./registerModel";
 
 export const loginModel = async (email: string, res: Response) => {
   const selectQuery = {

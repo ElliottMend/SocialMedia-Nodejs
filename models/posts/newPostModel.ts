@@ -1,5 +1,6 @@
 import { Response } from "express";
 import { pool } from "../../app";
+
 export const newPostModel = async (
   body: string,
   user_id: number,
@@ -10,9 +11,5 @@ export const newPostModel = async (
     values: [body, user_id],
   };
   const query = await pool.query(insertQuery);
-  if (query) {
-    return query.rows[0];
-  } else {
-    res.sendStatus(400);
-  }
+  return query.rows[0];
 };

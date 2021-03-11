@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { pool } from "../../app";
 export const userProfileModel = async (username: string) => {
   const profileQuery = {
@@ -11,7 +10,6 @@ export const userProfileModel = async (username: string) => {
       ",
     values: [username],
   };
-
   const profile = await pool.query(profileQuery);
   return profile.rows;
 };

@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { registerModel } from "../../models/userAuth/registerModel";
-const bcrypt = require("bcrypt");
-
+import bcrypt from "bcrypt";
+export interface ISelectQuery {
+  username: string;
+}
 export const register = async (req: Request, res: Response) => {
   const password: string = await bcrypt.hash(req.body.password, 10);
-  const result = await registerModel(
+  const result: ISelectQuery[] | undefined = await registerModel(
     req.body.username,
     password,
     req.body.email,
@@ -16,4 +18,3 @@ export const register = async (req: Request, res: Response) => {
     res.sendStatus(200);
   }
 };
-module.exports = register;

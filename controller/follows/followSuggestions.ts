@@ -1,12 +1,19 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { followSuggestionsModel } from "../../models/follows/followSuggestionsModel";
-
-export const followSuggestions = async (res: Response) => {
+export interface IQuery {
+  location: string;
+  username: string;
+  post_id: number;
+  body: string;
+  date: Date;
+  user_id: number;
+  likes: number;
+}
+export const followSuggestions = async (req: Request, res: Response) => {
   try {
-    const data = await followSuggestionsModel(res.locals.user);
+    const data: IQuery[] = await followSuggestionsModel(res.locals.user);
     res.send(data);
   } catch (err) {
-    console.error(err);
     res.sendStatus(400);
   }
 };

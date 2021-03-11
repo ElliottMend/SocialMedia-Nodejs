@@ -1,20 +1,6 @@
 import { NextFunction, Response } from "express";
 import { pool } from "../../app";
-interface IQueryRows {
-  rows: [
-    {
-      user_id: number;
-      password: string;
-      email: string;
-      location: string;
-      bio: string;
-      latlng: JSON;
-    }
-  ];
-}
-export interface IQuery extends IQueryRows {
-  query: {};
-}
+
 export const registerModel = async (
   username: string,
   password: string,
@@ -41,7 +27,7 @@ export const registerModel = async (
   };
 
   try {
-    const query: IQuery = await pool.query(selectQuery);
+    const query = await pool.query(selectQuery);
     if (query.rows.length > 0) {
       return query.rows;
     } else {

@@ -1,14 +1,17 @@
 import { pool } from "../../app";
 
-export const checkUserFollowModel = async (user_id: number) => {
+export const checkUserFollowModel = async (
+  user_id: number,
+  username: string
+) => {
   const selectQuery = {
     text:
       "\
-        SELECT * FROM follows AS f\
-        WHERE f.follower_user_id = $1\
+        SELECT f.following_user_id FROM follows AS f\
+        WHERE f.follower_user_id = $1 AND f.following_user_id = $2\
         ",
-    values: [user_id],
+    values: [user_id, username],
   };
   const data = await pool.query(selectQuery);
-  return data.rows[0];
+  return data.rows;
 };

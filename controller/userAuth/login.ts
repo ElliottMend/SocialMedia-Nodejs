@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
 import { loginModel } from "../../models/userAuth/loginModel";
-const bcrypt = require("bcrypt"),
-  generateAccessToken = require("./generateAccessToken");
+import bcrypt from "bcrypt";
+import { generateAccessToken } from "./generateAccessToken";
+interface IQuery {
+  user_id: number;
+  password: string;
+  email: string;
+}
 export const login = async (req: Request, res: Response) => {
   try {
-    const user = await loginModel(req.body.email, res);
+    const user: IQuery = await loginModel(req.body.email, res);
     bcrypt.compare(
       req.body.password,
       user.password,

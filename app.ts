@@ -1,11 +1,10 @@
-export {};
-import { Request, Response, NextFunction } from "express";
-const express = require("express"),
-  app = express(),
-  cookieParser = require("cookie-parser"),
-  { Pool } = require("pg"),
-  types = require("pg").types;
 require("dotenv").config();
+import { Request, Response, NextFunction } from "express";
+import express from "express";
+import cookieParser from "cookie-parser";
+import { Pool } from "pg";
+
+const app = express();
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader(
@@ -19,7 +18,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   );
   next();
 });
-let connectionString = `postgres://${process.env.USER}:${process.env.PASSWORD}@localhost:5400/${process.env.DATABASE}`;
+let connectionString = `postgres://${String(process.env.USER)}:${String(
+  process.env.PASSWORD
+)}@localhost:5400/${String(process.env.DATABASE)}`;
 export const pool = new Pool({
   connectionString: connectionString,
   max: 20,
