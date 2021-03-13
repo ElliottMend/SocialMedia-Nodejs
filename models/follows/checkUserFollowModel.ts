@@ -8,7 +8,8 @@ export const checkUserFollowModel = async (
     text:
       "\
         SELECT f.following_user_id FROM follows AS f\
-        WHERE f.follower_user_id = $1 AND f.following_user_id = $2\
+        INNER JOIN user_accounts AS ua ON f.following_user_id = ua.user_id\
+        WHERE f.follower_user_id = $1 AND ua.username=$2\
         ",
     values: [user_id, username],
   };

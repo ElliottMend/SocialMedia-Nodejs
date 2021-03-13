@@ -9,19 +9,18 @@ interface IPost {
   likes: number;
   post_id: number;
 }
-interface IProfile extends IPost {
+export interface IProfile extends IPost {
   location: string;
   username: string;
 }
 export const getUserProfile = async (req: Request, res: Response) => {
   try {
     const profile: IProfile[] = await userProfileModel(req.params.username);
-    const likes: IPost[] = await userLikesModel(req.params.username);
-    const posts: IPost[] = await userPostsModel(req.params.username);
+    const Likes: IPost[] = await userLikesModel(req.params.username);
+    const Posts: IPost[] = await userPostsModel(req.params.username);
     const data = {
       profile,
-      likes,
-      posts,
+      data: { Likes, Posts },
     };
     res.send(data);
   } catch (err) {

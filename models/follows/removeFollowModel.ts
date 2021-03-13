@@ -14,10 +14,10 @@ export const removeFollowModel = async (
   const updateFollowingQuery = {
     text:
       "\
-        UPDATE user_profile\
+        UPDATE user_profiles\
             SET followers = followers - 1\
                 WHERE user_id = $1\
-        UPDATE user_profile\
+        UPDATE user_profiles\
             SET following = following - 1\
                 WHERE user_id = $2\
         ",

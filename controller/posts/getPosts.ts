@@ -19,6 +19,7 @@ export const getPosts = async (req: Request, res: Response) => {
     );
     res.send(posts);
   } catch (err) {
+    console.log(err);
     res.sendStatus(400);
   }
 };

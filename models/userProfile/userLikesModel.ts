@@ -4,9 +4,9 @@ export const userLikesModel = async (username: string) => {
     text:
       "\
         SELECT p.*  \
-        FROM user_account AS ua\
+        FROM user_accounts AS ua\
         INNER JOIN likes AS l ON ua.user_id = l.user_id\
-        RIGHT JOIN post AS p ON l.post_id = p.post_id\
+        RIGHT JOIN posts AS p ON l.post_id = p.post_id\
         WHERE ua.username = $1\
         ",
     values: [username],

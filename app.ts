@@ -1,23 +1,26 @@
 require("dotenv").config();
-import { Request, Response, NextFunction } from "express";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { Pool } from "pg";
+import cors from "cors";
 
 const app = express();
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  next();
-});
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+    methods: ["GET, POST, OPTIONS, PUT, PATCH, DELETE"],
+    allowedHeaders: [
+      "Authorization",
+      "X-API-KEY",
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Access-Control-Allow-Request-Method",
+    ],
+  })
+);
 export const secrets = {
   USER: process.env.USER ?? "",
   PASSWORD: process.env.PASSWORD ?? "",

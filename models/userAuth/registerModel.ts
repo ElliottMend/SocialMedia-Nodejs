@@ -11,18 +11,18 @@ export const registerModel = async (
     text:
       "\
         SELECT username\
-          FROM user_account\
+          FROM user_accounts\
             WHERE username = $1\
         UNION\
         SELECT email\
-          FROM user_account\
+          FROM user_accounts\
             WHERE email = $2 \
       ",
     values: [username.trim(), email.trim()],
   };
   const insertAccountQuery = {
     text:
-      "INSERT INTO user_account(username, password, email) VALUES($1,$2,$3) RETURNING *",
+      "INSERT INTO user_accounts(username, password, email) VALUES($1,$2,$3) RETURNING *",
     values: [username.trim(), password, email.trim()],
   };
 
@@ -33,14 +33,13 @@ export const registerModel = async (
     } else {
       const userAccount = await pool.query(insertAccountQuery);
       const insertProfileQuery = {
-        text: "INSERT INTO user_profile(user_id) VALUES ($1)",
+        text: "INSERT INTO user_profiles(user_id) VALUES ($1)",
         values: [userAccount.rows[0].user_id],
       };
       await pool.query(insertProfileQuery);
       return;
     }
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };

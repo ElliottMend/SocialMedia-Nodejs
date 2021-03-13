@@ -14,6 +14,7 @@ export const followSuggestions = async (req: Request, res: Response) => {
     const data: IQuery[] = await followSuggestionsModel(res.locals.user);
     res.send(data);
   } catch (err) {
+    console.log(err);
     res.sendStatus(400);
   }
 };

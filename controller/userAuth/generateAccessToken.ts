@@ -9,36 +9,37 @@ interface IToken {
 }
 export const generateAccessToken = (
   user_id: number,
-  email: string,
+  username: string,
   res: Response
 ) => {
   const accessCookie = jwt.sign(
     {
       userID: user_id,
-      username: email,
+      username: username,
     },
     secrets.ACCESS_TOKEN
   );
   const refreshCookie = jwt.sign(
     {
       userID: user_id,
-      username: email,
+      username: username,
     },
     secrets.REFRESH_TOKEN
   );
   const accessToken: IToken = {
     httpOnly: true,
     maxAge: 3600000,
-    secure: secrets.SECURE === "false" ? false : true,
+    // secure: secrets.SECURE === "false" ? false : true,
+    secure: true,
     sameSite: "none",
   };
   const refreshToken: IToken = {
     httpOnly: true,
     maxAge: 259200000,
-    secure: secrets.SECURE === "false" ? false : true,
+    // secure: secrets.SECURE === "false" ? false : true,
+    secure: true,
     sameSite: "none",
   };
-  console.log(accessToken);
   res.cookie("AccessToken", accessCookie, accessToken);
   res.cookie("RefreshToken", refreshCookie, refreshToken);
   return;

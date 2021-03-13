@@ -5,7 +5,7 @@ import { generateAccessToken } from "./generateAccessToken";
 interface IQuery {
   user_id: number;
   password: string;
-  email: string;
+  username: string;
 }
 export const login = async (req: Request, res: Response) => {
   try {
@@ -15,7 +15,7 @@ export const login = async (req: Request, res: Response) => {
       user.password,
       async (error: Error, bcryptResult: Boolean) => {
         if (bcryptResult) {
-          await generateAccessToken(user.user_id, user.email, res);
+          await generateAccessToken(user.user_id, user.username, res);
           res.sendStatus(200);
         }
       }

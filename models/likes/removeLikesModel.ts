@@ -10,7 +10,7 @@ export const removeLikesModel = async (user_id: number, post_id: number) => {
   const updatePostQuery = {
     text:
       "\
-                UPDATE post SET likes = likes - 1 WHERE post_id = $1",
+                UPDATE posts SET likes = likes - 1 WHERE post_id = $1",
     values: [post_id],
   };
   await pool.query(deleteLikeQuery);

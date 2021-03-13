@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { generateAccessToken } from "./generateAccessToken";
-import jwt, { decode } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { secrets } from "../../app";
 interface IDecode {
   userID: number;
@@ -11,10 +11,10 @@ export const verify = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.cookies);
   if (req.cookies.AccessToken) {
     const decoded = jwt.verify(req.cookies.AccessToken, secrets.ACCESS_TOKEN);
     res.locals.user = (<IDecode>decoded).userID;
+    res.locals.username = (<IDecode>decoded).username;
     next();
   } else {
     if (req.cookies.RefreshToken) {
