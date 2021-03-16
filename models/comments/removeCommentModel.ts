@@ -7,6 +7,5 @@ export const removeCommentModel = async (comment_id: number) => {
         ",
     values: [comment_id],
   };
-  await pool.query(deleteQuery);
-  return;
+  return await pool.query(deleteQuery);
 };

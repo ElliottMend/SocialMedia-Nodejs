@@ -17,6 +17,7 @@ export const createComment = async (req: Request, res: Response) => {
     );
     res.send(comment);
   } catch (err) {
+    console.log(err);
     res.sendStatus(400);
   }
 };

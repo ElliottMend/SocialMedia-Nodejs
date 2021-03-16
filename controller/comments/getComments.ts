@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { getCommentModel } from "../../models/comments/getCommentModel";
 
-export const getComments = (req: Request, res: Response) => {
+export const getComments = async (req: Request, res: Response) => {
   try {
-    getCommentModel(Number(req.params.post_id));
-    res.sendStatus(200);
-  } catch {
+    const comments = await getCommentModel(Number(req.params.post_id));
+    res.send(comments);
+  } catch (err) {
+    console.log(err);
     res.sendStatus(400);
   }
 };

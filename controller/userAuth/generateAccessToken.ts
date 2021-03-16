@@ -29,15 +29,13 @@ export const generateAccessToken = (
   const accessToken: IToken = {
     httpOnly: true,
     maxAge: 3600000,
-    // secure: secrets.SECURE === "false" ? false : true,
-    secure: true,
+    secure: secrets.SECURE === "false" ? false : true,
     sameSite: "none",
   };
   const refreshToken: IToken = {
     httpOnly: true,
     maxAge: 259200000,
-    // secure: secrets.SECURE === "false" ? false : true,
-    secure: true,
+    secure: secrets.SECURE === "false" ? false : true,
     sameSite: "none",
   };
   res.cookie("AccessToken", accessCookie, accessToken);

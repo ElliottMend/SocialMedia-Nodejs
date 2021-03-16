@@ -13,7 +13,7 @@ export const newPost = async (req: Request, res: Response) => {
   try {
     const post: IQuery = await newPostModel(req.body.body, res.locals.user);
     const profile: IProfile = await userProfileModel(res.locals.username);
-    const data = {
+    let data: IQuery = {
       ...post,
       ...profile,
     };

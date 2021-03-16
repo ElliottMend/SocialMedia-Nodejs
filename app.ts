@@ -5,10 +5,21 @@ import { Pool } from "pg";
 import cors from "cors";
 
 const app = express();
+export const secrets = {
+  USER: process.env.USER ?? "",
+  PASSWORD: process.env.PASSWORD ?? "",
+  DATABASE: process.env.DATABASE ?? "",
+  SECURE: process.env.SECURE ?? "",
+  ACCESS_TOKEN: process.env.ACCESS_TOKEN ?? "",
+  REFRESH_TOKEN: process.env.REFRESH_TOKEN ?? "",
+  REACT_PLACES_API_KEY: process.env.REACT_PLACES_API_KEY ?? "",
+  PORT: process.env.PORT ?? "",
+  REQUEST_ORIGIN: process.env.REQUEST_ORIGIN ?? "",
+};
 app.use(
   cors({
     credentials: true,
-    origin: true,
+    origin: secrets.REQUEST_ORIGIN,
     methods: ["GET, POST, OPTIONS, PUT, PATCH, DELETE"],
     allowedHeaders: [
       "Authorization",
@@ -21,15 +32,6 @@ app.use(
     ],
   })
 );
-export const secrets = {
-  USER: process.env.USER ?? "",
-  PASSWORD: process.env.PASSWORD ?? "",
-  DATABASE: process.env.DATABASE ?? "",
-  SECURE: process.env.SECURE ?? "",
-  ACCESS_TOKEN: process.env.ACCESS_TOKEN ?? "",
-  REFRESH_TOKEN: process.env.REFRESH_TOKEN ?? "",
-  PORT: process.env.PORT ?? "",
-};
 let connectionString = `postgres://${secrets.USER}:${secrets.PASSWORD}@localhost:5400/${secrets.DATABASE}`;
 export const pool = new Pool({
   connectionString: connectionString,

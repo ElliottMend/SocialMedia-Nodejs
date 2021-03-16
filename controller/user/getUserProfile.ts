@@ -24,6 +24,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
     };
     res.send(data);
   } catch (err) {
+    console.log(err);
     res.sendStatus(400);
   }
 };
