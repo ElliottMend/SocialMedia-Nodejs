@@ -3,7 +3,7 @@ import { removeFollow } from "../controller/follows/removeFollow";
 import { checkUserFollow } from "../controller/follows/checkUserFollow";
 import { userFollowData } from "../controller/follows/userFollowData";
 import { followSuggestions } from "../controller/follows/followSuggestions";
-import { verify } from "../controller/userAuth/verify";
+import { verify } from "../controller/middleware/userAuthentication";
 import express from "express";
 const router = express.Router();
 

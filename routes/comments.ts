@@ -1,7 +1,7 @@
 import { createComment } from "../controller/comments/createComment";
 import { getComments } from "../controller/comments/getComments";
 import { removeComment } from "../controller/comments/removeComment";
-import { verify } from "../controller/userAuth/verify";
+import { verify } from "../controller/middleware/userAuthentication";
 import express from "express";
 const router = express.Router();
 

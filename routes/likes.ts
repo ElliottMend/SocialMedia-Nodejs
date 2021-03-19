@@ -1,6 +1,6 @@
 import { addLikes } from "../controller/likes/addLikes";
 import { removeLikes } from "../controller/likes/removeLikes";
-import { verify } from "../controller/userAuth/verify";
+import { verify } from "../controller/middleware/userAuthentication";
 import { checkLiked } from "../controller/likes/checkLiked";
 import express from "express";
 const router = express.Router();

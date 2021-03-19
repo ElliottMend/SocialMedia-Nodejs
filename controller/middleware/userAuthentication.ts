@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { generateAccessToken } from "./generateAccessToken";
+import { generateAccessToken } from "../userAuth/generateAccessToken";
 import jwt from "jsonwebtoken";
 import { secrets } from "../../app";
 interface IDecode {

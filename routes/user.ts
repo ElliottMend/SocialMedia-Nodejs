@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getUserEdit } from "../controller/user/getUserEdit";
 import { getUserProfile } from "../controller/user/getUserProfile";
-import { verify } from "../controller/userAuth/verify";
+import { verify } from "../controller/middleware/userAuthentication";
 import { userEdit } from "../controller/user/userEdit";
 import { userEditLocation } from "../controller/user/userEditLocation";
 import express from "express";

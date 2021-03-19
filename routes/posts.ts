@@ -1,7 +1,7 @@
 import { getPosts } from "../controller/posts/getPosts";
 import { newPost } from "../controller/posts/newPost";
 import { removePost } from "../controller/posts/removePost";
-import { verify } from "../controller/userAuth/verify";
+import { verify } from "../controller/middleware/userAuthentication";
 import express from "express";
 const router = express.Router();
 
