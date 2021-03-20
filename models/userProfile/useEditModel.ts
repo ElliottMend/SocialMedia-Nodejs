@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 
 export const userEditModel = async (user_id: number) => {
   const query = {

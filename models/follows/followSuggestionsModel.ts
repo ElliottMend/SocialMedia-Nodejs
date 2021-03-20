@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 
 export const followSuggestionsModel = async (user_id: number) => {
   const selectQuery = {

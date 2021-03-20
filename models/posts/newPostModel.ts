@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 
 export const newPostModel = async (body: string, user_id: number) => {
   const insertQuery = {

@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 
 export const checkUserFollowModel = async (
   user_id: number,

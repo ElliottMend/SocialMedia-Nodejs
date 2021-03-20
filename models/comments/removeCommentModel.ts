@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 
 export const removeCommentModel = async (comment_id: number) => {
   const deleteQuery = {

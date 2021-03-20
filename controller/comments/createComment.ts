@@ -10,6 +10,7 @@ export interface IQuery {
 }
 export const createComment = async (req: Request, res: Response) => {
   try {
+    if (!req.body.text || !req.body.id) res.sendStatus(400);
     const comment: IQuery = await createCommentModel(
       req.body.text,
       res.locals.user,
@@ -17,7 +18,6 @@ export const createComment = async (req: Request, res: Response) => {
     );
     res.send(comment);
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };

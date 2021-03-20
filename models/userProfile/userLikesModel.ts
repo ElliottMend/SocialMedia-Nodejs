@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 export const userLikesModel = async (username: string) => {
   const likesQuery = {
     text:

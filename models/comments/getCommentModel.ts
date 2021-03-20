@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 export const getCommentModel = async (post_id: number) => {
   const selectQuery = {
     text:

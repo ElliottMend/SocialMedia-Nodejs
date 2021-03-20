@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 export const addLikesModel = async (user_id: number, post_id: number) => {
   const insertLikeQuery = {
     text: "\

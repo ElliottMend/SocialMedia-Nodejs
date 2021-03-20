@@ -1,8 +1,7 @@
 require("dotenv").config();
+import cors from "cors";
 import express from "express";
-
-import { Pool } from "pg";
-
+import cookieParser from "cookie-parser";
 export const app = express();
 export const secrets = {
   USER: process.env.USER ?? "",
@@ -14,20 +13,30 @@ export const secrets = {
   REACT_PLACES_API_KEY: process.env.REACT_PLACES_API_KEY ?? "",
   PORT: process.env.PORT ?? "",
   REQUEST_ORIGIN: process.env.REQUEST_ORIGIN ?? "",
+  TEST_DATABASE: process.env.TEST_DATABASE ?? "",
 };
 app.use(express.json());
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
-
-app.use(require("./routes/comments"));
-app.use(require("./routes/follows"));
-app.use(require("./routes/likes"));
-app.use(require("./routes/posts"));
-app.use(require("./routes/user"));
-app.use(require("./routes/userAuth"));
-let connectionString = `postgres://${secrets.USER}:${secrets.PASSWORD}@localhost:5400/${secrets.DATABASE}`;
-export const pool = new Pool({
-  connectionString: connectionString,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: secrets.REQUEST_ORIGIN,
+    methods: ["GET, POST, OPTIONS, PUT, PATCH, DELETE"],
+    allowedHeaders: [
+      "Authorization",
+      "X-API-KEY",
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Access-Control-Allow-Request-Method",
+    ],
+  })
+);
+app.use("/api/", require("./routes/comments"));
+app.use("/api/", require("./routes/follows"));
+app.use("/api/", require("./routes/likes"));
+app.use("/api/", require("./routes/posts"));
+app.use("/api/", require("./routes/user"));
+app.use("/api/", require("./routes/userAuth"));

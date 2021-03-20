@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 
 export const followingDataModel = async (username: string) => {
   const selectQuery = {

@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 export const userPostsModel = async (username: string) => {
   const postQuery = {
     text:

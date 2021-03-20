@@ -1,4 +1,4 @@
-import { pool } from "../../app";
+import { pool } from "../../server";
 export const removePostModel = async (post_id: number) => {
   const deleteQuery = {
     text: "DELETE FROM posts WHERE posts.post_id = $1",
