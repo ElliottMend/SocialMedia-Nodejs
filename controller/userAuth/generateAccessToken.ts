@@ -8,21 +8,21 @@ interface IToken {
   sameSite: "none";
 }
 export const generateAccessToken = (
-  user_id: number,
+  userId: number,
   username: string,
   res: Response
 ) => {
   const accessCookie = jwt.sign(
     {
-      userID: user_id,
-      username: username,
+      userID: userId,
+      username,
     },
     secrets.ACCESS_TOKEN
   );
   const refreshCookie = jwt.sign(
     {
-      userID: user_id,
-      username: username,
+      userID: userId,
+      username,
     },
     secrets.REFRESH_TOKEN
   );

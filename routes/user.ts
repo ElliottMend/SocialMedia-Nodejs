@@ -5,7 +5,7 @@ import { verify } from "../controller/middleware/userAuthentication";
 import { userEdit } from "../controller/user/userEdit";
 import { userEditLocation } from "../controller/user/userEditLocation";
 import express from "express";
-const router = express.Router();
+export const router = express.Router();
 
 router.put("/userEdit", verify, userEdit);
 router.get("/users/:username", getUserProfile);

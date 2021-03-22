@@ -1,15 +1,12 @@
 import { pool } from "../../server";
 
-export const addFollowModel = async (
-  user_id: number,
-  followingUser: number
-) => {
+export const addFollowModel = async (userId: number, followingUser: number) => {
   const insertFollowQuery = {
     text:
       "\
         INSERT INTO follows(follower_user_id, following_user_id) VALUES($1,$2)\
         ",
-    values: [user_id, followingUser],
+    values: [userId, followingUser],
   };
   const updateFollowingQuery = {
     text:
@@ -21,7 +18,7 @@ export const addFollowModel = async (
             SET following = following + 1\
                 WHERE user_id = $2\
         ",
-    values: [followingUser, user_id],
+    values: [followingUser, userId],
   };
   await pool.query(insertFollowQuery);
   await pool.query(updateFollowingQuery);

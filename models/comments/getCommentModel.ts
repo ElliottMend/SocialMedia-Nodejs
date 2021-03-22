@@ -1,5 +1,5 @@
 import { pool } from "../../server";
-export const getCommentModel = async (post_id: number) => {
+export const getCommentModel = async (postId: number) => {
   const selectQuery = {
     text:
       "\
@@ -9,7 +9,7 @@ export const getCommentModel = async (post_id: number) => {
         INNER JOIN user_profiles AS up ON ua.user_id = up.user_id\
         WHERE c.post_id = $1\
       ",
-    values: [post_id],
+    values: [postId],
   };
   const data = await pool.query(selectQuery);
   return data.rows;

@@ -1,7 +1,7 @@
 import { pool } from "../../server";
 
 export const removeFollowModel = async (
-  user_id: number,
+  userId: number,
   followingUser: number
 ) => {
   const insertFollowQuery = {
@@ -9,7 +9,7 @@ export const removeFollowModel = async (
       "\
         DELETE FROM follows WHERE following_user_id = $2 AND follower_user_id = $1\
         ",
-    values: [user_id, followingUser],
+    values: [userId, followingUser],
   };
   const updateFollowingQuery = {
     text:
@@ -21,7 +21,7 @@ export const removeFollowModel = async (
             SET following = following - 1\
                 WHERE user_id = $2\
         ",
-    values: [followingUser, user_id],
+    values: [followingUser, userId],
   };
   await pool.query(insertFollowQuery);
   await pool.query(updateFollowingQuery);

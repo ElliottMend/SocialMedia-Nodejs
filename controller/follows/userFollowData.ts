@@ -9,7 +9,7 @@ interface IQuery {
 }
 export const userFollowData = async (req: Request, res: Response) => {
   let result: IQuery[];
-  if (req.params.follow == "followers") {
+  if (req.params.follow === "followers") {
     result = await followerDataModel(req.params.username);
   } else {
     result = await followingDataModel(req.params.username);

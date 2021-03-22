@@ -1,6 +1,6 @@
 import { pool } from "../../server";
 
-export const followSuggestionsModel = async (user_id: number) => {
+export const followSuggestionsModel = async (userId: number) => {
   const selectQuery = {
     text:
       "\
@@ -10,7 +10,7 @@ export const followSuggestionsModel = async (user_id: number) => {
         WHERE ua.user_id != $1 AND (f.following_user_id IS NULL OR f.following_user_id != $1)\
         LIMIT 5\
         ",
-    values: [user_id],
+    values: [userId],
   };
   const data = await pool.query(selectQuery);
   return data.rows;

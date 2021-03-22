@@ -1,7 +1,7 @@
 import { pool } from "../../server";
 
 export const checkUserFollowModel = async (
-  user_id: number,
+  userId: number,
   username: string
 ) => {
   const selectQuery = {
@@ -11,7 +11,7 @@ export const checkUserFollowModel = async (
         INNER JOIN user_accounts AS ua ON f.following_user_id = ua.user_id\
         WHERE f.follower_user_id = $1 AND ua.username=$2\
         ",
-    values: [user_id, username],
+    values: [userId, username],
   };
   const data = await pool.query(selectQuery);
   return data.rows;

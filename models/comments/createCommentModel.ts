@@ -2,15 +2,15 @@ import { pool } from "../../server";
 
 export const createCommentModel = async (
   text: string,
-  user_id: number,
-  post_id: number
+  userId: number,
+  postId: number
 ) => {
   const insertCommentQuery = {
     text:
       "\
         INSERT INTO comments(body,user_id,post_id) VALUES ($1,$2,$3) RETURNING *\
         ",
-    values: [text, user_id, post_id],
+    values: [text, userId, postId],
   };
   const data = await pool.query(insertCommentQuery);
   return data.rows[0];

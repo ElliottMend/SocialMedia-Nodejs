@@ -1,8 +1,8 @@
 import { pool } from "../../server";
-export const removePostModel = async (post_id: number) => {
+export const removePostModel = async (postId: number) => {
   const deleteQuery = {
     text: "DELETE FROM posts WHERE posts.post_id = $1",
-    values: [post_id],
+    values: [postId],
   };
   await pool.query(deleteQuery);
 };

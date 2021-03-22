@@ -1,8 +1,19 @@
 {
-  "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "module": "ES6",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
-  "types": ["jest", "node"]
+  "exclude": ["node_modules/*"],
+  "include": ["**/*"]
 }

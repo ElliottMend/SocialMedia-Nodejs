@@ -5,7 +5,7 @@ import { userFollowData } from "../controller/follows/userFollowData";
 import { followSuggestions } from "../controller/follows/followSuggestions";
 import { verify } from "../controller/middleware/userAuthentication";
 import express from "express";
-const router = express.Router();
+export const router = express.Router();
 
 router.put("/addFollow", verify, addFollow);
 router.put("/removeFollow", verify, removeFollow);

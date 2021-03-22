@@ -4,10 +4,10 @@ import { userPostsModel } from "../../models/userProfile/userPostsModel";
 import { userProfileModel } from "../../models/userProfile/userProfileModel";
 interface IPost {
   body: string;
-  user_id: number;
+  userId: number;
   date: Date;
   likes: number;
-  post_id: number;
+  postId: number;
 }
 export interface IProfile extends IPost {
   location: string;
@@ -24,7 +24,6 @@ export const getUserProfile = async (req: Request, res: Response) => {
     };
     res.send(data);
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };

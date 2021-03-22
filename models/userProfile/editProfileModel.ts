@@ -1,9 +1,9 @@
 import { pool } from "../../server";
 
 export const editProfileModel = async (
-  latlng: Object,
+  latlng: object,
   location: string,
-  user_id: number,
+  userId: number,
   image: string,
   bio: string
 ) => {
@@ -13,7 +13,7 @@ export const editProfileModel = async (
         UPDATE user_accounts AS ua\
             SET latlng = $1, location = $2\
         WHERE ua.user_id = $3",
-    values: [latlng, location, user_id],
+    values: [latlng, location, userId],
   };
   const updateProfileQuery = {
     text:
@@ -21,7 +21,7 @@ export const editProfileModel = async (
         UPDATE user_profiles AS up\
             SET photo = $1, bio = $2\
         WHERE up.user_id = $3",
-    values: [image, bio, user_id],
+    values: [image, bio, userId],
   };
   await pool.query(updateAccountQuery);
   await pool.query(updateProfileQuery);

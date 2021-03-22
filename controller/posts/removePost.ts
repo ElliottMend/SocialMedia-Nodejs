@@ -5,7 +5,6 @@ export const removePost = async (req: Request, res: Response) => {
     await removePostModel(req.body.id);
     res.sendStatus(200);
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };

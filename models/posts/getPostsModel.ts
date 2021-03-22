@@ -1,6 +1,6 @@
 import { pool } from "../../server";
 
-export const getPostsModel = async (radius: number, user_id: number) => {
+export const getPostsModel = async (radius: number, userId: number) => {
   const locationQuery = {
     text:
       "\

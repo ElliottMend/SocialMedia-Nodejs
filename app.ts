@@ -1,4 +1,5 @@
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -14,6 +15,7 @@ export const secrets = {
   PORT: process.env.PORT ?? "",
   REQUEST_ORIGIN: process.env.REQUEST_ORIGIN ?? "",
   TEST_DATABASE: process.env.TEST_DATABASE ?? "",
+  NODE_ENV: process.env.NODE_ENV ?? "",
 };
 app.use(express.json());
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -34,9 +36,18 @@ app.use(
     ],
   })
 );
-app.use("/api/", require("./routes/comments"));
-app.use("/api/", require("./routes/follows"));
-app.use("/api/", require("./routes/likes"));
-app.use("/api/", require("./routes/posts"));
-app.use("/api/", require("./routes/user"));
-app.use("/api/", require("./routes/userAuth"));
+import { router as commentRouter } from "./routes/comments";
+import { router as followsRouter } from "./routes/follows";
+import { router as likesRouter } from "./routes/likes";
+import { router as postsRouter } from "./routes/posts";
+import { router as userRouter } from "./routes/user";
+import { router as userAuthRouter } from "./routes/userAuth";
+app.use(
+  "/api/",
+  commentRouter,
+  followsRouter,
+  likesRouter,
+  postsRouter,
+  userRouter,
+  userAuthRouter
+);

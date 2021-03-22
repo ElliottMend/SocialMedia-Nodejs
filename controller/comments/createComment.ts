@@ -4,9 +4,9 @@ export interface IQuery {
   body: string;
   date: Date;
   likes: number;
-  comment_id: number;
-  user_id: number;
-  post_id: number;
+  commentId: number;
+  userId: number;
+  postId: number;
 }
 export const createComment = async (req: Request, res: Response) => {
   try {

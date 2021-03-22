@@ -6,8 +6,8 @@ import { IQuery } from "../follows/followSuggestions";
 export interface IPost extends IQuery {
   body: string;
   date: Date;
-  post_id: number;
-  user_id: number;
+  postId: number;
+  userId: number;
   likes: number;
   photo: string;
 }
@@ -19,7 +19,6 @@ export const getPosts = async (req: Request, res: Response) => {
     );
     res.send(posts);
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };

@@ -1,17 +1,17 @@
 import { pool } from "../../server";
-export const removeLikesModel = async (user_id: number, post_id: number) => {
+export const removeLikesModel = async (userId: number, postId: number) => {
   const deleteLikeQuery = {
     text:
       "\
             DELETE FROM likes WHERE user_id = $1 AND post_id = $2\
             ",
-    values: [user_id, post_id],
+    values: [userId, postId],
   };
   const updatePostQuery = {
     text:
       "\
                 UPDATE posts SET likes = likes - 1 WHERE post_id = $1",
-    values: [post_id],
+    values: [postId],
   };
   await pool.query(deleteLikeQuery);
   await pool.query(updatePostQuery);

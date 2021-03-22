@@ -3,7 +3,7 @@ import { loginModel } from "../../models/userAuth/loginModel";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "./generateAccessToken";
 interface IQuery {
-  user_id: number;
+  userId: number;
   password: string;
   username: string;
 }
@@ -13,9 +13,9 @@ export const login = async (req: Request, res: Response) => {
     bcrypt.compare(
       req.body.password,
       user.password,
-      async (error: Error, bcryptResult: Boolean) => {
+      async (error: Error, bcryptResult: boolean) => {
         if (bcryptResult) {
-          await generateAccessToken(user.user_id, user.username, res);
+          await generateAccessToken(user.userId, user.username, res);
           res.sendStatus(200);
         }
       }

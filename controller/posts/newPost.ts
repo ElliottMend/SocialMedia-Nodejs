@@ -5,15 +5,15 @@ import { IProfile } from "../user/getUserProfile";
 export interface IQuery {
   body: string;
   date: Date;
-  post_id: number;
-  user_id: number;
+  postId: number;
+  userId: number;
   likes: number;
 }
 export const newPost = async (req: Request, res: Response) => {
   try {
     const post: IQuery = await newPostModel(req.body.body, res.locals.user);
     const profile: IProfile = await userProfileModel(res.locals.username);
-    let data: IQuery = {
+    const data: IQuery = {
       ...post,
       ...profile,
     };

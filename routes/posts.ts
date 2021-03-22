@@ -3,10 +3,10 @@ import { newPost } from "../controller/posts/newPost";
 import { removePost } from "../controller/posts/removePost";
 import { verify } from "../controller/middleware/userAuthentication";
 import express from "express";
-const router = express.Router();
+export const router = express.Router();
 
-router.post("/newpost", verify, newPost, () => {});
+router.post("/newpost", verify, newPost);
 router.get("/getPosts/:radius", verify, getPosts);
 router.put("/removePost", verify, removePost);
-router.get("/getReplies/:post_id");
+router.get("/getReplies/:postId");
 module.exports = router;

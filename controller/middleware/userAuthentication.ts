@@ -13,8 +13,8 @@ export const verify = async (
 ) => {
   if (req.cookies.AccessToken) {
     const decoded = jwt.verify(req.cookies.AccessToken, secrets.ACCESS_TOKEN);
-    res.locals.user = (<IDecode>decoded).userID;
-    res.locals.username = (<IDecode>decoded).username;
+    res.locals.user = (decoded as IDecode).userID;
+    res.locals.username = (decoded as IDecode).username;
     next();
   } else {
     if (req.cookies.RefreshToken) {
@@ -22,8 +22,8 @@ export const verify = async (
         req.cookies.RefreshToken,
         secrets.REFRESH_TOKEN
       );
-      const userID = (<IDecode>decoded).userID;
-      const username = (<IDecode>decoded).username;
+      const userID = (decoded as IDecode).userID;
+      const username = (decoded as IDecode).username;
       generateAccessToken(userID, username, res);
       res.locals.user = userID;
       res.locals.username = username;
