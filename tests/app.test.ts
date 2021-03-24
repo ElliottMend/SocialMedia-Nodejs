@@ -1,15 +1,12 @@
 import { Server } from "node:http";
-import { Pool } from "pg";
 import { app } from "../app";
-import { setupDatabase } from "./testDB";
 import { createServer } from "http";
+import { pool } from "../models/connection";
 let server: Server;
 describe("Tests database connection", () => {
-  let pool: Pool;
   beforeAll((done) => {
     server = createServer(app);
     server.listen(done);
-    pool = setupDatabase();
   });
 
   it("It should return empty row", async (done) => {

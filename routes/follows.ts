@@ -5,11 +5,11 @@ import { userFollowData } from "../controller/follows/userFollowData";
 import { followSuggestions } from "../controller/follows/followSuggestions";
 import { verify } from "../controller/middleware/userAuthentication";
 import express from "express";
-export const router = express.Router();
+const router = express.Router();
 
 router.put("/addFollow", verify, addFollow);
 router.put("/removeFollow", verify, removeFollow);
 router.get("/checkFollow/:username", verify, checkUserFollow);
 router.get("/users/:username/:follow", verify, userFollowData);
 router.get("/followSuggestions", verify, followSuggestions);
-module.exports = router;
+export { router as followsRouter };

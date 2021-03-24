@@ -1,4 +1,4 @@
-import { pool } from "../../server";
+import { pool } from "../connection";
 
 export const addFollowModel = async (userId: number, followingUser: number) => {
   const insertFollowQuery = {

@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { pool } from "../../server";
+import { pool } from "../connection";
 
 export const registerModel = async (
   username: string,

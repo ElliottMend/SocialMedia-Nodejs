@@ -1,5 +1,4 @@
-import { Pool } from "pg";
-import { setupDatabase } from "./testDB";
+import { pool } from "../models/connection";
 import { app } from "../app";
 import { createServer } from "http";
 import supertest from "supertest";
@@ -12,12 +11,12 @@ interface IEach {
 }
 let request: supertest.SuperTest<supertest.Test>;
 describe("test userAuth register routes", () => {
-  let pool: Pool;
   beforeAll(async (done) => {
     try {
       server = createServer(app);
       server.listen(done);
-      pool = setupDatabase();
+      pool.query("DELETE FROM user_accounts;");
+      pool.query("DELETE FROM user_profiles");
       request = supertest(server);
     } catch (err) {
       throw err;

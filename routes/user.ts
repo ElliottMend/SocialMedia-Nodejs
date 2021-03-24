@@ -5,7 +5,7 @@ import { verify } from "../controller/middleware/userAuthentication";
 import { userEdit } from "../controller/user/userEdit";
 import { userEditLocation } from "../controller/user/userEditLocation";
 import express from "express";
-export const router = express.Router();
+const router = express.Router();
 
 router.put("/userEdit", verify, userEdit);
 router.get("/users/:username", getUserProfile);
@@ -14,4 +14,4 @@ router.get("/checkJWT", verify, (req: Request, res: Response) => {
   res.send(res.locals.username);
 });
 router.get("/userEditLocation", verify, userEditLocation);
-module.exports = router;
+export { router as userRouter };

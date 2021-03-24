@@ -1,4 +1,4 @@
-import { pool } from "../../server";
+import { pool } from "../connection";
 
 export const loginModel = async (email: string) => {
   const selectQuery = {

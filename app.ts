@@ -4,6 +4,7 @@ import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
 export const app = express();
+import { Pool } from "pg";
 export const secrets = {
   USER: process.env.USER ?? "",
   PASSWORD: process.env.PASSWORD ?? "",
@@ -16,6 +17,10 @@ export const secrets = {
   REQUEST_ORIGIN: process.env.REQUEST_ORIGIN ?? "",
   TEST_DATABASE: process.env.TEST_DATABASE ?? "",
   NODE_ENV: process.env.NODE_ENV ?? "",
+  TEST_DATABASE_PORT: process.env.TEST_DATABASE_PORT ?? "",
+  DATABASE_PORT: process.env.DATABASE_PORT ?? "",
+  DATABASE_CONTAINER: process.env.DATABASE_CONTAINER ?? "",
+  TEST_DATABASE_CONTAINER: process.env.TEST_DATABASE_CONTAINER ?? "",
 };
 app.use(express.json());
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -36,15 +41,16 @@ app.use(
     ],
   })
 );
-import { router as commentRouter } from "./routes/comments";
-import { router as followsRouter } from "./routes/follows";
-import { router as likesRouter } from "./routes/likes";
-import { router as postsRouter } from "./routes/posts";
-import { router as userRouter } from "./routes/user";
-import { router as userAuthRouter } from "./routes/userAuth";
+
+import { commentsRouter } from "./routes/comments";
+import { followsRouter } from "./routes/follows";
+import { likesRouter } from "./routes/likes";
+import { postsRouter } from "./routes/posts";
+import { userRouter } from "./routes/user";
+import { userAuthRouter } from "./routes/userAuth";
 app.use(
   "/api/",
-  commentRouter,
+  commentsRouter,
   followsRouter,
   likesRouter,
   postsRouter,

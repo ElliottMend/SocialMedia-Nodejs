@@ -1,0 +1,33 @@
+version: "2"
+services:
+  app:
+    build: .
+    command: npm start
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    ports:
+      - "5678:5678"
+
+  postgres:
+    image: postgres
+    volumes:
+      - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
+      - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmediatest.sql
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: socialmedia
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  test:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - app
+      - postgres
+    command: npm test
