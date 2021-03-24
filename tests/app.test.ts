@@ -1,7 +1,7 @@
 import { Server } from "node:http";
 import { app } from "../app";
 import { createServer } from "http";
-import { pool } from "../models/connection";
+import { pool } from "../connection";
 let server: Server;
 describe("Tests database connection", () => {
   beforeAll((done) => {

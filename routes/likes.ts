@@ -1,11 +1,13 @@
-import { addLikes } from "../controller/likes/addLikes";
-import { removeLikes } from "../controller/likes/removeLikes";
-import { verify } from "../controller/middleware/userAuthentication";
-import { checkLiked } from "../controller/likes/checkLiked";
+import {
+  addLikes,
+  removeLikes,
+  checkLiked,
+} from "../components/likes/likesController";
+import { userAuthentication } from "../components/modules/userAuthentication";
 import express from "express";
 const router = express.Router();
 
-router.put("/addlikes", verify, addLikes);
-router.put("/removelikes", verify, removeLikes);
-router.get("/checkliked/:postId", verify, checkLiked);
+router.put("/addlikes", userAuthentication, addLikes);
+router.put("/removelikes", userAuthentication, removeLikes);
+router.get("/checkliked/:postId", userAuthentication, checkLiked);
 export { router as likesRouter };

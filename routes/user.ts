@@ -1,17 +1,19 @@
 import { Request, Response } from "express";
-import { getUserEdit } from "../controller/user/getUserEdit";
-import { getUserProfile } from "../controller/user/getUserProfile";
-import { verify } from "../controller/middleware/userAuthentication";
-import { userEdit } from "../controller/user/userEdit";
-import { userEditLocation } from "../controller/user/userEditLocation";
+import {
+  getUserEdit,
+  getUserProfile,
+  userEdit,
+  userEditLocation,
+} from "../components/userProfile/userController";
+import { userAuthentication } from "../components/modules/userAuthentication";
 import express from "express";
 const router = express.Router();
 
-router.put("/userEdit", verify, userEdit);
+router.put("/userEdit", userAuthentication, userEdit);
 router.get("/users/:username", getUserProfile);
-router.get("/getUserEdit", verify, getUserEdit);
-router.get("/checkJWT", verify, (req: Request, res: Response) => {
+router.get("/getUserEdit", userAuthentication, getUserEdit);
+router.get("/checkJWT", userAuthentication, (req: Request, res: Response) => {
   res.send(res.locals.username);
 });
-router.get("/userEditLocation", verify, userEditLocation);
+router.get("/userEditLocation", userAuthentication, userEditLocation);
 export { router as userRouter };

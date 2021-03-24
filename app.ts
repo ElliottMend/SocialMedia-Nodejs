@@ -4,7 +4,7 @@ import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
 export const app = express();
-import { Pool } from "pg";
+
 export const secrets = {
   USER: process.env.USER ?? "",
   PASSWORD: process.env.PASSWORD ?? "",
@@ -22,6 +22,7 @@ export const secrets = {
   DATABASE_CONTAINER: process.env.DATABASE_CONTAINER ?? "",
   TEST_DATABASE_CONTAINER: process.env.TEST_DATABASE_CONTAINER ?? "",
 };
+
 app.use(express.json());
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
@@ -41,7 +42,6 @@ app.use(
     ],
   })
 );
-
 import { commentsRouter } from "./routes/comments";
 import { followsRouter } from "./routes/follows";
 import { likesRouter } from "./routes/likes";

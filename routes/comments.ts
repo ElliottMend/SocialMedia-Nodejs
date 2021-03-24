@@ -1,11 +1,13 @@
-import { createComment } from "../controller/comments/createComment";
-import { getComments } from "../controller/comments/getComments";
-import { removeComment } from "../controller/comments/removeComment";
-import { verify } from "../controller/middleware/userAuthentication";
+import {
+  createComment,
+  getComments,
+  removeComment,
+} from "../components/comments/commentControllter";
+import { userAuthentication } from "../components/modules/userAuthentication";
 import express from "express";
 const router = express.Router();
 
-router.post("/createComment", verify, createComment);
-router.get("/getComments/:postId", verify, getComments);
-router.put("/removeComment", verify, removeComment);
+router.post("/createComment", userAuthentication, createComment);
+router.get("/getComments/:postId", userAuthentication, getComments);
+router.put("/removeComment", userAuthentication, removeComment);
 export { router as commentsRouter };

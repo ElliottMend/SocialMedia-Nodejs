@@ -1,15 +1,17 @@
-import { addFollow } from "../controller/follows/addFollow";
-import { removeFollow } from "../controller/follows/removeFollow";
-import { checkUserFollow } from "../controller/follows/checkUserFollow";
-import { userFollowData } from "../controller/follows/userFollowData";
-import { followSuggestions } from "../controller/follows/followSuggestions";
-import { verify } from "../controller/middleware/userAuthentication";
+import {
+  addFollow,
+  removeFollow,
+  checkUserFollow,
+  userFollowData,
+  followSuggestions,
+} from "../components/follows/followController";
+import { userAuthentication } from "../components/modules/userAuthentication";
 import express from "express";
 const router = express.Router();
 
-router.put("/addFollow", verify, addFollow);
-router.put("/removeFollow", verify, removeFollow);
-router.get("/checkFollow/:username", verify, checkUserFollow);
-router.get("/users/:username/:follow", verify, userFollowData);
-router.get("/followSuggestions", verify, followSuggestions);
+router.put("/addFollow", userAuthentication, addFollow);
+router.put("/removeFollow", userAuthentication, removeFollow);
+router.get("/checkFollow/:username", userAuthentication, checkUserFollow);
+router.get("/users/:username/:follow", userAuthentication, userFollowData);
+router.get("/followSuggestions", userAuthentication, followSuggestions);
 export { router as followsRouter };
