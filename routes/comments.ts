@@ -1,26 +1,13 @@
-import { Request, Response, NextFunction } from "express";
-
-const router = require("express").Router(),
-  createComment = require("../controller/comments/createComment"),
-  getComments = require("../controller/comments/getComments"),
-  removeComment = require("../controller/comments/removeComments"),
-  verify = require("../controller/userAuth/verify");
-router.post(
-  "/createComment",
-  verify,
+import {
   createComment,
-  async (req: Request, res: Response) => {}
-);
-router.get(
-  "/getComments/:post_id",
-  verify,
   getComments,
-  async (req: Request, res: Response) => {}
-);
-router.put(
-  "/removeComment",
-  verify,
   removeComment,
-  async (req: Request, res: Response) => {}
-);
-module.exports = router;
+} from "../components/comments/commentControllter";
+import { userAuthentication } from "../components/modules/userAuthentication";
+import express from "express";
+const router = express.Router();
+
+router.post("/createComment", userAuthentication, createComment);
+router.get("/getComments/:postId", userAuthentication, getComments);
+router.put("/removeComment", userAuthentication, removeComment);
+export { router as commentsRouter };

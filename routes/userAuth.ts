@@ -1,15 +1,21 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
+import {
+  register,
+  login,
+  logout,
+} from "../components/userAuth/userAuthController";
+import { userAuthentication } from "../components/modules/userAuthentication";
+import express from "express";
+const router = express.Router();
 
-const router = require("express").Router(),
-  register = require("../controller/userAuth/register"),
-  login = require("../controller/userAuth/login"),
-  verify = require("../controller/userAuth/verify"),
-  logout = require("../controller/userAuth/logout");
-
-router.post("/register", register, async (req: Request, res: Response) => {});
-router.post("/login", login, async (req: Request, res: Response) => {});
-router.get("/verify", verify, async (req: Request, res: Response) => {
-  res.status(200).send();
-});
-router.get("/logout", logout, async (req: Request, res: Response) => {});
-module.exports = router;
+router.post("/register", register);
+router.post("/login", login);
+router.get("/logout", logout);
+router.get(
+  "/verify",
+  userAuthentication,
+  async (req: Request, res: Response) => {
+    res.sendStatus(200);
+  }
+);
+export { router as userAuthRouter };

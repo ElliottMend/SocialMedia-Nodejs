@@ -1,0 +1,87 @@
+@startuml
+entity "user_accounts" as ua{
+    user_id: integer PK
+    --
+    username: text
+    --
+    password: text
+    --
+    email: text
+    --
+    location: text
+    --
+    latlng: {lat:number, lng:number}
+}
+entity "user_profiles" as up{
+    user_id: integer FK
+    --
+    bio: text
+    --
+    photo: text
+    --
+    followers: integer
+    --
+    following: integer
+}
+entity "posts" as p{
+    user_id: integer FK
+    --
+    likes: integer
+    --
+    date: timestamp
+    --
+    body: varchar
+    --
+    post_id: integer PK
+}
+entity "comments" as c{
+    comment_id: integer PK
+    --
+    body: text
+    --
+    post_id: integer FK
+    --
+    date: timestamp
+    --
+    user_id: integer FK
+}
+entity "likes" as l{
+    post_id: integer FK
+    --
+    user_id: integer FK
+}
+entity "follows" as f{
+    follower_user_id: integer FK
+    --
+    following_user_id: integer FK
+}
+entity "messages" as m{
+    message_id: integer PK
+    room_id: integer FK
+    body: varchar
+    message_timestamp: timestamp
+    user_id: integer FK
+}
+entity "message_rooms" as mr{
+    room_id: integer PK
+    host_id: integer FK
+}
+entity "user_message_rooms" as umr{
+    room_id: integer FK
+    user_id: integer FK
+}
+ua ||--o{ c : user_id
+ua ||--o{ f: user_id
+ua ||--o{ f : user_id
+ua ||--o{ l: user_id
+ua ||--|| up : user_id
+ua ||--o{ m: user_id
+ua ||--o{ mr: user_id
+ua ||--o{ umr: user_id
+ua ||--o{ p : user_id
+p ||--o{ c: post_id
+p ||--o{ l: post_id
+mr ||--|| umr: room_id
+mr ||--o{ m : room_id
+
+@enduml

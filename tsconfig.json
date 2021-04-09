@@ -1,6 +1,21 @@
 {
-  "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "inlineSourceMap": true,
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true,
+    "baseUrl": "src",
+    "experimentalDecorators": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    },
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["node_modules", "dist"],
+  "include": ["**/*"]
 }
