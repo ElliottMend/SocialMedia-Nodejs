@@ -3,7 +3,7 @@ import {
   newPost,
   removePost,
 } from "../components/posts/postController";
-import { userAuthentication } from "../components/modules/userAuthentication";
+import { userAuthentication } from "../components/middleware/userAuthentication";
 import express from "express";
 const router = express.Router();
 

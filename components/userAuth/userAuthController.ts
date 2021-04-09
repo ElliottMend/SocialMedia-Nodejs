@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
+import { IGenerate } from "../middleware/userAuthentication";
 import bcrypt from "bcrypt";
 import {
   registerModel,
   loginModel,
   registerSelectModel,
 } from "./userAuthModel";
-import { generateAccessToken } from "../modules/generateTokens";
+import { generateTokens } from "../middleware/generateTokens";
 import { secrets } from "../../app";
 
 interface IQuery {
@@ -13,6 +14,16 @@ interface IQuery {
   password: string;
   username: string;
 }
+
+export interface ISelectQuery {
+  username: string;
+}
+
+export const stringHasNumbers = (inputString: string) => {
+  const regex = /\d/g;
+  return regex.test(inputString);
+};
+
 export const login = async (req: Request, res: Response) => {
   try {
     const user: IQuery = await loginModel(req.body.email);
@@ -21,8 +32,23 @@ export const login = async (req: Request, res: Response) => {
       user.password,
       async (error: Error, bcryptResult: boolean) => {
         if (bcryptResult) {
-          await generateAccessToken(user.userId, user.username, res);
+          const token: IGenerate = await generateTokens(
+            user.userId,
+            user.username
+          );
+          res.cookie(
+            token.access.name,
+            token.access.value,
+            token.access.options
+          );
+          res.cookie(
+            token.access.name,
+            token.access.value,
+            token.access.options
+          );
           res.sendStatus(200);
+        } else {
+          res.sendStatus(400);
         }
       }
     );
@@ -45,13 +71,6 @@ export const logout = (req: Request, res: Response) => {
   res.status(200).send();
 };
 
-export interface ISelectQuery {
-  username: string;
-}
-const stringHasNumbers = (inputString: string) => {
-  const regex = /\d/g;
-  return regex.test(inputString);
-};
 export const register = async (req: Request, res: Response) => {
   if (!req.body.password || !req.body.email || !req.body.username) {
     return res.status(400).send({ message: "Missing login information" });

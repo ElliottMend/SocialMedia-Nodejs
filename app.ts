@@ -21,6 +21,7 @@ export const secrets = {
   DATABASE_PORT: process.env.DATABASE_PORT ?? "",
   DATABASE_CONTAINER: process.env.DATABASE_CONTAINER ?? "",
   TEST_DATABASE_CONTAINER: process.env.TEST_DATABASE_CONTAINER ?? "",
+  DOCKERBUILD: process.env.DOCKERBUILD,
 };
 
 app.use(express.json());

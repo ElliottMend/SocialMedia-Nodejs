@@ -5,7 +5,7 @@ import {
   userEdit,
   userEditLocation,
 } from "../components/userProfile/userController";
-import { userAuthentication } from "../components/modules/userAuthentication";
+import { userAuthentication } from "../components/middleware/userAuthentication";
 import express from "express";
 const router = express.Router();
 

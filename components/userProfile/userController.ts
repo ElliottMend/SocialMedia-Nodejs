@@ -13,15 +13,6 @@ export interface IQuery {
   bio: string;
   photo: string;
 }
-export const getUserEdit = async (req: Request, res: Response) => {
-  const data: IQuery = await userEditModel(res.locals.user);
-  res.send({
-    bio: data.bio,
-    latlng: data.latlng,
-    image: data.photo,
-    location: data.location,
-  });
-};
 
 interface IPost {
   body: string;
@@ -34,6 +25,17 @@ export interface IProfile extends IPost {
   location: string;
   username: string;
 }
+
+export const getUserEdit = async (req: Request, res: Response) => {
+  const data: IQuery = await userEditModel(res.locals.user);
+  res.send({
+    bio: data.bio,
+    latlng: data.latlng,
+    image: data.photo,
+    location: data.location,
+  });
+};
+
 export const getUserProfile = async (req: Request, res: Response) => {
   try {
     const profile: IProfile[] = await userProfileModel(req.params.username);

@@ -1,67 +1,97 @@
 import { pool } from "../../connection";
 import { app } from "../../app";
-import { createServer } from "http";
 import supertest from "supertest";
-import { Server } from "node:http";
-let server: Server;
-interface IEach {
+import { stringHasNumbers } from "./userAuthController";
+interface IRegister {
   username: string;
   password: string;
   email: string;
 }
-let request: supertest.SuperTest<supertest.Test>;
+
+interface ILogin {
+  email: string;
+  password: string;
+}
+
+describe("Tests userAuth stringHasNumbers", () => {
+  test.each(["1", "2dsadsa"])(
+    "should return true",
+    (value: string, done: any) => {
+      const res = stringHasNumbers(value);
+      expect(res).toBe(true);
+      done();
+    }
+  );
+  test.each(["abc", "def"])(
+    "should return false",
+    (value: string, done: any) => {
+      const res = stringHasNumbers(value);
+      expect(res).toBe(false);
+      done();
+    }
+  );
+});
 
 describe("test userAuth register routes", () => {
-  beforeAll(async (done) => {
+  beforeAll(() => {
     try {
-      server = createServer(app);
-      server.listen(done);
-      pool.query("DELETE FROM user_accounts;");
+      pool.query("DELETE FROM user_accounts");
       pool.query("DELETE FROM user_profiles");
-      request = supertest(server);
     } catch (err) {
       throw err;
     }
   });
-
   test.each([
     { username: "dsasa", password: "password1", email: "g@h.com" },
     { username: "dsaa", password: "password2", email: "gdfg@f.com" },
     { username: "fds", password: "password3", email: "gdfgdf@dsa.com" },
-    { username: "gdfcbc", password: "password4", email: "gdfgdf@a.com" },
-    { username: "bvcbvc", password: "password5", email: "gdfgdf@ad.dsad" },
-  ])("Tests register route successfully", async (value: IEach, done: any) => {
-    return request
-      .post("/api/register")
-      .send(value)
-      .then((res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+  ])("should return 200", async (value: IRegister, done: any) => {
+    await supertest(app).post("/api/register").send(value).expect(200);
+    done();
   });
-
   test.each([
     { username: "dsfdsasa", password: "password", email: "gdfgzxcdf@h.com" },
     { username: "dxcvsaa", password: "password1", email: "gdasdfgf.com" },
     { username: "fgdds", password: "password2", email: "gdfvcgdf@dsacom" },
     { username: "fds", password: "password3", email: "gdfgeqwdf@a.com" },
-    { username: "", password: "", email: "" },
-  ])("Tests register route unsuccessfully", (value: IEach, done: any) => {
-    return request
-      .post("/api/register")
-      .send(value)
-      .then((res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
+  ])("should return 400", async (value: IRegister, done: any) => {
+    await supertest(app).post("/api/register").send(value).expect(400);
+    done();
   });
+});
 
-  afterAll((done) => {
-    try {
-      pool.end();
-      server.close(done);
-    } catch (err) {
-      throw err;
-    }
+describe("test userAuth login routes", () => {
+  test.each([
+    { password: "password1", email: "g@h.com" },
+    { password: "password2", email: "gdfg@f.com" },
+    { password: "password3", email: "gdfgdf@dsa.com" },
+  ])("should return 200", async (value: ILogin, done: any) => {
+    const res = await supertest(app).post("/api/login").send(value);
+    expect(res.status).toBe(200);
+    expect(res.header["set-cookie"][0]).toBeDefined();
+    expect(res.header["set-cookie"][1]).toBeDefined();
+    done();
   });
+  test.each([
+    { password: "password", email: "g@h.com" },
+    { password: "password2", email: "gdfg@.com" },
+  ])("should return 400", async (value: ILogin, done: any) => {
+    await supertest(app).post("/api/login").send(value).expect(400);
+    done();
+  });
+});
+
+describe("Tests userAuth logout route", () => {
+  test("Should return 200", async (done: any) => {
+    await supertest(app).get("/api/logout").expect(200);
+    done();
+  });
+});
+
+afterAll(() => {
+  try {
+    pool.end();
+  } catch (err) {
+    throw err;
+  }
 });

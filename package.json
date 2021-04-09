@@ -7,7 +7,7 @@
     "prestart": "tsc -p ./",
     "start": "node ./dist/server.js",
     "del": "tsc --build --clean",
-    "test": "NODE_ENV=test jest --Verbose"
+    "test": "NODE_ENV=test jest --Verbose --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",

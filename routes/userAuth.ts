@@ -4,12 +4,13 @@ import {
   login,
   logout,
 } from "../components/userAuth/userAuthController";
-import { userAuthentication } from "../components/modules/userAuthentication";
+import { checkBodyData } from "../components/middleware/checkBodyData";
+import { userAuthentication } from "../components/middleware/userAuthentication";
 import express from "express";
 const router = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
+router.post("/register", checkBodyData, register);
+router.post("/login", checkBodyData, login);
 router.get("/logout", logout);
 router.get(
   "/verify",
