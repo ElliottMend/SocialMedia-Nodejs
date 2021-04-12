@@ -3,6 +3,8 @@ services:
   app:
     build: .
     command: npm start
+    profiles:
+      - build
     volumes:
       - .:/app
       - /app/node_modules
@@ -15,6 +17,8 @@ services:
 
   postgres:
     image: postgres
+    profiles:
+      - build
     volumes:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
       - ./postgres/data:/var/lib/postgresql/data
@@ -28,8 +32,9 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    profiles:
+      - test
     depends_on:
-      - app
       - test-postgres
     command: npm test
     environment:
@@ -39,6 +44,8 @@ services:
     image: postgres
     volumes:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
+    profiles:
+      - test
     environment:
       POSTGRES_DB: socialmedia
       POSTGRES_USER: postgres

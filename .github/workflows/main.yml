@@ -2,18 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ master, development ]
+    branches: [master, development]
   pull_request:
-    branches: [ master ]
-
-  workflow_dispatch:
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      -uses: actions/checkout@v2
-      -uses: actions/setup-node@v1
-      -run: npm install
-      -run: npm test
+      - uses: actions/checkout@v2
+      - run: docker-compose --profile test up --abort-on-container-exit
