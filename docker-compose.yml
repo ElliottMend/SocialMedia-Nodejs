@@ -46,6 +46,8 @@ services:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
     profiles:
       - test
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_DB: socialmedia
       POSTGRES_USER: postgres
