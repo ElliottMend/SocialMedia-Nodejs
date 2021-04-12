@@ -7,6 +7,12 @@ export const editProfileModel = async (
   image: string,
   bio: string
 ) => {
+  const checkUser = {
+    text: "SELECT ua.user_id FROM user_accounts AS ua WHERE ua.user_id = $1",
+    values: [userId],
+  };
+  const user = await pool.query(checkUser);
+  if (!user.rows[0]) throw 400;
   const updateAccountQuery = {
     text:
       "\

@@ -11,7 +11,7 @@ services:
     ports:
       - "5678:5678"
     environment:
-      DOCKERBUILD: true
+      DOCKERBUILD: docker
 
   postgres:
     image: postgres
@@ -32,13 +32,13 @@ services:
       - app
       - test-postgres
     command: npm test
-    DOCKERBUILD: true
+    environment:
+      DOCKERBUILD: docker
 
   test-postgres:
     image: postgres
     volumes:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
-      - ./postgres/data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: socialmedia
       POSTGRES_USER: postgres

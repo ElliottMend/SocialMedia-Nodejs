@@ -10,5 +10,5 @@ export const checkBodyData = (
       res.sendStatus(403);
     }
   });
-  next();
+  if (!res.headersSent) next();
 };

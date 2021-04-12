@@ -1,12 +1,10 @@
-import { Request, Response } from "express";
-import { IGenerate } from "../middleware/userAuthentication";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import {
   registerModel,
   loginModel,
   registerSelectModel,
 } from "./userAuthModel";
-import { generateTokens } from "../middleware/generateTokens";
 import { secrets } from "../../app";
 
 interface IQuery {
@@ -24,7 +22,11 @@ export const stringHasNumbers = (inputString: string) => {
   return regex.test(inputString);
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const user: IQuery = await loginModel(req.body.email);
     bcrypt.compare(
@@ -32,21 +34,9 @@ export const login = async (req: Request, res: Response) => {
       user.password,
       async (error: Error, bcryptResult: boolean) => {
         if (bcryptResult) {
-          const token: IGenerate = await generateTokens(
-            user.userId,
-            user.username
-          );
-          res.cookie(
-            token.access.name,
-            token.access.value,
-            token.access.options
-          );
-          res.cookie(
-            token.access.name,
-            token.access.value,
-            token.access.options
-          );
-          res.sendStatus(200);
+          res.locals.userId = user.userId;
+          res.locals.username = user.username;
+          next();
         } else {
           res.sendStatus(400);
         }

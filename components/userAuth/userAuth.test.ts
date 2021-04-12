@@ -33,14 +33,6 @@ describe("Tests userAuth stringHasNumbers", () => {
 });
 
 describe("test userAuth register routes", () => {
-  beforeAll(() => {
-    try {
-      pool.query("DELETE FROM user_accounts");
-      pool.query("DELETE FROM user_profiles");
-    } catch (err) {
-      throw err;
-    }
-  });
   test.each([
     { username: "dsasa", password: "password1", email: "g@h.com" },
     { username: "dsaa", password: "password2", email: "gdfg@f.com" },
@@ -80,14 +72,12 @@ describe("test userAuth login routes", () => {
     done();
   });
 });
-
 describe("Tests userAuth logout route", () => {
   test("Should return 200", async (done: any) => {
     await supertest(app).get("/api/logout").expect(200);
     done();
   });
 });
-
 afterAll(() => {
   try {
     pool.end();

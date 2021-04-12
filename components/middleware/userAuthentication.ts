@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { generateTokens } from "./generateTokens";
-import jwt from "jsonwebtoken";
+import jwt, { decode } from "jsonwebtoken";
 import { secrets } from "../../app";
 import { IToken } from "./generateTokens";
 
@@ -13,28 +12,25 @@ export interface IGenerate {
   access: { name: string; value: string; options: IToken };
   refresh: { name: string; value: string; options: IToken };
 }
-
+let decoded: IDecode;
 export const userAuthentication = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  if (req.cookies.AccessToken) {
-    const decoded = jwt.verify(req.cookies.AccessToken, secrets.ACCESS_TOKEN);
-    res.locals.user = (decoded as IDecode).userID;
-    res.locals.username = (decoded as IDecode).username;
+  try {
+    decoded = jwt.verify(
+      req.cookies.AccessToken
+        ? req.cookies.AccessToken
+        : req.cookies.RefreshToken,
+      secrets.ACCESS_TOKEN
+    ) as IDecode;
+    res.locals.skipGenerate = req.cookies.AccessToken;
+    res.locals.skipRefresh = req.cookies.RefreshToken;
+    res.locals.user = decoded.userID;
+    res.locals.username = decoded.username;
     next();
-  } else if (req.cookies.RefreshToken) {
-    const decoded = jwt.verify(req.cookies.RefreshToken, secrets.REFRESH_TOKEN);
-    const userID = (decoded as IDecode).userID;
-    const username = (decoded as IDecode).username;
-    res.locals.user = userID;
-    res.locals.username = username;
-    const token: IGenerate = generateTokens(userID, username);
-    res.cookie(token.access.name, token.access.value, token.access.options);
-    res.cookie(token.access.name, token.access.value, token.access.options);
-    next();
-  } else {
+  } catch {
     res.sendStatus(401);
   }
 };
