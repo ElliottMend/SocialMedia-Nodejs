@@ -23,7 +23,7 @@ services:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
       - ./postgres/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: socialmedia
+      POSTGRES_DB: SocialMedia
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
 
@@ -49,6 +49,6 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: socialmedia
+      POSTGRES_DB: SocialMediaTest
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password

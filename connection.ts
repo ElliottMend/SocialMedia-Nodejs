@@ -4,12 +4,12 @@ import { secrets } from "./app";
 const connectionString = `postgres://${secrets.USER}:${secrets.PASSWORD}@${
   secrets.DOCKERBUILD
     ? secrets.NODE_ENV
-      ? secrets.DATABASE_CONTAINER
-      : secrets.TEST_DATABASE_CONTAINER
-    : `localhost:${secrets.DATABASE_PORT}
-    /${secrets.NODE_ENV ? secrets.TEST_DATABASE : secrets.DATABASE}`
+      ? `${secrets.TEST_DATABASE_CONTAINER}:${secrets.DATABASE_PORT}`
+      : `${secrets.DATABASE_CONTAINER}:${secrets.DATABASE_PORT}`
+    : `localhost:5400/${
+        secrets.NODE_ENV ? secrets.TEST_DATABASE : secrets.DATABASE
+      }`
 }`;
-
 export const pool = new Pool({
   connectionString,
   max: 20,
