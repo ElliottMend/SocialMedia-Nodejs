@@ -42,8 +42,8 @@ export const newPost = async (
   next: NextFunction
 ) => {
   try {
-    if (req.body.body.length > 144) throw 400;
-    const post: IQuery = await newPostModel(req.body, res.locals.user);
+    if (req.body.text.length > 144) throw 400;
+    const post: IQuery = await newPostModel(req.body.text, res.locals.user);
     const profile: IProfile = await userProfileModel(res.locals.username);
     const data: IQuery = {
       ...post,
@@ -63,7 +63,6 @@ export const removePost = async (
 ) => {
   try {
     await removePostModel(req.body.id, res.locals.user);
-    res.locals.send = {};
     next();
   } catch (err) {
     res.sendStatus(400);

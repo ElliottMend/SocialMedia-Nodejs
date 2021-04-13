@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { checkBodyData } from "./checkBodyData";
+import { userAuthentication } from "./middlewareController";
 import { app } from "../../app";
 import jwt from "jsonwebtoken";
 import supertest from "supertest";
@@ -21,17 +21,15 @@ describe("Tests userAuth stringNotEmpty", () => {
     { password: "43dgfdg43t", email: "vnbvng@dsda.com" },
   ])(
     "should call nextFunction",
-    (
+    async (
       value: { username?: string; password: string; email: string },
       done: any
     ) => {
-      mockRequest = { body: value };
-      checkBodyData(
-        mockRequest as Request,
-        mockResponse as Response,
-        nextFunction
-      );
-      expect(nextFunction).toBeCalled();
+      const jwtSpy = jest.spyOn(jwt, "verify");
+      // @ts-ignore
+      jwtSpy.mockReturnValueOnce({ username: "username", userID: 1 });
+      const res = await supertest(app).get("/api/verify").send(value);
+      expect(res.status).toBe(200);
       done();
     }
   );
@@ -42,16 +40,11 @@ describe("Tests userAuth stringNotEmpty", () => {
     { password: "dsadsa", email: "" },
     { password: "", email: "dsa" },
   ])("should return 403", () => {
-    (
+    async (
       value: { username?: string; password: string; email: string },
       done: any
     ) => {
-      mockRequest = {};
-      const res = checkBodyData(
-        mockRequest as Request,
-        mockResponse as Response,
-        nextFunction
-      );
+      const res = await supertest(app).get("/api/verify").send(value);
       expect(res).toBe(403);
       done();
     };

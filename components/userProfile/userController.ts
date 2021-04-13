@@ -75,7 +75,6 @@ export const userEdit = async (
       req.body.image,
       req.body.bio
     );
-    res.locals.send = {};
     next();
   } catch (err) {
     res.sendStatus(400);

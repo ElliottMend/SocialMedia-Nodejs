@@ -5,9 +5,9 @@
   "main": "app.ts",
   "scripts": {
     "prestart": "tsc -p ./",
-    "start": "node ./dist/server.js",
+    "start": "node ./dist/server.js ",
     "del": "tsc --build --clean",
-    "test": "NODE_ENV=test jest --Verbose --detectOpenHandles"
+    "test": "npm run del && NODE_ENV=test jest --Verbose --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",

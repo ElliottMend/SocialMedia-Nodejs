@@ -32,6 +32,20 @@ export const getCommentModel = async (postId: number) => {
   return data.rows;
 };
 
+export const checkUserCommentModel = async (
+  commentId: number,
+  userId: number
+) => {
+  const selectQuery = {
+    text:
+      "\
+        SELECT * FROM comments WHERE user_id = $1 AND comment_id = $2\
+        ",
+    values: [userId, commentId],
+  };
+  return await pool.query(selectQuery);
+};
+
 export const removeCommentModel = async (commentId: number) => {
   const deleteQuery = {
     text: "\

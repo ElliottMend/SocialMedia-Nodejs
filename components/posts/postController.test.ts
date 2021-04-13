@@ -13,19 +13,19 @@ describe("tests post creation", () => {
   test("Successfully creates post", async (done: jest.DoneCallback) => {
     const res = await supertest(app)
       .post("/api/newPost")
-      .send({ body: "dsada" });
+      .send({ text: "dsada" });
     expect(res.status).toBe(200);
     expect(res.body.post_id).toBeDefined();
     done();
   });
   test("Unsuccessfully creates empty post", async (done: jest.DoneCallback) => {
-    const res = await supertest(app).post("/api/newPost").send({ body: "" });
+    const res = await supertest(app).post("/api/newPost").send({ text: "" });
     expect(res.status).toBe(403);
     done();
   });
   test("Unsuccessfully creates post too long", async (done: jest.DoneCallback) => {
     const res = await supertest(app).post("/api/newPost").send({
-      body:
+      text:
         "1159292522617945020893248462650701435296702746517621143816129860765878902758556249769828842846996602621735064493734891820756884177594212247227332526770132827630",
     });
     expect(res.status).toBe(400);
@@ -43,12 +43,12 @@ describe("tests getting posts", () => {
 });
 describe("test removing posts", () => {
   test("Successfully removes post", async (done: jest.DoneCallback) => {
-    const res = await supertest(app).put("/api/removePost").send({ id: 1 });
+    const res = await supertest(app).put("/api/removePost").send({ id: 2 });
     expect(res.status).toBe(200);
     done();
   });
   test("Unsuccessfully removes post", async (done: jest.DoneCallback) => {
-    const res = await supertest(app).put("/api/removePost").send({ id: 2 });
+    const res = await supertest(app).put("/api/removePost").send({ id: 754 });
     expect(res.status).toBe(400);
     done();
   });

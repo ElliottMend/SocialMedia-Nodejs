@@ -5,9 +5,11 @@ import {
   userEdit,
   userEditLocation,
 } from "../components/userProfile/userController";
-import { userAuthentication } from "../components/middleware/userAuthentication";
+import {
+  generateTokens,
+  userAuthentication,
+} from "../components/middleware/middlewareController";
 import express from "express";
-import { generateTokens } from "../components/middleware/generateTokens";
 const router = express.Router();
 
 router.put("/userEdit", userAuthentication, userEdit, generateTokens);

@@ -7,11 +7,7 @@ export const editProfileModel = async (
   image: string,
   bio: string
 ) => {
-  const checkUser = {
-    text: "SELECT ua.user_id FROM user_accounts AS ua WHERE ua.user_id = $1",
-    values: [userId],
-  };
-  const user = await pool.query(checkUser);
+  const user = await checkUserExistsModel(userId);
   if (!user.rows[0]) throw 400;
   const updateAccountQuery = {
     text:
@@ -32,6 +28,22 @@ export const editProfileModel = async (
   await pool.query(updateAccountQuery);
   await pool.query(updateProfileQuery);
   return;
+};
+
+export const getUserIdByUsername = async (username: string) => {
+  const checkUser = {
+    text: "SELECT user_id FROM user_accounts WHERE username = $1",
+    values: [username],
+  };
+  return await pool.query(checkUser);
+};
+
+export const checkUserExistsModel = async (userId: number) => {
+  const checkUser = {
+    text: "SELECT ua.user_id FROM user_accounts AS ua WHERE ua.user_id = $1",
+    values: [userId],
+  };
+  return await pool.query(checkUser);
 };
 
 export const userEditModel = async (userId: number) => {
