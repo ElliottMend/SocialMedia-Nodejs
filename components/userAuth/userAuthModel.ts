@@ -29,7 +29,7 @@ export const registerModel = async (
     text: "INSERT INTO user_profiles(user_id) VALUES ($1)",
     values: [userAccount.rows[0].user_id],
   };
-  return await pool.query(insertProfileQuery);
+  return (await pool.query(insertProfileQuery)).rows;
 };
 
 export const registerSelectModel = async (username: string, email: string) => {
@@ -46,6 +46,5 @@ export const registerSelectModel = async (username: string, email: string) => {
         ",
     values: [username.trim(), email.trim()],
   };
-  const query = await pool.query(selectQuery);
-  return query.rows;
+  return (await pool.query(selectQuery)).rows;
 };

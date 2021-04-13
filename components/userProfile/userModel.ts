@@ -1,3 +1,4 @@
+import { QueryResult, QueryResultRow } from "pg";
 import { pool } from "../../connection";
 
 export const editProfileModel = async (
@@ -35,7 +36,7 @@ export const getUserIdByUsername = async (username: string) => {
     text: "SELECT user_id FROM user_accounts WHERE username = $1",
     values: [username],
   };
-  return await pool.query(checkUser);
+  return (await pool.query(checkUser)).rows;
 };
 
 export const checkUserExistsModel = async (userId: number) => {
@@ -55,11 +56,10 @@ export const userEditModel = async (userId: number) => {
               WHERE ua.user_id = $1",
     values: [userId],
   };
-  const user = await pool.query(query);
-  return user.rows[0];
+  return (await pool.query(query)).rows;
 };
 
-export const userLikesModel = async (username: string) => {
+export const userLikesModel = async (userId: number) => {
   const likesQuery = {
     text:
       "\
@@ -68,15 +68,14 @@ export const userLikesModel = async (username: string) => {
         INNER JOIN likes AS l ON ua.user_id = l.user_id\
         RIGHT JOIN posts AS p ON l.post_id = p.post_id\
         LEFT JOIN user_profiles AS up ON ua.user_id = up.user_id\
-        WHERE ua.username = $1\
+        WHERE ua.user_id = $1\
         ",
-    values: [username],
+    values: [userId],
   };
-  const likes = await pool.query(likesQuery);
-  return likes.rows;
+  return (await pool.query(likesQuery)).rows;
 };
 
-export const userPostsModel = async (username: string) => {
+export const userPostsModel = async (userId: number) => {
   const postQuery = {
     text:
       "\
@@ -84,25 +83,23 @@ export const userPostsModel = async (username: string) => {
         FROM user_accounts AS ua\
         INNER JOIN posts AS p ON ua.user_id = p.user_id\
         LEFT JOIN user_profiles AS up on p.user_id = up.user_id\
-        WHERE ua.username = $1\
+        WHERE ua.user_id = $1\
       ",
-    values: [username],
+    values: [userId],
   };
-  const posts = await pool.query(postQuery);
-  return posts.rows;
+  return (await pool.query(postQuery)).rows;
 };
 
-export const userProfileModel = async (username: string) => {
-  const profileQuery = {
+export const userProfileModel = async (userId: number) => {
+  const postQuery = {
     text:
       "\
       SELECT up.*, ua.location, ua.username   \
       FROM user_accounts AS ua\
       INNER JOIN user_profiles AS up ON ua.user_id = up.user_id\
-      WHERE ua.username = $1\
+      WHERE ua.user_id = $1\
       ",
-    values: [username],
+    values: [userId],
   };
-  const profile = await pool.query(profileQuery);
-  return profile.rows[0];
+  return (await pool.query(postQuery)).rows;
 };

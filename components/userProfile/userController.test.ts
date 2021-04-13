@@ -7,6 +7,7 @@ const jwtSpy = jest.spyOn(jwt, "verify");
 describe("Tests userController getUserProfile", () => {
   test("Successfully get user profile", async (done: any) => {
     const res = await supertest(app).get("/api/users/username");
+    expect(res.status).toBe(200);
     expect(res.body.data).toBeDefined();
     done();
   });

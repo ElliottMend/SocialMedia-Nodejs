@@ -41,8 +41,7 @@ export const checkUserFollowModel = async (
         ",
     values: [currentUserId, userId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const followerDataModel = async (username: number) => {
@@ -57,8 +56,7 @@ export const followerDataModel = async (username: number) => {
     ",
     values: [username],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const followingDataModel = async (username: number) => {
@@ -73,8 +71,7 @@ export const followingDataModel = async (username: number) => {
         ",
     values: [username],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const followSuggestionsModel = async (userId: number) => {
@@ -89,8 +86,7 @@ export const followSuggestionsModel = async (userId: number) => {
       ",
     values: [userId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const removeFollowModel = async (

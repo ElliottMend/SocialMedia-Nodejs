@@ -21,13 +21,12 @@ export const createComment = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.body.text || !req.body.id) res.sendStatus(400);
-    const comment: IQuery = await createCommentModel(
+    const comment: IQuery[] = await createCommentModel(
       req.body.text,
       res.locals.user,
       req.body.id
     );
-    res.locals.send = comment;
+    res.locals.send = comment[0];
     next();
   } catch (err) {
     res.sendStatus(400);
@@ -40,8 +39,7 @@ export const getComments = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.params.postId) res.sendStatus(400);
-    const comments = await getCommentModel(Number(req.params.postId));
+    const comments: IQuery[] = await getCommentModel(Number(req.params.postId));
     res.locals.send = comments;
     next();
   } catch (err) {
@@ -55,12 +53,11 @@ export const removeComment = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.body.commentId) res.sendStatus(400);
-    const comment = await checkUserCommentModel(
+    const comment: IQuery[] = await checkUserCommentModel(
       res.locals.user,
       req.body.commentId
     );
-    if (!comment.rows[0]) throw 400;
+    if (!comment[0]) throw 400;
     await removeCommentModel(req.body.commentId);
     next();
   } catch {

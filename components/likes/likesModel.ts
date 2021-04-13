@@ -25,8 +25,7 @@ export const checkLikedModel = async (userId: number, postId: number) => {
         ",
     values: [userId, postId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const removeLikesModel = async (userId: number, postId: number) => {
