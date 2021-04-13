@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ISuggestions } from "../follows/followController";
 import { newPostModel, getPostsModel, removePostModel } from "./postsModel";
 import { userProfileModel } from "../userProfile/userModel";
@@ -19,36 +19,51 @@ export interface IQuery {
   likes: number;
 }
 
-export const getPosts = async (req: Request, res: Response) => {
+export const getPosts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const posts: IPost[] = await getPostsModel(
       Number(req.params.radius),
       res.locals.user
     );
-    res.send(posts);
+    res.locals.send = posts;
+    next();
   } catch (err) {
     res.sendStatus(400);
   }
 };
 
-export const newPost = async (req: Request, res: Response) => {
+export const newPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const post: IQuery = await newPostModel(req.body.body, res.locals.user);
+    if (req.body.text.length > 144) throw 400;
+    const post: IQuery = await newPostModel(req.body.text, res.locals.user);
     const profile: IProfile = await userProfileModel(res.locals.username);
     const data: IQuery = {
       ...post,
       ...profile,
     };
-    res.send(data);
+    res.locals.send = data;
+    next();
   } catch (err) {
     res.sendStatus(400);
   }
 };
 
-export const removePost = async (req: Request, res: Response) => {
+export const removePost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    await removePostModel(req.body.id);
-    res.sendStatus(200);
+    await removePostModel(req.body.id, res.locals.user);
+    next();
   } catch (err) {
     res.sendStatus(400);
   }

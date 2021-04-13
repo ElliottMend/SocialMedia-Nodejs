@@ -5,7 +5,10 @@ import express from "express";
 import cookieParser from "cookie-parser";
 export const app = express();
 
-export const secrets = {
+interface ISecrets {
+  [key: string]: string;
+}
+export const secrets: ISecrets = {
   USER: process.env.USER ?? "",
   PASSWORD: process.env.PASSWORD ?? "",
   DATABASE: process.env.DATABASE ?? "",
@@ -21,6 +24,7 @@ export const secrets = {
   DATABASE_PORT: process.env.DATABASE_PORT ?? "",
   DATABASE_CONTAINER: process.env.DATABASE_CONTAINER ?? "",
   TEST_DATABASE_CONTAINER: process.env.TEST_DATABASE_CONTAINER ?? "",
+  DOCKERBUILD: process.env.DOCKERBUILD ?? "",
 };
 
 app.use(express.json());

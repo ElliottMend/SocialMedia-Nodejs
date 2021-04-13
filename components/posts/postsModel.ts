@@ -20,6 +20,10 @@ export const getPostsModel = async (radius: number, userId: number) => {
 };
 
 export const newPostModel = async (body: string, userId: number) => {
+  const a = await pool.query(
+    "SELECT * FROM user_accounts WHERE user_accounts.user_id = $1",
+    [userId]
+  );
   const insertQuery = {
     text: "INSERT INTO posts(body, user_id) VALUES($1, $2) RETURNING *",
     values: [body, userId],
@@ -28,7 +32,13 @@ export const newPostModel = async (body: string, userId: number) => {
   return query.rows[0];
 };
 
-export const removePostModel = async (postId: number) => {
+export const removePostModel = async (postId: number, userId: number) => {
+  const selectQuery = {
+    text: "SELECT * FROM posts WHERE posts.post_id = $1 AND posts.user_id = $2",
+    values: [postId, userId],
+  };
+  const select = await pool.query(selectQuery);
+  if (!select.rows[0]) throw 400;
   const deleteQuery = {
     text: "DELETE FROM posts WHERE posts.post_id = $1",
     values: [postId],

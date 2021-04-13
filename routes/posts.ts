@@ -3,12 +3,15 @@ import {
   newPost,
   removePost,
 } from "../components/posts/postController";
-import { userAuthentication } from "../components/modules/userAuthentication";
+import {
+  generateTokens,
+  userAuthentication,
+} from "../components/middleware/middlewareController";
 import express from "express";
 const router = express.Router();
 
-router.post("/newpost", userAuthentication, newPost);
-router.get("/getPosts/:radius", userAuthentication, getPosts);
-router.put("/removePost", userAuthentication, removePost);
+router.post("/newPost", userAuthentication, newPost, generateTokens);
+router.get("/getPosts/:radius", userAuthentication, getPosts, generateTokens);
+router.put("/removePost", userAuthentication, removePost, generateTokens);
 router.get("/getReplies/:postId");
 export { router as postsRouter };

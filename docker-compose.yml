@@ -3,6 +3,8 @@ services:
   app:
     build: .
     command: npm start
+    profiles:
+      - build
     volumes:
       - .:/app
       - /app/node_modules
@@ -10,14 +12,18 @@ services:
       - postgres
     ports:
       - "5678:5678"
+    environment:
+      DOCKERBUILD: docker
 
   postgres:
     image: postgres
+    profiles:
+      - build
     volumes:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
       - ./postgres/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: socialmedia
+      POSTGRES_DB: SocialMedia
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
 
@@ -26,17 +32,23 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    profiles:
+      - test
     depends_on:
-      - app
       - test-postgres
     command: npm test
+    environment:
+      DOCKERBUILD: docker
 
   test-postgres:
     image: postgres
     volumes:
       - ./postgres/socialmedia.sql:/docker-entrypoint-initdb.d/socialmedia.sql
-      - ./postgres/data:/var/lib/postgresql/data
+    profiles:
+      - test
+    ports:
+      - 5532:5432
     environment:
-      POSTGRES_DB: socialmedia
+      POSTGRES_DB: SocialMediaTest
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password

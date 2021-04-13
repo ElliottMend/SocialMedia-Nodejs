@@ -9,6 +9,8 @@ export const loginModel = async (email: string) => {
   const result = await pool.query(selectQuery);
   if (result.rows.length > 0) {
     return result.rows[0];
+  } else {
+    throw 400;
   }
 };
 

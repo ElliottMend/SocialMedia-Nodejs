@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   addFollowModel,
   followSuggestionsModel,
@@ -7,7 +7,10 @@ import {
   removeFollowModel,
   checkUserFollowModel,
 } from "./followModel";
-
+import {
+  checkUserExistsModel,
+  getUserIdByUsername,
+} from "../userProfile/userModel";
 interface IUser {
   following: string;
 }
@@ -27,49 +30,70 @@ interface IFollowData {
   photo: string;
 }
 
-export const addFollow = async (req: Request, res: Response) => {
+export const changeFollow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    if (!req.body.author) res.sendStatus(400);
-    addFollowModel(res.locals.user, req.body.author);
-    res.sendStatus(200);
+    const user = await checkUserExistsModel(req.body.user);
+    if (user.rows[0]) {
+      const follow = await checkUserFollowModel(res.locals.user, req.body.user);
+      if (follow[0]) await removeFollowModel(res.locals.user, req.body.user);
+      else await addFollowModel(res.locals.user, req.body.user);
+      next();
+    } else throw 400;
   } catch (err) {
     res.sendStatus(400);
   }
 };
 
-export const checkUserFollow = async (req: Request, res: Response) => {
+export const checkUserFollow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (!req.params.username) res.sendStatus(400);
+  const user = await getUserIdByUsername(req.params.username);
   const data: IUser[] = await checkUserFollowModel(
     res.locals.user,
-    req.params.username
+    user.rows[0].user_id
   );
-  res.send(data.length > 0 ? true : false);
+  res.locals.send = data[0] ? "true" : "false";
+  next();
 };
 
-export const followSuggestions = async (req: Request, res: Response) => {
+export const followSuggestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data: ISuggestions[] = await followSuggestionsModel(res.locals.user);
-    res.send(data);
+    res.locals.send = data;
+    next();
   } catch (err) {
     res.sendStatus(400);
   }
 };
 
-export const removeFollow = async (req: Request, res: Response) => {
-  try {
-    removeFollowModel(res.locals.user, req.body.author);
-    res.status(200).send();
-  } catch (err) {
-    res.status(400).send({ message: "There was an error" });
-  }
-};
-
-export const userFollowData = async (req: Request, res: Response) => {
+export const userFollowData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let result: IFollowData[];
-  if (req.params.follow === "followers") {
-    result = await followerDataModel(req.params.username);
-  } else {
-    result = await followingDataModel(req.params.username);
+  const user = await getUserIdByUsername(req.params.username);
+  switch (req.params.follow) {
+    case "followers":
+      result = await followerDataModel(user.rows[0].user_id);
+      break;
+    case "following":
+      result = await followingDataModel(user.rows[0].user_id);
+      break;
+    default:
+      res.sendStatus(400);
   }
-  res.send(result);
+  res.locals.send = result!;
+  next();
 };

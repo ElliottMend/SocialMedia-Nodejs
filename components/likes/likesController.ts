@@ -1,38 +1,40 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { addLikesModel, checkLikedModel, removeLikesModel } from "./likesModel";
-export const addLikes = async (req: Request, res: Response) => {
-  try {
-    await addLikesModel(res.locals.user, req.body.id);
-    res.sendStatus(200);
-  } catch (err) {
-    res.sendStatus(400);
-  }
-};
 
 interface IQuery {
   userId: number;
   postId: number;
 }
-export const checkLiked = async (req: Request, res: Response) => {
+
+export const changeLike = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data: IQuery[] = await checkLikedModel(res.locals.user, req.body.id);
+    if (data[0]) await removeLikesModel(res.locals.user, req.body.id);
+    else await addLikesModel(res.locals.user, req.body.id);
+    next();
+  } catch (err) {
+    res.sendStatus(400);
+  }
+};
+export const checkLiked = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const data: IQuery[] = await checkLikedModel(
       res.locals.user,
       Number(req.params.postId)
     );
-    if (data.length > 0) {
-      res.send("liked");
-    } else {
-      res.sendStatus(200);
+    if (data[0]) {
+      res.locals.send = "liked";
     }
+    next();
   } catch {
-    res.sendStatus(400);
-  }
-};
-export const removeLikes = async (req: Request, res: Response) => {
-  try {
-    await removeLikesModel(res.locals.user, req.body.id);
-    res.sendStatus(200);
-  } catch (err) {
     res.sendStatus(400);
   }
 };
