@@ -27,4 +27,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/nodejs:latest
-    - run: docker-compose --profile test up --abort-on-container-exit
+      - run: docker-compose --profile test up --abort-on-container-exit
