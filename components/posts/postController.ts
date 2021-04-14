@@ -46,7 +46,7 @@ export const newPost = async (
     const post: IQuery[] = await newPostModel(req.body.text, res.locals.user);
     const profile: IProfile[] = await userProfileModel(res.locals.user);
     const data: IQuery = {
-      ...post,
+      ...post[0],
       ...profile[0],
     };
     res.locals.send = data;
