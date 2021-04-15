@@ -41,40 +41,37 @@ export const checkUserFollowModel = async (
         ",
     values: [currentUserId, userId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const followerDataModel = async (username: number) => {
   const selectQuery = {
     text:
       "\
-    SELECT ua.username, ua.location, up.photo, up.bio\
+      SELECT ua.username, ua.location, up.photo, up.bio\
       FROM user_accounts AS ua\
-        LEFT JOIN follows AS f ON f.following_user_id = ua.user_id\
-        RIGHT JOIN user_profiles AS up ON up.user_id = f.following_user_id\
-          WHERE ua.user_id = $1\
+      RIGHT JOIN user_profiles AS up ON up.user_id = ua.user_id\
+        LEFT JOIN follows AS f ON f.follower_user_id = up.user_id\
+          WHERE f.following_user_id = $1\
     ",
     values: [username],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
-export const followingDataModel = async (username: number) => {
+export const followingDataModel = async (userId: number) => {
   const selectQuery = {
     text:
       "\
         SELECT ua.username, ua.location, up.photo, up.bio\
           FROM user_accounts AS ua\
-            LEFT JOIN follows AS f ON f.follower_user_id = ua.user_id\
-            RIGHT JOIN user_profiles AS up ON up.user_id = f.follower_user_id\
-              WHERE ua.user_id = $1\
+          RIGHT JOIN user_profiles AS up ON up.user_id = ua.user_id\
+            LEFT JOIN follows AS f ON f.following_user_id = up.user_id\
+              WHERE f.follower_user_id = $1\
         ",
-    values: [username],
+    values: [userId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const followSuggestionsModel = async (userId: number) => {
@@ -82,15 +79,14 @@ export const followSuggestionsModel = async (userId: number) => {
     text:
       "\
       SELECT ua.location, ua.username, up.* FROM user_accounts AS ua\
-      FULL OUTER JOIN user_profiles AS up ON up.user_id = ua.user_id\
-      FULL OUTER JOIN follows AS f ON f.following_user_id = up.user_id\
+      RIGHT JOIN user_profiles AS up ON up.user_id = ua.user_id\
+      LEFT JOIN follows AS f ON f.following_user_id = up.user_id\
       WHERE ua.user_id != $1 AND (f.follower_user_id != $1 OR f.follower_user_id IS NULL)\
       LIMIT 5\
       ",
     values: [userId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const removeFollowModel = async (

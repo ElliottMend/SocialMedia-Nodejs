@@ -6,12 +6,7 @@ export const loginModel = async (email: string) => {
       "SELECT user_id, password, username FROM user_accounts WHERE email = $1",
     values: [email],
   };
-  const result = await pool.query(selectQuery);
-  if (result.rows.length > 0) {
-    return result.rows[0];
-  } else {
-    throw 400;
-  }
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const registerModel = async (
@@ -29,7 +24,7 @@ export const registerModel = async (
     text: "INSERT INTO user_profiles(user_id) VALUES ($1)",
     values: [userAccount.rows[0].user_id],
   };
-  return await pool.query(insertProfileQuery);
+  return (await pool.query(insertProfileQuery)).rows;
 };
 
 export const registerSelectModel = async (username: string, email: string) => {
@@ -46,6 +41,5 @@ export const registerSelectModel = async (username: string, email: string) => {
         ",
     values: [username.trim(), email.trim()],
   };
-  const query = await pool.query(selectQuery);
-  return query.rows;
+  return (await pool.query(selectQuery)).rows;
 };

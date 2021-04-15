@@ -12,8 +12,7 @@ export const createCommentModel = async (
         ",
     values: [text, userId, postId],
   };
-  const data = await pool.query(insertCommentQuery);
-  return data.rows[0];
+  return (await pool.query(insertCommentQuery)).rows;
 };
 
 export const getCommentModel = async (postId: number) => {
@@ -28,13 +27,12 @@ export const getCommentModel = async (postId: number) => {
       ",
     values: [postId],
   };
-  const data = await pool.query(selectQuery);
-  return data.rows;
+  return await (await pool.query(selectQuery)).rows;
 };
 
 export const checkUserCommentModel = async (
-  commentId: number,
-  userId: number
+  userId: number,
+  commentId: number
 ) => {
   const selectQuery = {
     text:
@@ -43,7 +41,7 @@ export const checkUserCommentModel = async (
         ",
     values: [userId, commentId],
   };
-  return await pool.query(selectQuery);
+  return (await pool.query(selectQuery)).rows;
 };
 
 export const removeCommentModel = async (commentId: number) => {
@@ -53,5 +51,5 @@ export const removeCommentModel = async (commentId: number) => {
         ",
     values: [commentId],
   };
-  return await pool.query(deleteQuery);
+  return (await pool.query(deleteQuery)).rows;
 };

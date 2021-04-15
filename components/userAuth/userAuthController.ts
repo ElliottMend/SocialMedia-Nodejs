@@ -8,7 +8,7 @@ import {
 import { secrets } from "../../app";
 
 interface IQuery {
-  userId: number;
+  user_id: number;
   password: string;
   username: string;
 }
@@ -28,14 +28,15 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const user: IQuery = await loginModel(req.body.email);
+    const user: IQuery[] = await loginModel(req.body.email);
+    if (!user[0]) throw 400;
     bcrypt.compare(
       req.body.password,
-      user.password,
+      user[0].password,
       async (error: Error, bcryptResult: boolean) => {
         if (bcryptResult) {
-          res.locals.userId = user.userId;
-          res.locals.username = user.username;
+          res.locals.userId = user[0].user_id;
+          res.locals.username = user[0].username;
           next();
         } else {
           res.sendStatus(400);
@@ -43,6 +44,7 @@ export const login = async (
       }
     );
   } catch (err) {
+    console.log(err);
     res.sendStatus(400);
   }
 };

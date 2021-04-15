@@ -51,24 +51,31 @@ export const generateTokens = (
   res: Response,
   next: NextFunction
 ) => {
-  if (res.locals.skipGenerate) res.send(res.locals.send);
-  const accessValue = generateValue(
-    res.locals.username,
-    res.locals.userId,
-    "ACCESS_TOKEN"
-  );
-  const accessOptions = generateOptions("ACCESS_TOKEN");
-  res.cookie("AccessToken", accessValue, accessOptions);
-  if (res.locals.skipRefresh) res.send(res.locals.send);
-  const refreshValue = generateValue(
-    res.locals.username,
-    res.locals.userId,
-    "ACCESS_TOKEN"
-  );
-  const refreshOptions = generateOptions("ACCESS_TOKEN");
-  res.cookie("AccessToken", refreshValue, refreshOptions);
-  if (res.locals.send) res.send(res.locals.send);
-  else res.sendStatus(200);
+  if (res.headersSent) {
+    res.send(res.locals.send);
+  } else if (res.locals.skipGenerate) {
+    res.send(res.locals.send);
+  } else {
+    const accessValue = generateValue(
+      res.locals.username,
+      res.locals.userId,
+      "ACCESS_TOKEN"
+    );
+    const accessOptions = generateOptions("ACCESS_TOKEN");
+    res.cookie("AccessToken", accessValue, accessOptions);
+    if (res.locals.skipRefresh) res.send(res.locals.send);
+    else {
+      const refreshValue = generateValue(
+        res.locals.username,
+        res.locals.userId,
+        "ACCESS_TOKEN"
+      );
+      const refreshOptions = generateOptions("REFRESH_TOKEN");
+      res.cookie("RefreshToken", refreshValue, refreshOptions);
+    }
+    if (res.locals.send) res.send(res.locals.send);
+    else res.sendStatus(200);
+  }
 };
 
 export const userAuthentication = async (
@@ -85,7 +92,6 @@ export const userAuthentication = async (
         res.sendStatus(403);
       }
     });
-
     if (!res.headersSent) {
       decoded = jwt.verify(
         req.cookies.AccessToken

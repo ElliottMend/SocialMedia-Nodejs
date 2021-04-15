@@ -15,21 +15,15 @@ export const getPostsModel = async (radius: number, userId: number) => {
     ",
     values: [radius],
   };
-  const locationPosts = await pool.query(locationQuery);
-  return locationPosts.rows;
+  return (await pool.query(locationQuery)).rows;
 };
 
 export const newPostModel = async (body: string, userId: number) => {
-  const a = await pool.query(
-    "SELECT * FROM user_accounts WHERE user_accounts.user_id = $1",
-    [userId]
-  );
   const insertQuery = {
     text: "INSERT INTO posts(body, user_id) VALUES($1, $2) RETURNING *",
     values: [body, userId],
   };
-  const query = await pool.query(insertQuery);
-  return query.rows[0];
+  return (await pool.query(insertQuery)).rows;
 };
 
 export const removePostModel = async (postId: number, userId: number) => {
@@ -44,4 +38,5 @@ export const removePostModel = async (postId: number, userId: number) => {
     values: [postId],
   };
   await pool.query(deleteQuery);
+  return;
 };

@@ -2,8 +2,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
 import express from "express";
-import cookieParser from "cookie-parser";
 export const app = express();
+import cookieParser from "cookie-parser";
 
 interface ISecrets {
   [key: string]: string;

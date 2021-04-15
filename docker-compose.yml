@@ -47,7 +47,7 @@ services:
     profiles:
       - test
     ports:
-      - 5532:5432
+      - 5432:5432
     environment:
       POSTGRES_DB: SocialMediaTest
       POSTGRES_USER: postgres

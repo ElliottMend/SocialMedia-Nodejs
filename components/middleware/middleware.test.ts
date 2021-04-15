@@ -23,7 +23,7 @@ describe("Tests userAuth stringNotEmpty", () => {
     "should call nextFunction",
     async (
       value: { username?: string; password: string; email: string },
-      done: any
+      done: jest.DoneCallback
     ) => {
       const jwtSpy = jest.spyOn(jwt, "verify");
       // @ts-ignore
@@ -42,7 +42,7 @@ describe("Tests userAuth stringNotEmpty", () => {
   ])("should return 403", () => {
     async (
       value: { username?: string; password: string; email: string },
-      done: any
+      done: jest.DoneCallback
     ) => {
       const res = await supertest(app).get("/api/verify").send(value);
       expect(res).toBe(403);
@@ -53,7 +53,7 @@ describe("Tests userAuth stringNotEmpty", () => {
 
 describe("Test userAuthentication middleware", () => {
   const jwtSpy = jest.spyOn(jwt, "verify");
-  test("Successfully test AccessToken returns 200", async (done: any) => {
+  test("Successfully test AccessToken returns 200", async (done: jest.DoneCallback) => {
     // @ts-ignore
     jwtSpy.mockReturnValueOnce({ username: "username", userID: 1 });
     const res = await supertest(app)
@@ -63,7 +63,7 @@ describe("Test userAuthentication middleware", () => {
     done();
   });
 
-  test("Successfully test RefreshToken returns 200 and new AccessToken", async (done: any) => {
+  test("Successfully test RefreshToken returns 200 and new AccessToken", async (done: jest.DoneCallback) => {
     //@ts-ignore
     jwtSpy.mockReturnValueOnce({ username: "user", userID: 2 });
     const res = await supertest(app)
@@ -74,7 +74,7 @@ describe("Test userAuthentication middleware", () => {
     done();
   });
 
-  test("Unsuccessfully test userAuthentication middleware should return 401", async (done: any) => {
+  test("Unsuccessfully test userAuthentication middleware should return 401", async (done: jest.DoneCallback) => {
     const res = await supertest(app).get("/api/verify");
     expect(res.status).toBe(401);
     expect(!res.header["set-cookie"]);

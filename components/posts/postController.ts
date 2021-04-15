@@ -43,11 +43,11 @@ export const newPost = async (
 ) => {
   try {
     if (req.body.text.length > 144) throw 400;
-    const post: IQuery = await newPostModel(req.body.text, res.locals.user);
-    const profile: IProfile = await userProfileModel(res.locals.username);
+    const post: IQuery[] = await newPostModel(req.body.text, res.locals.user);
+    const profile: IProfile[] = await userProfileModel(res.locals.user);
     const data: IQuery = {
-      ...post,
-      ...profile,
+      ...post[0],
+      ...profile[0],
     };
     res.locals.send = data;
     next();
