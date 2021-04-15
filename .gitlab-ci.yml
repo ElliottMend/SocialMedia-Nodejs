@@ -9,7 +9,7 @@ step-test:
   tags:
     - development
   script:
-    - apk add --update py3-pip
-    - pip3 install docker-compose
+    - apk add "py3-pip>20"
+    - pip3 install "docker-compose>=1.25"
     - docker image prune -f
     - docker-compose --profile test up --abort-on-container-exit
