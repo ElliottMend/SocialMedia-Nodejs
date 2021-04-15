@@ -9,7 +9,7 @@ export const editProfileModel = async (
   bio: string
 ) => {
   const user = await checkUserExistsModel(userId);
-  if (!user.rows[0]) throw 400;
+  if (!user[0]) throw 400;
   const updateAccountQuery = {
     text:
       "\
@@ -44,7 +44,7 @@ export const checkUserExistsModel = async (userId: number) => {
     text: "SELECT ua.user_id FROM user_accounts AS ua WHERE ua.user_id = $1",
     values: [userId],
   };
-  return await pool.query(checkUser);
+  return (await pool.query(checkUser)).rows;
 };
 
 export const userEditModel = async (userId: number) => {

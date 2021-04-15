@@ -60,7 +60,7 @@ export const removeComment = async (
     if (!comment[0]) throw 400;
     await removeCommentModel(req.body.commentId);
     next();
-  } catch {
+  } catch (err) {
     res.sendStatus(400);
   }
 };

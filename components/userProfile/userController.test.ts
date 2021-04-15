@@ -5,13 +5,13 @@ import jwt from "jsonwebtoken";
 const jwtSpy = jest.spyOn(jwt, "verify");
 
 describe("Tests userController getUserProfile", () => {
-  test("Successfully get user profile", async (done: any) => {
+  test("Successfully get user profile", async (done: jest.DoneCallback) => {
     const res = await supertest(app).get("/api/users/username");
     expect(res.status).toBe(200);
     expect(res.body.data).toBeDefined();
     done();
   });
-  test("Unsuccessfully get user profile", async (done: any) => {
+  test("Unsuccessfully get user profile", async (done: jest.DoneCallback) => {
     const res = await supertest(app).get("/api/users/cxcx");
     expect(res.status).toBe(400);
     expect(res.body.data).toBe(undefined);
@@ -21,7 +21,7 @@ describe("Tests userController getUserProfile", () => {
 
 describe("Test userController getUserEdit", () => {
   const jwtSpy = jest.spyOn(jwt, "verify");
-  test("Successfully gets user edit", async (done: any) => {
+  test("Successfully gets user edit", async (done: jest.DoneCallback) => {
     // @ts-ignore
     jwtSpy.mockReturnValueOnce({ username: "username", userID: 1 });
     const res = await supertest(app)
@@ -31,7 +31,7 @@ describe("Test userController getUserEdit", () => {
     expect(res.body.bio).toBeDefined();
     done();
   });
-  test("Unsuccessfully gets user edit", async (done: any) => {
+  test("Unsuccessfully gets user edit", async (done: jest.DoneCallback) => {
     // @ts-ignore
     jwtSpy.mockReturnValueOnce({ username: "username", userID: 20 });
     const res = await supertest(app)
@@ -43,7 +43,7 @@ describe("Test userController getUserEdit", () => {
 });
 
 describe("Tests userController userEdit", () => {
-  test("Successfully edits user profile", async (done: any) => {
+  test("Successfully edits user profile", async (done: jest.DoneCallback) => {
     // @ts-ignore
     jwtSpy.mockReturnValueOnce({ username: "username", userID: 1 });
     const editData = {
@@ -63,7 +63,7 @@ describe("Tests userController userEdit", () => {
       done(err);
     }
   });
-  test("Unsuccessfully edits user profile", async (done: any) => {
+  test("Unsuccessfully edits user profile", async (done: jest.DoneCallback) => {
     // @ts-ignore
     jwtSpy.mockReturnValueOnce({ username: "username", userID: 10 });
     const editData = {

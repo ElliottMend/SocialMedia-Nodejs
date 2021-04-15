@@ -31,8 +31,8 @@ export const getCommentModel = async (postId: number) => {
 };
 
 export const checkUserCommentModel = async (
-  commentId: number,
-  userId: number
+  userId: number,
+  commentId: number
 ) => {
   const selectQuery = {
     text:

@@ -38,14 +38,14 @@ export const changeFollow = async (
   next: NextFunction
 ) => {
   try {
-    const user = await checkUserExistsModel(req.body.user);
-    if (user.rows[0]) {
+    const user = await getUserIdByUsername(req.body.user);
+    if (user[0]) {
       const follow: number[] = await checkUserFollowModel(
         res.locals.user,
-        req.body.user
+        user[0].user_id
       );
-      if (follow[0]) await removeFollowModel(res.locals.user, req.body.user);
-      else await addFollowModel(res.locals.user, req.body.user);
+      if (follow[0]) await removeFollowModel(res.locals.user, user[0].user_id);
+      else await addFollowModel(res.locals.user, user[0].user_id);
       next();
     } else throw 400;
   } catch (err) {

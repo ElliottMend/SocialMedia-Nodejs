@@ -19,10 +19,6 @@ export const getPostsModel = async (radius: number, userId: number) => {
 };
 
 export const newPostModel = async (body: string, userId: number) => {
-  const a = await pool.query(
-    "SELECT * FROM user_accounts WHERE user_accounts.user_id = $1",
-    [userId]
-  );
   const insertQuery = {
     text: "INSERT INTO posts(body, user_id) VALUES($1, $2) RETURNING *",
     values: [body, userId],
