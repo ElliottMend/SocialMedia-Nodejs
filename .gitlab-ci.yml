@@ -7,5 +7,4 @@ step-test:
   tags:
     - development
   script:
-    - docker image prune -f
     - docker-compose --profile test up --abort-on-container-exit
