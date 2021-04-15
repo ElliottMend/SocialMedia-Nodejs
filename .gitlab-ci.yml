@@ -7,4 +7,4 @@ step-test:
   tags:
     - development
   script:
-    - docker-compose --profile test up --abort-on-container-exit
+    - docker-compose --profile test up --abort-on-container-exit --build
