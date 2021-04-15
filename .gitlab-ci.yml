@@ -9,7 +9,7 @@ step-test:
   tags:
     - development
   script:
-    - apk add py-pip==7.1.2-r0
+    -apk add --update py-pip
     - pip install docker-compose==1.28.6
     - docker image prune -f
     - docker-compose --profile test up --abort-on-container-exit
