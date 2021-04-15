@@ -10,6 +10,6 @@ step-test:
     - development
   script:
     - apk add --update py-pip
-    - pip install docker-compose==1.28.6
+    - pip install docker-compose
     - docker image prune -f
     - docker-compose --profile test up --abort-on-container-exit
