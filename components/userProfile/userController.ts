@@ -8,6 +8,7 @@ import {
   userLikesModel,
   userPostsModel,
   getUserIdByUsername,
+  userCommentModel,
 } from "./userModel";
 export interface IUserEdit {
   latlng: { lat: number; lng: number };
@@ -29,6 +30,7 @@ export interface IProfile extends IPost {
   location: string;
   username: string;
 }
+
 export const getUserEdit = async (
   req: Request,
   res: Response,
@@ -56,9 +58,10 @@ export const getUserProfile = async (req: Request, res: Response) => {
     const profile: IProfile[] = await userProfileModel(user[0].user_id);
     const Likes: IPost[] = await userLikesModel(user[0].user_id);
     const Posts: IPost[] = await userPostsModel(user[0].user_id);
+    const Comments: IPost[] = await userCommentModel(user[0].user_id);
     const data = {
       profile: profile[0],
-      data: { Likes, Posts },
+      data: { Likes, Posts, Comments },
     };
     res.send(data);
   } catch (err) {

@@ -44,7 +44,6 @@ export const login = async (
       }
     );
   } catch (err) {
-    console.log(err);
     res.sendStatus(400);
   }
 };

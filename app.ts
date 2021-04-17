@@ -46,18 +46,23 @@ app.use(
     ],
   })
 );
+
 import { commentsRouter } from "./routes/comments";
 import { followsRouter } from "./routes/follows";
 import { likesRouter } from "./routes/likes";
 import { postsRouter } from "./routes/posts";
 import { userRouter } from "./routes/user";
 import { userAuthRouter } from "./routes/userAuth";
+import { messageRouter } from "./routes/messages";
+import { notificationRouter } from "./routes/notifications";
 app.use(
   "/api/",
   commentsRouter,
   followsRouter,
   likesRouter,
+  notificationRouter,
   postsRouter,
   userRouter,
-  userAuthRouter
+  userAuthRouter,
+  messageRouter
 );

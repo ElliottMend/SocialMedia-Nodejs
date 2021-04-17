@@ -89,7 +89,21 @@ export const userPostsModel = async (userId: number) => {
   };
   return (await pool.query(postQuery)).rows;
 };
-
+export const userCommentModel = async (userId: number) => {
+  const likesQuery = {
+    text:
+      "\
+        SELECT p.*, up.photo, ua.location, ua.username  \
+        FROM user_accounts AS ua\
+        INNER JOIN comments AS c ON ua.user_id = c.user_id\
+        RIGHT JOIN posts AS p ON c.post_id = p.post_id\
+        LEFT JOIN user_profiles AS up ON ua.user_id = up.user_id\
+        WHERE ua.user_id = $1\
+        ",
+    values: [userId],
+  };
+  return (await pool.query(likesQuery)).rows;
+};
 export const userProfileModel = async (userId: number) => {
   const postQuery = {
     text:

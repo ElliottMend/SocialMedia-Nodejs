@@ -23,7 +23,7 @@ describe("Tests userAuth stringNotEmpty", () => {
     "should call nextFunction",
     async (
       value: { username?: string; password: string; email: string },
-      done: jest.DoneCallback
+      done: any
     ) => {
       const jwtSpy = jest.spyOn(jwt, "verify");
       // @ts-ignore
@@ -42,7 +42,7 @@ describe("Tests userAuth stringNotEmpty", () => {
   ])("should return 403", () => {
     async (
       value: { username?: string; password: string; email: string },
-      done: jest.DoneCallback
+      done: any
     ) => {
       const res = await supertest(app).get("/api/verify").send(value);
       expect(res).toBe(403);
@@ -81,6 +81,6 @@ describe("Test userAuthentication middleware", () => {
     done();
   });
 });
-afterAll(() => {
-  pool.end();
+afterAll(async () => {
+  await pool.end();
 });

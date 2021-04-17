@@ -81,6 +81,6 @@ describe("Tests userController userEdit", () => {
     done();
   });
 });
-afterAll(() => {
-  pool.end();
+afterAll(async () => {
+  await pool.end();
 });

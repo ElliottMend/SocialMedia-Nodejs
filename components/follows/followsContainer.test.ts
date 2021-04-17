@@ -9,9 +9,9 @@ beforeAll(async () => {
   jwtSpy.mockReturnValue({ username: "username", userID: 1 });
   pool.query(
     "\
-    DELETE FROM posts WHERE user_id != 1 AND user_id != 2;\
-    DELETE FROM user_profiles WHERE user_id != 1 AND user_id != 2;\
-    DELETE FROM user_accounts WHERE user_id != 1 AND user_id != 2;"
+  DELETE FROM user_accounts WHERE user_id != 1 AND user_id != 2;\
+  DELETE FROM user_profiles WHERE user_id != 1 AND user_id != 2;\
+  "
   );
 });
 
@@ -61,11 +61,11 @@ describe("tests checkUserFollow", () => {
 describe("tests followSuggestions", () => {
   test("get 0 follow suggestion", async (done: jest.DoneCallback) => {
     const res = await supertest(app).get("/api/followSuggestions");
+    // console.log(res)
     expect(res.status).toBe(200);
     expect(res.body[0]).toBeUndefined();
     done();
   });
-
   test("get 1 follow suggestions", async (done: jest.DoneCallback) => {
     await supertest(app).put("/api/changeFollow").send({ user: "usernam" });
     const res = await supertest(app).get("/api/followSuggestions");
