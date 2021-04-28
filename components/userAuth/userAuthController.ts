@@ -7,16 +7,6 @@ import {
 } from "./userAuthModel";
 import { secrets } from "../../app";
 
-interface IQuery {
-  user_id: number;
-  password: string;
-  username: string;
-}
-
-export interface ISelectQuery {
-  username: string;
-}
-
 export const stringHasNumbers = (inputString: string) => {
   const regex = /\d/g;
   return regex.test(inputString);
@@ -28,7 +18,7 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const user: IQuery[] = await loginModel(req.body.email);
+    const user = await loginModel(req.body.email);
     if (!user[0]) throw 400;
     bcrypt.compare(
       req.body.password,
@@ -76,10 +66,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(400).send({ message: "Email is incorrect format" });
   }
   const password: string = await bcrypt.hash(req.body.password, 10);
-  const user: ISelectQuery[] | undefined = await registerSelectModel(
-    req.body.username,
-    req.body.email
-  );
+  const user = await registerSelectModel(req.body.username, req.body.email);
   if (user.length > 0) {
     res.status(400).send(user);
   } else {

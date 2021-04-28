@@ -6,22 +6,13 @@ import {
   checkUserCommentModel,
 } from "./comentModel";
 
-export interface IQuery {
-  body: string;
-  date: Date;
-  likes: number;
-  commentId: number;
-  userId: number;
-  postId: number;
-}
-
 export const createComment = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const comment: IQuery[] = await createCommentModel(
+    const comment = await createCommentModel(
       req.body.text,
       res.locals.user,
       req.body.id
@@ -39,7 +30,7 @@ export const getComments = async (
   next: NextFunction
 ) => {
   try {
-    const comments: IQuery[] = await getCommentModel(Number(req.params.postId));
+    const comments = await getCommentModel(Number(req.params.postId));
     res.locals.send = comments;
     next();
   } catch (err) {
@@ -53,7 +44,7 @@ export const removeComment = async (
   next: NextFunction
 ) => {
   try {
-    const comment: IQuery[] = await checkUserCommentModel(
+    const comment = await checkUserCommentModel(
       res.locals.user,
       req.body.commentId
     );

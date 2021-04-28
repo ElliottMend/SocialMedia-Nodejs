@@ -63,8 +63,7 @@ export const generateTokens = (
     );
     const accessOptions = generateOptions("ACCESS_TOKEN");
     res.cookie("AccessToken", accessValue, accessOptions);
-    if (res.locals.skipRefresh) res.send(res.locals.send);
-    else {
+    if (!res.locals.skipRefresh) {
       const refreshValue = generateValue(
         res.locals.username,
         res.locals.userId,

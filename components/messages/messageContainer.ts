@@ -18,12 +18,7 @@ export const createMessageRoom = async (
   let roomName: string = req.body.roomName
     ? req.body.roomName
     : res.locals.username;
-
-  const room = await createMessageRoomModel(
-    res.locals.user,
-    roomName,
-    req.body.roomName
-  );
+  const room = await createMessageRoomModel(res.locals.user, roomName);
   if (req.body.invites)
     await createRoomInviteModel(
       res.locals.user,
@@ -57,7 +52,7 @@ export const acceptRoomInvite = async (
     else {
       await acceptRoomInviteModel(
         res.locals.user,
-        roomId[0].notification_message
+        roomId[0].notification_message!
       );
       next();
     }
@@ -95,7 +90,7 @@ export const getMessages = async (
 ) => {
   try {
     await validRoomModel(req.params.roomId, res.locals.user);
-    const messages = await getMessagesModel(req.params.roomId);
+    const messages = await getMessagesModel(req.params.roomId, req.body.offset);
     res.locals.send = messages;
     next();
   } catch (err) {

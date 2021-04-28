@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { ISuggestions } from "../follows/followController";
 import { newPostModel, getPostsModel, removePostModel } from "./postsModel";
 import { userProfileModel } from "../userProfile/userModel";
-import { IProfile } from "../userProfile/userController";
+import { ISuggestions } from "../follows/followModel";
 export interface IPost extends ISuggestions {
   body: string;
   date: Date;
@@ -11,21 +10,13 @@ export interface IPost extends ISuggestions {
   likes: number;
   photo: string;
 }
-export interface IQuery {
-  body: string;
-  date: Date;
-  postId: number;
-  userId: number;
-  likes: number;
-}
-
 export const getPosts = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const posts: IPost[] = await getPostsModel(
+    const posts = await getPostsModel(
       Number(req.params.radius),
       res.locals.user
     );
@@ -43,9 +34,9 @@ export const newPost = async (
 ) => {
   try {
     if (req.body.text.length > 144) throw 400;
-    const post: IQuery[] = await newPostModel(req.body.text, res.locals.user);
-    const profile: IProfile[] = await userProfileModel(res.locals.user);
-    const data: IQuery = {
+    const post = await newPostModel(req.body.text, res.locals.user);
+    const profile = await userProfileModel(res.locals.user);
+    const data: IPost = {
       ...post[0],
       ...profile[0],
     };

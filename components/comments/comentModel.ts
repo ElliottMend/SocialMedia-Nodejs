@@ -1,5 +1,12 @@
 import { pool } from "../../connection";
-
+export interface IQuery {
+  body: string;
+  date: Date;
+  likes: number;
+  commentId: number;
+  userId: number;
+  postId: number;
+}
 export const createCommentModel = async (
   text: string,
   userId: number,
@@ -12,7 +19,7 @@ export const createCommentModel = async (
         ",
     values: [text, userId, postId],
   };
-  return (await pool.query(insertCommentQuery)).rows;
+  return (await pool.query<IQuery>(insertCommentQuery)).rows;
 };
 
 export const getCommentModel = async (postId: number) => {
@@ -27,7 +34,7 @@ export const getCommentModel = async (postId: number) => {
       ",
     values: [postId],
   };
-  return await (await pool.query(selectQuery)).rows;
+  return (await pool.query<IQuery>(selectQuery)).rows;
 };
 
 export const checkUserCommentModel = async (
@@ -41,7 +48,7 @@ export const checkUserCommentModel = async (
         ",
     values: [userId, commentId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IQuery>(selectQuery)).rows;
 };
 
 export const removeCommentModel = async (commentId: number) => {
@@ -51,5 +58,5 @@ export const removeCommentModel = async (commentId: number) => {
         ",
     values: [commentId],
   };
-  return (await pool.query(deleteQuery)).rows;
+  return (await pool.query<IQuery>(deleteQuery)).rows;
 };

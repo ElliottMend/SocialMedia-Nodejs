@@ -1,5 +1,25 @@
 import { pool } from "../../connection";
-
+interface IUser {
+  following: string;
+}
+export interface ISuggestions {
+  location: string;
+  username: string;
+  postId: number;
+  body: string;
+  date: Date;
+  userId: number;
+  likes: number;
+}
+export interface IFollowData {
+  username: string;
+  location: string;
+  bio: string;
+  photo: string;
+}
+interface IId {
+  user_id: number;
+}
 export const addFollowModel = async (userId: number, followingUser: number) => {
   const insertFollowQuery = {
     text:
@@ -25,7 +45,6 @@ export const addFollowModel = async (userId: number, followingUser: number) => {
   };
   await pool.query(insertFollowQuery);
   await pool.query(updateFollowingQuery);
-  return;
 };
 
 export const checkUserFollowModel = async (
@@ -41,7 +60,7 @@ export const checkUserFollowModel = async (
         ",
     values: [currentUserId, userId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IId>(selectQuery)).rows;
 };
 
 export const followerDataModel = async (username: number) => {
@@ -56,7 +75,7 @@ export const followerDataModel = async (username: number) => {
     ",
     values: [username],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IFollowData>(selectQuery)).rows;
 };
 
 export const followingDataModel = async (userId: number) => {
@@ -71,7 +90,7 @@ export const followingDataModel = async (userId: number) => {
         ",
     values: [userId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IFollowData>(selectQuery)).rows;
 };
 
 export const followSuggestionsModel = async (userId: number) => {
@@ -86,7 +105,7 @@ export const followSuggestionsModel = async (userId: number) => {
       ",
     values: [userId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<ISuggestions>(selectQuery)).rows;
 };
 
 export const removeFollowModel = async (
@@ -116,5 +135,4 @@ export const removeFollowModel = async (
   };
   await pool.query(insertFollowQuery);
   await pool.query(updateFollowingQuery);
-  return;
 };

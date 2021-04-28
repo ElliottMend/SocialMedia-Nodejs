@@ -1,4 +1,8 @@
 import { pool } from "../../connection";
+interface IQuery {
+  userId: number;
+  postId: number;
+}
 export const addLikesModel = async (userId: number, postId: number) => {
   const insertLikeQuery = {
     text: "\
@@ -14,7 +18,6 @@ export const addLikesModel = async (userId: number, postId: number) => {
   };
   await pool.query(insertLikeQuery);
   await pool.query(updatePostQuery);
-  return;
 };
 
 export const checkLikedModel = async (userId: number, postId: number) => {
@@ -25,7 +28,7 @@ export const checkLikedModel = async (userId: number, postId: number) => {
         ",
     values: [userId, postId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IQuery>(selectQuery)).rows;
 };
 
 export const removeLikesModel = async (userId: number, postId: number) => {
@@ -42,5 +45,4 @@ export const removeLikesModel = async (userId: number, postId: number) => {
   };
   await pool.query(deleteLikeQuery);
   await pool.query(updatePostQuery);
-  return;
 };

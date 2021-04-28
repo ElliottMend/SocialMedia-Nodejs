@@ -6,32 +6,13 @@ import {
   followerDataModel,
   removeFollowModel,
   checkUserFollowModel,
+  IFollowData,
 } from "./followModel";
 import {
   checkUserExistsModel,
   getUserIdByUsername,
 } from "../userProfile/userModel";
-interface IUser {
-  following: string;
-}
-export interface ISuggestions {
-  location: string;
-  username: string;
-  postId: number;
-  body: string;
-  date: Date;
-  userId: number;
-  likes: number;
-}
-interface IFollowData {
-  username: string;
-  location: string;
-  bio: string;
-  photo: string;
-}
-interface IId {
-  user_id: number;
-}
+
 export const changeFollow = async (
   req: Request,
   res: Response,
@@ -40,7 +21,7 @@ export const changeFollow = async (
   try {
     const user = await getUserIdByUsername(req.body.user);
     if (user[0]) {
-      const follow: number[] = await checkUserFollowModel(
+      const follow = await checkUserFollowModel(
         res.locals.user,
         user[0].user_id
       );
@@ -59,11 +40,8 @@ export const checkUserFollow = async (
   next: NextFunction
 ) => {
   if (!req.params.username) res.sendStatus(400);
-  const user: IId[] = await getUserIdByUsername(req.params.username);
-  const data: IUser[] = await checkUserFollowModel(
-    res.locals.user,
-    user[0].user_id
-  );
+  const user = await getUserIdByUsername(req.params.username);
+  const data = await checkUserFollowModel(res.locals.user, user[0].user_id);
   res.locals.send = data[0] ? "true" : "false";
   next();
 };
@@ -74,7 +52,7 @@ export const followSuggestions = async (
   next: NextFunction
 ) => {
   try {
-    const data: ISuggestions[] = await followSuggestionsModel(res.locals.user);
+    const data = await followSuggestionsModel(res.locals.user);
     res.locals.send = data;
     next();
   } catch (err) {
@@ -88,7 +66,7 @@ export const userFollowData = async (
   next: NextFunction
 ) => {
   let result: IFollowData[];
-  const user: IId[] = await getUserIdByUsername(req.params.username);
+  const user = await getUserIdByUsername(req.params.username);
   switch (req.params.follow) {
     case "followers":
       result = await followerDataModel(user[0].user_id);

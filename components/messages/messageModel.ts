@@ -1,10 +1,26 @@
 import { pool } from "../../connection";
 import { v4 as uuidv4 } from "uuid";
 
+interface IRooms {
+  room_id: string;
+  host_id?: number;
+  room_name: string;
+  user_id?: number;
+}
+
+interface ICreateRoom {
+  room_id: string;
+}
+interface IMessage {
+  message_timestamp: string;
+  body: string;
+  photo: string;
+  username: string;
+}
+
 export const createMessageRoomModel = async (
   hostId: number,
-  roomName: string,
-  named?: string | undefined
+  roomName: string
 ) => {
   const roomId = uuidv4();
   const insertQuery = {
@@ -13,7 +29,7 @@ export const createMessageRoomModel = async (
       RETURNING room_id ",
     values: [roomId, hostId, roomName],
   };
-  return (await pool.query(insertQuery)).rows;
+  return (await pool.query<ICreateRoom>(insertQuery)).rows;
 };
 
 export const createRoomInviteModel = async (
@@ -39,12 +55,12 @@ export const getMessageRoomsModel = async (userId: number) => {
   const selectQuery = {
     text:
       "\
-    SELECT * FROM message_rooms mr\
-    LEFT JOIN user_message_rooms umr ON mr.room_id = umr.room_id\
-    WHERE mr.host_id = $1 OR umr.user_id = $1",
+      SELECT mr.room_name, mr.room_id FROM message_rooms mr\
+      LEFT JOIN user_message_rooms umr ON mr.room_id = umr.room_id\
+        WHERE mr.host_id = $1 OR umr.user_id = $1",
     values: [userId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IRooms>(selectQuery)).rows;
 };
 
 export const acceptRoomInviteModel = async (userId: number, roomId: string) => {
@@ -63,7 +79,7 @@ export const validRoomModel = async (roomId: string, userId: number) => {
     WHERE mr.room_id = $1 AND (umr.user_id = $2 OR mr.host_id = $2)",
     values: [roomId, userId],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IRooms>(selectQuery)).rows;
 };
 
 export const sendMessageModel = async (
@@ -78,16 +94,16 @@ export const sendMessageModel = async (
   await pool.query(insertQuery);
 };
 
-export const getMessagesModel = async (roomId: string) => {
+export const getMessagesModel = async (roomId: string, offset: number) => {
   const selectQuery = {
     text:
       "\
-    SELECT m.message_timestamp, m.body, up.photo, ua.username FROM messages m\
+    SELECT m.message_timestamp, m.message_id, m.body, up.photo, ua.username FROM messages m\
       INNER JOIN user_profiles up ON m.user_id = up.user_id\
       LEFT JOIN user_accounts ua ON up.user_id = ua.user_id\
       WHERE m.room_id = $1\
-    ORDER BY message_id DESC",
-    values: [roomId],
+    ORDER BY message_id DESC OFFSET $2 LIMIT 10",
+    values: [roomId, offset],
   };
-  return (await pool.query(selectQuery)).rows;
+  return (await pool.query<IMessage>(selectQuery)).rows;
 };

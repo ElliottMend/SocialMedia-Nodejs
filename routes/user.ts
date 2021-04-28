@@ -4,6 +4,7 @@ import {
   getUserProfile,
   userEdit,
   userEditLocation,
+  userSearch,
 } from "../components/userProfile/userController";
 import {
   generateTokens,
@@ -18,6 +19,12 @@ router.get("/getUserEdit", userAuthentication, getUserEdit, generateTokens);
 router.get("/checkJWT", userAuthentication, (req: Request, res: Response) => {
   res.send(res.locals.username);
 });
+router.get(
+  "/userSearch/:username",
+  userAuthentication,
+  userSearch,
+  generateTokens
+);
 router.get(
   "/userEditLocation",
   userAuthentication,

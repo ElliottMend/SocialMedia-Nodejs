@@ -1,5 +1,25 @@
-import { QueryResult, QueryResultRow } from "pg";
 import { pool } from "../../connection";
+export interface IUserEdit {
+  latlng: { lat: number; lng: number };
+  location: string;
+  bio: string;
+  photo: string;
+}
+interface IId {
+  user_id: number;
+}
+interface IPost {
+  body: string;
+  userId: number;
+  date: Date;
+  likes: number;
+  postId: number;
+}
+export interface IProfile extends IPost {
+  location: string;
+  username: string;
+  photo: string;
+}
 
 export const editProfileModel = async (
   latlng: object,
@@ -28,7 +48,6 @@ export const editProfileModel = async (
   };
   await pool.query(updateAccountQuery);
   await pool.query(updateProfileQuery);
-  return;
 };
 
 export const getUserIdByUsername = async (username: string) => {
@@ -36,7 +55,19 @@ export const getUserIdByUsername = async (username: string) => {
     text: "SELECT user_id FROM user_accounts WHERE username = $1",
     values: [username],
   };
-  return (await pool.query(checkUser)).rows;
+  return (await pool.query<IId>(checkUser)).rows;
+};
+
+export const userSearchModel = async (username: string) => {
+  const query = {
+    text:
+      "\
+    SELECT ua.username, ua.location, up.photo, ua.user_id FROM user_accounts ua\
+      INNER JOIN user_profiles up ON up.user_id = ua.user_id\
+        WHERE ua.username LIKE $1",
+    values: [username + "%"],
+  };
+  return (await pool.query(query)).rows;
 };
 
 export const checkUserExistsModel = async (userId: number) => {
@@ -44,7 +75,7 @@ export const checkUserExistsModel = async (userId: number) => {
     text: "SELECT ua.user_id FROM user_accounts AS ua WHERE ua.user_id = $1",
     values: [userId],
   };
-  return (await pool.query(checkUser)).rows;
+  return (await pool.query<IId>(checkUser)).rows;
 };
 
 export const userEditModel = async (userId: number) => {
@@ -56,7 +87,7 @@ export const userEditModel = async (userId: number) => {
               WHERE ua.user_id = $1",
     values: [userId],
   };
-  return (await pool.query(query)).rows;
+  return (await pool.query<IUserEdit>(query)).rows;
 };
 
 export const userLikesModel = async (userId: number) => {
@@ -72,7 +103,7 @@ export const userLikesModel = async (userId: number) => {
         ",
     values: [userId],
   };
-  return (await pool.query(likesQuery)).rows;
+  return (await pool.query<IPost>(likesQuery)).rows;
 };
 
 export const userPostsModel = async (userId: number) => {
@@ -87,7 +118,7 @@ export const userPostsModel = async (userId: number) => {
       ",
     values: [userId],
   };
-  return (await pool.query(postQuery)).rows;
+  return (await pool.query<IPost>(postQuery)).rows;
 };
 export const userCommentModel = async (userId: number) => {
   const likesQuery = {
@@ -102,7 +133,7 @@ export const userCommentModel = async (userId: number) => {
         ",
     values: [userId],
   };
-  return (await pool.query(likesQuery)).rows;
+  return (await pool.query<IPost>(likesQuery)).rows;
 };
 export const userProfileModel = async (userId: number) => {
   const postQuery = {
@@ -115,5 +146,5 @@ export const userProfileModel = async (userId: number) => {
       ",
     values: [userId],
   };
-  return (await pool.query(postQuery)).rows;
+  return (await pool.query<IProfile>(postQuery)).rows;
 };

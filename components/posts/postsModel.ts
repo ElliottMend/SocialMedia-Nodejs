@@ -1,21 +1,33 @@
 import { pool } from "../../connection";
 
+export interface IQuery {
+  body: string;
+  date: Date;
+  postId: number;
+  userId: number;
+  likes: number;
+}
+
 export const getPostsModel = async (radius: number, userId: number) => {
   const locationQuery = {
     text:
       "\
     SELECT p.*, ua.location, ua.username, up.photo\
-      FROM user_accounts AS ua\
-      INNER JOIN posts AS p ON ua.user_id = p.user_id\
-      LEFT JOIN user_profiles AS up ON p.user_id = up.user_id\
-      LEFT JOIN follows AS f ON up.user_id = f.follower_user_id\
-    WHERE cast(ua.latlng->'lat' AS int)\
+    FROM user_accounts AS ua\
+    INNER JOIN posts AS p ON ua.user_id = p.user_id\
+    LEFT JOIN user_profiles AS up ON p.user_id = up.user_id\
+    WHERE\
+      cast(ua.latlng->'lat' AS int)\
         BETWEEN cast(ua.latlng->'lat' AS int) - $1\
         AND cast(ua.latlng->'lat' AS int) + $1\
+    AND\
+      cast(ua.latlng->'lng' AS int)\
+        BETWEEN cast(ua.latlng->'lng' AS int) - $1\
+        AND cast(ua.latlng->'lng' AS int) + $1\
     ",
     values: [radius],
   };
-  return (await pool.query(locationQuery)).rows;
+  return (await pool.query<IQuery>(locationQuery)).rows;
 };
 
 export const newPostModel = async (body: string, userId: number) => {
@@ -23,7 +35,7 @@ export const newPostModel = async (body: string, userId: number) => {
     text: "INSERT INTO posts(body, user_id) VALUES($1, $2) RETURNING *",
     values: [body, userId],
   };
-  return (await pool.query(insertQuery)).rows;
+  return (await pool.query<IQuery>(insertQuery)).rows;
 };
 
 export const removePostModel = async (postId: number, userId: number) => {
@@ -38,5 +50,4 @@ export const removePostModel = async (postId: number, userId: number) => {
     values: [postId],
   };
   await pool.query(deleteQuery);
-  return;
 };
